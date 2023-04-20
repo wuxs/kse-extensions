@@ -1,0 +1,5 @@
+frontend:
+  enabled: true
+  image:
+    repository: docker.io/donniean/log-query-frontend
+    tag: latest
