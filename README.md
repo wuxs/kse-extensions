@@ -21,4 +21,4 @@ If you encounter any issues while using these extension components or running th
 
 ## License
 
-This repository is licensed under the MIT License. Please see the `LICENSE` file for more information.
+This repository is licensed under the Apache License 2.0. Please see the `LICENSE` file for more information.
