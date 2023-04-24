@@ -7,5 +7,5 @@ frontend:
 dmp:
   enabled: true
   image:
-    repository: zichenkkkk/dmp
+    repository: djangoyi/dmp
     tag: "2.0.2"
