@@ -1,0 +1,22 @@
+apiVersion: v1
+name: dmp
+version: 0.1.0
+displayName:
+  zh: 数据库管理平台
+  en: "Database Management Platform"
+description:
+  zh: "云原生数据库管理平台DMP，为用户解决多种数据库的跨云部署、多云管理难题，助力客户稳步迈向多元混合的数据库新时代。覆盖MySQL、PostgreSQL、Redis、MongoDB等数个全球主流数据库，完整构建高性能、备份、容灾、交换、流转等数据库生态闭环，实现了数据库即服务（DBaaS）"
+  en: "Cloud native database management platform"
+keywords:
+  - Database
+home: https://kubesphere.io
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.19.0"
+ksVersion: ">=3.0.0"
+dependencies:
+  - name: frontend
+    condition: frontend.enabled
+  - name: dmp
+    condition: dmp.enabled
+icon: ./favicon.svg

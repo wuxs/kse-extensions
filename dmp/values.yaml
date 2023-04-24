@@ -1,0 +1,11 @@
+frontend:
+  enabled: true
+  image:
+    repository: 51wangping/dmp-frontend
+    tag: latest
+
+dmp:
+  enabled: true
+  image:
+    repository: zichenkkkk/dmp
+    tag: "2.0.2"

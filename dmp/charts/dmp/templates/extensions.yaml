@@ -1,0 +1,35 @@
+---
+apiVersion: extensions.kubesphere.io/v1alpha1
+kind: APIService
+metadata:
+  name: v1.dmp.kubesphere.io
+spec:
+  group: dmp.kubesphere.io
+  version: v1
+  url: http://{{ include "dmp.fullname" . }}.{{ .Release.Namespace }}.svc:8080
+status:
+  state: Available
+
+---
+apiVersion: extensions.kubesphere.io/v1alpha1
+kind: APIService
+metadata:
+  name: v1.dmp.platform.io
+spec:
+  group: dmp.platform.io
+  version: v1
+  url: http://{{ include "dmp.fullname" . }}.{{ .Release.Namespace }}.svc:8080
+status:
+  state: Available
+
+---
+apiVersion: extensions.kubesphere.io/v1alpha1
+kind: APIService
+metadata:
+  name: v1.dmp.terminal.io
+spec:
+  group: dmp.terminal.io
+  version: v1
+  url: http://{{ include "dmp.fullname" . }}.{{ .Release.Namespace }}.svc:8080
+status:
+  state: Available
