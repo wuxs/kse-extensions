@@ -1,0 +1,22 @@
+apiVersion: v1
+name: openpitrix
+version: 0.0.1
+displayName:
+  zh: 应用商店
+  en: App Store
+description:
+  zh: 系统自带应用商店
+  en: The system comes with its own app store
+keywords:
+  - Others
+home: https://kubesphere.io
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.19.0"
+ksVersion: ">=3.0.0"
+dependencies:
+  - name: openpitrix
+    condition: openpitrix.enabled
+  - name: apps
+    condition: apps.enabled
+icon: ./favicon.svg

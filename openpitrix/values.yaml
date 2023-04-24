@@ -1,0 +1,4 @@
+openpitrix:
+  enabled: true
+apps:
+  enabled: true
