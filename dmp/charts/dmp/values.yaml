@@ -1,0 +1,23 @@
+nameOverride: ""
+fullnameOverride: ""
+clusterDomain: cluster.local
+image:
+  repository: djangoyi/dmp
+  pullPolicy: Always
+  tag: "2.0.2"
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30882
+
+serviceAccount:
+  create: true
+  name: dmp-user
+
+global:
+  postgresql:
+    auth:
+      postgresPassword: "postgres"
+      database: "dmp"
+      username: "postgres"
+      password: "postgres"
