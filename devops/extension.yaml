@@ -17,4 +17,6 @@ ksVersion: ">=3.0.0"
 dependencies:
   - name: frontend
     condition: frontend.enabled
+  - name: backend
+    condition: backend.enabled
 icon: ./favicon.svg

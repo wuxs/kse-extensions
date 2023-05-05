@@ -3,3 +3,9 @@ frontend:
   image:
     repository: docker.io/donniean/devops-frontend
     tag: latest
+
+backend:
+  enabled: true
+  image:
+    repository: kubespheredev/devops-api
+    tag: latest
