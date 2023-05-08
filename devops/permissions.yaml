@@ -9,6 +9,27 @@ rules:
       - 'extensions.kubesphere.io'
     resources:
       - '*'
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+    resourcses:
+      - 'namespaces'
+      - 'configmaps'
+      - 'limitranges'
+      - 'resourcequotas'
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'apiextensions.k8s.io'
+    resources:
+      - 'customresourcedefinitions'
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'rbac.authorization.k8s.io'
+    resources:
+      - '*'
 
 ---
 kind: Role
@@ -30,3 +51,15 @@ rules:
     resources:
       - 'ingresses'
       - 'networkpolicies'
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'devops.kubesphere.io'
+    resources:
+      - '*'
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'monitoring.coreos.com'
+    resources:
+      - '*'

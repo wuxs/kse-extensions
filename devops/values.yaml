@@ -7,5 +7,13 @@ frontend:
 backend:
   enabled: true
   image:
-    repository: kubespheredev/devops-api
-    tag: latest
+    registry: kubespheredev/kubesphere
+    controller:
+      repository: devops-controller
+      tag: latest
+    apiserver:
+      repository: devops-apiserver
+      tag: latest
+    tools:
+      repository: devops-tools
+      tag: latest
