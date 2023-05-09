@@ -1,0 +1,10 @@
+apiVersion: extensions.kubesphere.io/v1alpha1
+kind: JSBundle
+metadata:
+  name: {{ include "web.fullname" . }}-js-bundle
+spec:
+  rawFrom:
+    url: http://{{ include "web.fullname" . }}.{{ .Release.Namespace }}.svc/dist/{{ include "web.fullname" . }}/index.js
+status:
+  state: Available
+  link: /dist/{{ include "web.fullname" . }}/index.js
