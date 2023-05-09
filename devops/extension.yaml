@@ -17,8 +17,8 @@ sources:
 kubeVersion: ">=1.19.0"
 ksVersion: ">=3.0.0"
 dependencies:
-  - name: frontend
-    condition: frontend.enabled
-  - name: backend
-    condition: backend.enabled
+  - name: web
+    condition: web.enabled
+  - name: devops
+    condition: devops.enabled
 icon: ./devops.svg

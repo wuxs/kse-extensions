@@ -1,10 +1,10 @@
-frontend:
+web:
   enabled: true
   image:
     repository: docker.io/donniean/devops-frontend
     tag: latest
 
-backend:
+devops:
   enabled: true
   image:
     registry: kubespheredev/kubesphere
