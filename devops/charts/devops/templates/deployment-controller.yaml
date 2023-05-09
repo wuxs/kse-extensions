@@ -50,7 +50,7 @@ spec:
           args:
           - --enabled-controllers
           - argocd=true
-          - --argocd-namespace={{ .Values.argocd.namespace }}
+          - --argocd-namespace={{ .Release.Namespace }}
           - --pipelinerun-data-store=configmap
           {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
