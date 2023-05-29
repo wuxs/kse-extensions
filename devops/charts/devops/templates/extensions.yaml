@@ -5,7 +5,10 @@ metadata:
 spec:
   group: devops.kubesphere.io                               # API Group
   version: v1alpha3                                         # API Version
-  url: http://{{ include "ks-devops.apiserver-fullname" . }}.{{ .Release.Namespace }}.svc  # backend
   insecureSkipVerify: true
+  service:
+    namespace: extension-devops
+    name: devops-apiserver
+    port: 9090
 status:
   state: Available
