@@ -2,6 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: jenkins-casc-config
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
 data:
   jenkins.yaml: |
     jenkins:
@@ -17,8 +20,8 @@ data:
             skipTlsVerify: true
             namespace: "{{ .Values.Agent.WorkerNamespace }}"
             credentialsId: "k8s-service-account"
-            jenkinsUrl: "http://{{template "jenkins.fullname" . }}.{{ .Release.Namespace }}:80"
-            jenkinsTunnel: "{{ template "jenkins.fullname" . }}-agent.{{ .Release.Namespace }}:50000"
+            jenkinsUrl: "http://{{template "jenkins.fullname" . }}.{{ default .Release.Namespace .Values.global.namespace }}:80"
+            jenkinsTunnel: "{{ template "jenkins.fullname" . }}-agent.{{ default .Release.Namespace .Values.global.namespace }}:50000"
             containerCapStr: "10"
             connectTimeout: "60"
             readTimeout: "60"
@@ -422,11 +425,11 @@ data:
         {{- if .Values.ksAuth.server }}
         server: {{ .Values.ksAuth.server }}
         {{ else }}
-        server: "http://{{ include "ks-devops.apiserver-fullname" . }}.{{ .Release.Namespace }}:9090/"
+        server: "http://{{ include "ks-devops.apiserver-fullname" . }}.{{ default .Release.Namespace .Values.global.namespace }}:9090/"
         {{- end }}
         {{- end }}
       eventDispatcher:
-        receiver: "http://{{ include "ks-devops.apiserver-fullname" . }}.{{ .Release.Namespace }}:9090/v1alpha3/webhooks/jenkins"
+        receiver: "http://{{ include "ks-devops.apiserver-fullname" . }}.{{ default .Release.Namespace .Values.global.namespace }}:9090/v1alpha3/webhooks/jenkins"
       gitLabServers:
         servers:
         - name: "https://gitlab.com"

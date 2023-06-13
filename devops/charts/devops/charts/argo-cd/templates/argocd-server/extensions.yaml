@@ -5,6 +5,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: ArgoCDExtension
 metadata:
   name: {{ $extension.name }}
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
   finalizers:
     - extensions-finalizer.argocd.argoproj.io
   labels:

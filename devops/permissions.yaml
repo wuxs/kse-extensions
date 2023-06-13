@@ -11,6 +11,10 @@ rules:
       - 'get'
   - apiGroups:
       - ''
+      - 'apps'
+      - 'batch'
+      - 'app.k8s.io'
+      - 'autoscaling'
     resources:
       - '*'
     verbs:

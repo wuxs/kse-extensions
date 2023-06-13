@@ -3,6 +3,9 @@ kind: NetworkPolicy
 apiVersion: {{ .Values.NetworkPolicy.ApiVersion }}
 metadata:
   name: "{{ .Release.Name }}-{{ .Values.Master.Component }}"
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
 spec:
   podSelector:
     matchLabels:
@@ -24,6 +27,9 @@ kind: NetworkPolicy
 apiVersion: {{ .Values.NetworkPolicy.ApiVersion }}
 metadata:
   name: "{{ .Release.Name }}-{{ .Values.Agent.Component }}"
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
 spec:
   podSelector:
     matchLabels:

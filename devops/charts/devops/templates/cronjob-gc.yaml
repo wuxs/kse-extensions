@@ -2,6 +2,9 @@ kind: CronJob
 apiVersion: {{ template "cronjob.apiversion" . }}
 metadata:
   name: {{ include "ks-devops.fullname" . }}
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
   labels:
     app: devops-pipelinerun-gcjobs
 spec:

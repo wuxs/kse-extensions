@@ -1,3 +1,7 @@
+global:
+  namespace: "kubesphere-devops-system"
+  argocdNamespace: "argocd"
+
 replicaCount: 1
 
 image:

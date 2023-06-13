@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "ks-devops.controller-fullname" . }}
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
   labels:
     {{- include "ks-devops-controller.labels" . | nindent 4 }}
 spec:
@@ -50,7 +53,7 @@ spec:
           args:
           - --enabled-controllers
           - argocd=true
-          - --argocd-namespace={{ .Release.Namespace }}
+          - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
           - --pipelinerun-data-store=configmap
           {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}

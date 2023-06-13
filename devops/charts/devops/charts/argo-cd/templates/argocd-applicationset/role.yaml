@@ -3,6 +3,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ template "argo-cd.applicationSet.fullname" . }}
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
   labels:
     {{- include "argo-cd.labels" (dict "context" . "component" .Values.applicationSet.name "name" .Values.applicationSet.name) | nindent 4 }}
 rules:

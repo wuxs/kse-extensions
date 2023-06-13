@@ -16,14 +16,17 @@ data:
       groupSearchBase: ou=Groups,dc=kubesphere,dc=io
 
     devops:
-      host: http://{{ .Release.Name }}-jenkins.{{ .Release.Namespace }}
+      host: http://{{ .Release.Name }}-jenkins.{{ default .Release.Namespace .Values.global.namespace }}
       username: admin
       password: 119d76305a05e7a2a65d096f71feb77921
       maxConnections: 100
-      namespace: {{ .Release.Namespace }}
+      namespace: {{ default .Release.Namespace .Values.global.namespace }}
     {{ if .Values.jenkins.enabled }}
       workerNamespace: {{ .Values.jenkins.Agent.WorkerNamespace }}
     {{ end }}
 kind: ConfigMap
 metadata:
   name: devops-config
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}

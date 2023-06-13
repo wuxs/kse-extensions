@@ -7,6 +7,9 @@ metadata:
 {{ toYaml .Values.Persistence.Annotations | indent 4 }}
 {{- end }}
   name: {{ template "jenkins.fullname" . }}
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
   labels:
     app: {{ template "jenkins.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"

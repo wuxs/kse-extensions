@@ -10,6 +10,9 @@ metadata:
   labels:
     {{- include "argo-cd.labels" (dict "context" . "name" "gpg-keys-cm") | nindent 4 }}
   name: argocd-gpg-keys-cm
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
 {{- with .Values.configs.gpgKeys }}
 data:
   {{- toYaml . | nindent 2 }}

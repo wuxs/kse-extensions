@@ -17,7 +17,7 @@ spec:
   jobLabel: {{ template "jenkins.fullname" .}}
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace }}
+      - {{ default .Release.Namespace .Values.global.namespace }}
   selector:
     matchLabels:
       app: {{ template "jenkins.fullname" . }}

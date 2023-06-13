@@ -13,3 +13,6 @@ metadata:
   {{- end }}
   {{- end }}
   name: argocd-tls-certs-cm
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}

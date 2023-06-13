@@ -14,6 +14,9 @@ metadata:
   {{- end }}
 {{- end }}
   name: {{ template "argo-cd.applicationSet.fullname" . }}
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
   labels:
     {{- include "argo-cd.labels" (dict "context" . "component" .Values.applicationSet.name "name" .Values.applicationSet.name) | nindent 4 }}
     {{- if .Values.applicationSet.webhook.ingress.labels }}

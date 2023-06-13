@@ -14,6 +14,9 @@ metadata:
 {{- toYaml .Values.server.metrics.service.labels | nindent 4 }}
 {{- end }}
   name: {{ template "argo-cd.server.fullname" . }}-metrics
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
 spec:
   ports:
   - name: metrics

@@ -3,6 +3,9 @@ apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
   name: {{ template "argo-cd.server.fullname" . }}
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
 spec:
   domains:
     {{- with .Values.server.GKEmanagedCertificate.domains }}

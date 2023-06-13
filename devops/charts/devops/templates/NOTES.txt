@@ -4,7 +4,7 @@
 	{{ end }}
 
 	1. Get your '{{ .Values.jenkins.Master.AdminUser }}' user password of Jenkins by running:
-	  kubectl get secret --namespace {{ .Release.Namespace }} {{ .Release.Name }}-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode;echo
+	  kubectl get secret --namespace {{ default .Release.Namespace .Values.global.namespace }} {{ .Release.Name }}-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode;echo
 {{ end }}
 
 2. Get the application URL by running these commands:
@@ -15,7 +15,7 @@
   {{- end }}
 {{- end }}
 {{- else }}
-  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "ks-devops.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  export POD_NAME=$(kubectl get pods --namespace {{ default .Release.Namespace .Values.global.namespace }} -l "app.kubernetes.io/name={{ include "ks-devops.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
   echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:9090
+  kubectl --namespace {{ default .Release.Namespace .Values.global.namespace }} port-forward $POD_NAME 8080:9090
 {{- end }}

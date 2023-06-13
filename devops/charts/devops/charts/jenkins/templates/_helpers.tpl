@@ -32,7 +32,7 @@ https://github.com/helm/charts/issues/5167#issuecomment-619137759
   {{- if .Values.Master.AdminPassword -}}
     {{- .Values.Master.AdminPassword | b64enc | quote }}
   {{- else -}}
-    {{- $secret := (lookup "v1" "Secret" .Release.Namespace (include "jenkins.fullname" .)).data -}}
+    {{- $secret := (lookup "v1" "Secret" (default .Release.Namespace .Values.global.namespace) (include "jenkins.fullname" .)).data -}}
     {{- if $secret -}}
       {{/*
         Reusing current password since secret exists

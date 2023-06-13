@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "ks-devops.apiserver-fullname" . }}
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
   labels:
     {{- include "ks-devops-apiserver.labels" . | nindent 4 }}
 spec:
@@ -48,7 +51,7 @@ spec:
           image: "{{ .Values.image.registry }}/{{ .Values.image.apiserver.repository }}:{{ .Values.image.apiserver.tag | default .Chart.AppVersion }}"
           {{- if .Values.argocd.enabled }}
           args:
-          - --argocd-namespace={{ .Release.Namespace }}
+          - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
           - --argocd-enabled=true
           {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}

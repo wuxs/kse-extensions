@@ -1,0 +1,11 @@
+{{ if .Values.global.argocdNamespace }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    kubesphere.io/namespace: {{ .Values.global.argocdNamespace }}
+  name: {{ .Values.global.argocdNamespace }}
+{{ end }}

@@ -11,3 +11,6 @@ metadata:
   {{- end }}
   {{- end }}
   name: argocd-ssh-known-hosts-cm
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}

@@ -3,6 +3,9 @@ apiVersion: apps/v1
 kind: {{ .Values.controller.enableStatefulSet | ternary "StatefulSet" "Deployment" }}
 metadata:
   name: {{ template "argo-cd.controller.fullname" . }}
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
   labels:
     {{- include "argo-cd.labels" (dict "context" . "component" .Values.controller.name "name" .Values.controller.name) | nindent 4 }}
     app.kubernetes.io/version: {{ default (include "argo-cd.defaultTag" .) .Values.controller.image.tag | quote }}

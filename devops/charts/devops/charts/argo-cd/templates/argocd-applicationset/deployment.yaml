@@ -3,6 +3,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "argo-cd.applicationSet.fullname" . }}
+  {{- if .Values.global.argocdNamespace }}
+  namespace: {{ .Values.global.argocdNamespace }}
+  {{- end }}
   labels:
     {{- include "argo-cd.labels" (dict "context" . "component" .Values.applicationSet.name "name" .Values.applicationSet.name) | nindent 4 }}
     app.kubernetes.io/version: {{ default (include "argo-cd.defaultTag" .) .Values.applicationSet.image.tag | quote }}
@@ -42,7 +45,7 @@ spec:
             {{- if or (gt ( .Values.applicationSet.replicaCount | int64) 1) .Values.applicationSet.args.enableLeaderElection }}
             - --enable-leader-election=true
             {{- end }}
-            - --namespace={{ .Release.Namespace }}
+            - --namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
             - --argocd-repo-server={{ template "argo-cd.repoServer.fullname" . }}:{{ .Values.repoServer.service.port }}
             - --policy={{ .Values.applicationSet.args.policy }}
             - --debug={{ .Values.applicationSet.args.debug }}
