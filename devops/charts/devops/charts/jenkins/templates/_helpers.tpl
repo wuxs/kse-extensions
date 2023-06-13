@@ -60,3 +60,29 @@ https://github.com/helm/charts/issues/5167#issuecomment-619137759
     {{- print "false" -}}
     {{- end -}}
 {{- end -}}
+
+{{- define "jenkins.master.javaToolOpts" -}}
+    {{ if .Values.Master.JavaOpts }}
+    {{- print .Values.Master.JavaOpts -}}
+    {{- else -}}
+    -XX:InitialRAMPercentage=70 -XX:MaxRAMPercentage=70
+    -XX:MaxRAM={{ .Values.Master.resources.limit.memory | replace "Gi" "G" | replace "Mi" "M" }}
+    -Dhudson.slaves.NodeProvisioner.initialDelay=20
+    -Dhudson.slaves.NodeProvisioner.MARGIN=50
+    -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85
+    -Dhudson.model.LoadStatistics.clock=5000
+    -Dhudson.model.LoadStatistics.decay=0.2
+    -Dhudson.slaves.NodeProvisioner.recurrencePeriod=5000
+    -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true
+    -Dio.jenkins.plugins.casc.ConfigurationAsCode.initialDelay=10000
+    -Djenkins.install.runSetupWizard=false
+    -XX:+AlwaysPreTouch
+    -XX:+HeapDumpOnOutOfMemoryError
+    -XX:+UseG1GC
+    -XX:+UseStringDeduplication
+    -XX:+ParallelRefProcEnabled
+    -XX:+DisableExplicitGC
+    -XX:+UnlockDiagnosticVMOptions
+    -XX:+UnlockExperimentalVMOptions
+    {{- end -}}
+{{- end -}}
