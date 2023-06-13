@@ -17,3 +17,14 @@ devops:
     tools:
       repository: devops-tools
       tag: latest
+  jenkins:
+    Master:
+      resources:
+        requests:
+          cpu: 0.5
+          memory: 4Gi
+        limits:
+          cpu: 2
+          memory: 4Gi # recommend keep same as requests.memory
+    Persistence:
+      size: 8Gi
