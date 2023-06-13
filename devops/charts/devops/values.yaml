@@ -92,6 +92,9 @@ affinity: {}
 
 jenkins:
   enabled: true
+  Master:
+    Image: kubespheredev/ks-jenkins
+    ImageTag: v3.4.0-2.319.3-2
 
 argocd:
   enabled: true
