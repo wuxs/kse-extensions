@@ -2,9 +2,7 @@ apiVersion: extensions.kubesphere.io/v1alpha1
 kind: JSBundle
 metadata:
   name: {{ include "frontend.fullname" . }}-js-bundle
-  {{- if .Values.namespace }}
-  namespace: {{ .Values.namespace }}
-  {{- end }}
+  namespace: {{ default .Release.Namespace .Values.global.namespace }}
 spec:
   rawFrom:
     url: http://{{ include "frontend.fullname" . }}.{{ default .Release.Namespace .Values.namespace }}.svc/dist/{{ include "frontend.fullname" . }}/index.js
