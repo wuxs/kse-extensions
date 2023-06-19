@@ -18,7 +18,7 @@ data:
     devops:
       host: http://{{ .Release.Name }}-jenkins.{{ default .Release.Namespace .Values.global.namespace }}
       username: admin
-      password: 119d76305a05e7a2a65d096f71feb77921
+      password: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidG9rZW5fdHlwZSI6ImFjY2Vzc190b2tlbiIsImlhdCI6MTY4NjY3MjE3MywiaXNzIjoia3ViZXNwaGVyZSIsIm5iZiI6MTY4NjY3MjE3M30.NYVz6Bkd9A7v5umaZ1292H-xpFAxXHrlEM-A4hyKciY
       maxConnections: 100
       namespace: {{ default .Release.Namespace .Values.global.namespace }}
     {{ if .Values.jenkins.enabled }}

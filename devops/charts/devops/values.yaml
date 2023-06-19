@@ -34,7 +34,7 @@ gcJobs:
 
 authentication:
   # If not set, jwt tools will generate and set it automatically
-  jwtSecret: ""
+  jwtSecret: "UDjssmmDgxZtkXVDSeFvBtsZeBSFWhJ6"
 
 imagePullSecrets: []
 
