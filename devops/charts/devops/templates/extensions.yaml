@@ -5,9 +5,8 @@ metadata:
 spec:
   group: devops.kubesphere.io                               # API Group
   version: v1alpha3                                         # API Version
-  insecureSkipVerify: true
   service:
-    namespace: extension-devops
+    namespace: {{ default .Release.Namespace .Values.global.namespace }}
     name: devops-apiserver
     port: 9090
 status:

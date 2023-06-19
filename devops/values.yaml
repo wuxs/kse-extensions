@@ -1,22 +1,22 @@
 web:
   enabled: true
   image:
-    repository: docker.io/donniean/devops-frontend
-    tag: latest
+    repository: docker.io/spike2044/devops-ext
+    tag: 230531
 
 devops:
   enabled: true
   image:
-    registry: kubespheredev/kubesphere
+    registry: registry.cn-huhehaote.aliyuncs.com/jackyu-testing
     controller:
       repository: devops-controller
-      tag: latest
+      tag: dev-1cebc8b
     apiserver:
       repository: devops-apiserver
-      tag: latest
+      tag: dev-1cebc8b
     tools:
       repository: devops-tools
-      tag: latest
+      tag: dev-1cebc8b
   jenkins:
     Master:
       resources:
