@@ -1,8 +1,3 @@
-web:
-  enabled: true
-  image:
-    repository: docker.io/spike2044/devops-ext
-    tag: 230531
 
 devops:
   enabled: true
@@ -28,3 +23,9 @@ devops:
           memory: 4Gi # recommend keep same as requests.memory
     Persistence:
       size: 8Gi
+
+frontend:
+  enabled: true
+  image:
+    repository: docker.io/spike2044/devops-ext
+    tag: 230531
