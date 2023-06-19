@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "web.fullname" . }}
+  name: {{ include "frontend.fullname" . }}
   {{- if .Values.namespace }}
   namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
-    {{- include "web.labels" . | nindent 4 }}
+    {{- include "frontend.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,4 +15,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "web.selectorLabels" . | nindent 4 }}
+    {{- include "frontend.selectorLabels" . | nindent 4 }}
