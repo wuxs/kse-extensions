@@ -19,4 +19,20 @@ dependencies:
     condition: frontend.enabled
   - name: dmp
     condition: dmp.enabled
+  - name: clickhouse-operator
+    condition: clickhouse-operator.enabled
+  - name: eck-operator
+    condition: eck-operator.enabled
+  - name: strimzi-kafka-operator
+    condition: strimzi-kafka-operator.enabled
+  - name: open-mongodb
+    condition: open-mongodb.enabled
+  - name: mysql-operator
+    condition: mysql-operator.enabled
+  - name: opensearch-operator
+    condition: opensearch-operator.enabled
+  - name: redis-operator
+    condition: redis-operator.enabled
+  - name: postgres-operator
+    condition: postgres-operator.enabled
 icon: ./favicon.svg
