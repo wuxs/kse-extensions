@@ -2,16 +2,16 @@
 devops:
   enabled: true
   image:
-    registry: registry.cn-huhehaote.aliyuncs.com/jackyu-testing
+    registry: registry.cn-huhehaote.aliyuncs.com/ksluban
     controller:
       repository: devops-controller
-      tag: dev-1cebc8b
+      tag: dev-9cb5a2a
     apiserver:
       repository: devops-apiserver
-      tag: dev-1cebc8b
+      tag: dev-9cb5a2a
     tools:
       repository: devops-tools
-      tag: dev-1cebc8b
+      tag: dev-9cb5a2a
   jenkins:
     Master:
       resources:
@@ -27,5 +27,5 @@ devops:
 frontend:
   enabled: true
   image:
-    repository: docker.io/spike2044/devops-ext
-    tag: 230531
+    repository: docker.io/donniean/devops-frontend
+    tag: latest
