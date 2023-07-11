@@ -35,4 +35,6 @@ dependencies:
     condition: redis-operator.enabled
   - name: postgres-operator
     condition: postgres-operator.enabled
+  - name: rabbitmq
+    condition: rabbitmq.enabled
 icon: ./favicon.svg

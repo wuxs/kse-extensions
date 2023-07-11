@@ -39,3 +39,6 @@ redis-operator:
 postgres-operator:
   enabled: true
   enablePrometheusMonitor: true
+
+rabbitmq:
+  enabled: true
