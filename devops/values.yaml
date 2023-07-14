@@ -5,13 +5,13 @@ devops:
     registry: registry.cn-huhehaote.aliyuncs.com/ksluban
     controller:
       repository: devops-controller
-      tag: dev-9cb5a2a
+      tag: dev-e502dec
     apiserver:
       repository: devops-apiserver
-      tag: dev-9cb5a2a
+      tag: dev-e502dec
     tools:
       repository: devops-tools
-      tag: dev-9cb5a2a
+      tag: dev-745ba06
   jenkins:
     Master:
       resources:

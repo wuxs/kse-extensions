@@ -40,14 +40,20 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.controller.repository }}:{{ .Values.image.controller.tag | default .Chart.AppVersion }}"
-          {{- if .Values.argocd.enabled }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
-          - --enabled-controllers
+          - '--pipelinerun-data-store=configmap'
+          - '--enabled-controllers'
+          {{- if .Values.argocd.enabled }}
           - argocd=true
           - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
-          - --pipelinerun-data-store=configmap
           {{- end}}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: JENKINS_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: devops-jenkins
+                  key: jenkins-admin-token
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

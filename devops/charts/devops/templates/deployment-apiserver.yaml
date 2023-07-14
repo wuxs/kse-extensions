@@ -40,12 +40,18 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.apiserver.repository }}:{{ .Values.image.apiserver.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.argocd.enabled }}
           args:
           - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
           - --argocd-enabled=true
           {{- end}}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: JENKINS_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: devops-jenkins
+                  key: jenkins-admin-token
           ports:
             - containerPort: 9090
               protocol: TCP
