@@ -47,6 +47,29 @@ https://github.com/helm/charts/issues/5167#issuecomment-619137759
   {{- end -}}
 {{- end -}}
 
+{{/*
+Returns the admin default api token
+https://github.com/helm/charts/issues/5167#issuecomment-619137759
+*/}}
+{{- define "jenkins.adminToken" -}}
+  {{- if .Values.Master.AdminToken -}}
+    {{- .Values.Master.AdminToken | b64enc | quote }}
+  {{- else -}}
+    {{- $secret := (lookup "v1" "Secret" (default .Release.Namespace .Values.global.namespace) (include "jenkins.fullname" .)).data -}}
+    {{- if $secret -}}
+      {{/*
+        Reusing current password since secret exists
+      */}}
+      {{- index $secret "jenkins-admin-token" -}}
+    {{- else -}}
+      {{/*
+          Generate new token
+      */}}
+      {{- randNumeric 32 | printf "11%s" | lower | b64enc | quote }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{- define "jenkins.agent.variant" -}}
     {{ if eq .Values.Agent.Builder.ContainerRuntime "podman" }}
     {{- print "-podman" -}}

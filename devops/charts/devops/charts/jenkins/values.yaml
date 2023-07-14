@@ -15,6 +15,10 @@ Master:
   HostNetworking: false
   AdminUser: admin
 #  AdminPassword: yourPasword
+  # the api-token length must be 34, and must start with HashVersion: 11, and must match pattern[a-f0-9]{32}
+  # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L203C14-L203C26
+  # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L190
+#  AdminApiToken: 11596e09b62dc1f48fee868179dcd55126
   resources:
     requests:
       cpu: "50m"
@@ -240,21 +244,43 @@ Master:
       println "Saving changes."
       jenkinsInstance.save()
     Users: |-
-      import jenkins.model.*
-      import hudson.security.*
+      import jenkins.model.Jenkins
+      import jenkins.security.ApiTokenProperty
+      import hudson.security.HudsonPrivateSecurityRealm
+      import hudson.model.User
 
       def adminUsername = System.getenv('ADMIN_USER')
       def adminPassword = System.getenv('ADMIN_PASSWORD')
+      def adminToken = System.getenv('ADMIN_TOKEN')
 
+      def adminUser = User.getById(adminUsername, false)
       // avoid reset the user
-      if (hudson.model.User.getById(adminUsername, false) == null) {
+      if (adminUser == null) {
         def hudsonRealm = new HudsonPrivateSecurityRealm(false)
-        hudsonRealm.createAccount(adminUsername, adminPassword)
+        adminUser = hudsonRealm.createAccount(adminUsername, adminPassword)
 
-        def instance = Jenkins.getInstance()
+        def instance = Jenkins.get()
         instance.setSecurityRealm(hudsonRealm)
         instance.save()
       }
+
+      def adminTokenName = 'ks-devops'
+      def adminTokenExist = false
+
+      def adminTokenProperty = adminUser.getProperty(ApiTokenProperty.class)
+      def adminTokenList = adminTokenProperty.tokenStore.tokenList
+      if (adminTokenList.size > 0) {
+        for(int i = 0; i < adminTokenList.size; i++){
+          if (adminTokenList[i].name == adminTokenName) {
+            adminTokenExist = true
+          }
+        }
+      }
+      // avoid re-create the api-token
+      if(!adminTokenExist) {
+        adminTokenProperty.tokenStore.addFixedNewToken(adminTokenName, adminToken)
+      }
+
     Sonarqube: |-
       import hudson.model.*
       import jenkins.model.*

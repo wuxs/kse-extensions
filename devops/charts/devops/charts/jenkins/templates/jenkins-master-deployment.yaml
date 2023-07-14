@@ -75,6 +75,11 @@ spec:
               secretKeyRef:
                 name: {{ template "jenkins.fullname" . }}
                 key: jenkins-admin-user
+          - name: ADMIN_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "jenkins.fullname" . }}
+                key: jenkins-admin-token
           {{- end }}
           {{- if .Values.Master.InitContainerEnv }}
 {{ toYaml .Values.Master.InitContainerEnv | indent 12 }}
@@ -132,6 +137,11 @@ spec:
                 secretKeyRef:
                   name: {{ template "jenkins.fullname" . }}
                   key: jenkins-admin-user
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "jenkins.fullname" . }}
+                  key: jenkins-admin-token
             {{- end }}
             {{- if .Values.Master.ContainerEnv }}
 {{ toYaml .Values.Master.ContainerEnv | indent 12 }}
