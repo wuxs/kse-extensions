@@ -1,0 +1,1 @@
+- update jenkins auth to OpenId Connect Authentication;

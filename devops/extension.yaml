@@ -1,14 +1,16 @@
 apiVersion: v1
 name: devops
-version: 0.1.5
+version: 0.1.0
 displayName:
   zh: DevOps
   en: DevOps
 description:
   zh: DevOps 项目是一个独立的命名空间，其中定义了一组流水线。用户可以按照自己的方式对流水线进行分组（例如：项目类型、组织类型）。
   en: A DevOps project is a separate namespace where a set of pipelines is defined. Users can group their pipelines themselves (for example, project type and organization type).
+category: devops
 keywords:
   - DevOps
+  - CICD
   - Others
 home: https://kubesphere.io/devops
 sources:
@@ -16,9 +18,15 @@ sources:
   - https://github.com/kubesphere-extensions/devops
 kubeVersion: ">=1.19.0"
 ksVersion: ">=0.0.0"
+provider:
+  en:
+    name: "yudong"
+    email: "jackyu@yunify.com"
+    url: "https://kubesphere.io/devops"
+staticFileDirectory: static
+icon: ./static/favicon.svg
 dependencies:
   - name: frontend
     condition: frontend.enabled
   - name: devops
     condition: devops.enabled
-icon: ./devops.svg
