@@ -5,10 +5,7 @@ rules:
     resources:
       - '*'
     verbs:
-      - 'create'
-      - 'patch'
-      - 'update'
-      - 'get'
+      - '*'
   - apiGroups:
       - ''
       - 'apps'
