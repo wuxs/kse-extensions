@@ -409,13 +409,23 @@ data:
             server: "ldap://{{.Values.securityRealm.ldap.host }}"
           disableMailAddressResolver: false
           disableRolePrefixing: true
-    {{ else }}
-      authorizationStrategy: loggedInUsersCanDoAnything
+    {{- else if eq .Values.securityRealm.type "openIdConnect" }}
+        oic:
+          clientId: "{{ .Values.securityRealm.openIdConnect.clientId }}"
+          clientSecret: "{{ .Values.securityRealm.openIdConnect.clientSecret }}"
+          tokenServerUrl: "{{ .Values.global.ksCoreApi }}/oauth/token"
+          authorizationServerUrl: "{{ .Values.global.ksCoreApi }}/oauth/authorize"
+          userInfoServerUrl: "{{ .Values.global.ksCoreApi }}/oauth/userinfo"
+          logoutFromOpenidProvider: true
+          endSessionEndpoint: "{{ .Values.global.ksCoreApi }}/oauth/logout"
+          scopes: {{ default "openid profile email" .Values.securityRealm.openIdConnect.scopes }}
+          fullNameFieldName: {{ default "name" .Values.securityRealm.openIdConnect.fullNameFieldName }}
+          userNameField: {{ default "name" .Values.securityRealm.openIdConnect.userNameField }}
+    {{- else }}
+        authorizationStrategy: loggedInUsersCanDoAnything
     {{- end }}
 
     unclassified:
-      location:
-        url: "http://{{ .Values.Master.HostName }}"
       kubespheretokenauthglobalconfiguration:
         cacheConfiguration:
           size: 20

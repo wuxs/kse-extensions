@@ -1,6 +1,9 @@
 
 devops:
   enabled: true
+  global:
+    # the api url of ks-core, the host must be browser-accessible
+    ksCoreApi: "http://ks-apiserver.kubesphere-system.svc:30881"
   image:
     registry: registry.cn-huhehaote.aliyuncs.com/ksluban
     controller:

@@ -89,7 +89,7 @@ https://github.com/helm/charts/issues/5167#issuecomment-619137759
     {{- print .Values.Master.JavaOpts -}}
     {{- else -}}
     -XX:InitialRAMPercentage=70 -XX:MaxRAMPercentage=70
-    -XX:MaxRAM={{ .Values.Master.resources.limit.memory | replace "Gi" "G" | replace "Mi" "M" }}
+    -XX:MaxRAM={{ .Values.Master.resources.limits.memory | replace "Gi" "G" | replace "Mi" "M" }}
     -Dhudson.slaves.NodeProvisioner.initialDelay=20
     -Dhudson.slaves.NodeProvisioner.MARGIN=50
     -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85

@@ -1,6 +1,8 @@
 global:
   namespace: "kubesphere-devops-system"
   argocdNamespace: "argocd"
+  # must replace the host to the real
+  ksCoreApi: "http://ks-apiserver.kubesphere-system.svc:30881"
 
 replicaCount: 1
 
@@ -98,7 +100,7 @@ jenkins:
   enabled: true
   Master:
     Image: "registry.cn-huhehaote.aliyuncs.com/ksluban/jenkins"
-    ImageTag: "2.346.3"
+    ImageTag: "v4.0.0-2.346.3"
 
 argocd:
   enabled: true

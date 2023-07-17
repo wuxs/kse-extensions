@@ -28,26 +28,7 @@ Master:
       memory: "4096Mi"
 
   UsePodSecurityContext: true
-#  JavaOpts: !-
-#    -XX:InitialRAMPercentage=70 -XX:MaxRAMPercentage=70
-#    -XX:MaxRAM=4G
-#    -Dhudson.slaves.NodeProvisioner.initialDelay=20
-#    -Dhudson.slaves.NodeProvisioner.MARGIN=50
-#    -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85
-#    -Dhudson.model.LoadStatistics.clock=5000
-#    -Dhudson.model.LoadStatistics.decay=0.2
-#    -Dhudson.slaves.NodeProvisioner.recurrencePeriod=5000
-#    -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true
-#    -Dio.jenkins.plugins.casc.ConfigurationAsCode.initialDelay=10000
-#    -Djenkins.install.runSetupWizard=false
-#    -XX:+AlwaysPreTouch
-#    -XX:+HeapDumpOnOutOfMemoryError
-#    -XX:+UseG1GC
-#    -XX:+UseStringDeduplication
-#    -XX:+ParallelRefProcEnabled
-#    -XX:+DisableExplicitGC
-#    -XX:+UnlockDiagnosticVMOptions
-#    -XX:+UnlockExperimentalVMOptions
+  JavaOpts:
 
   ServicePort: 80
   ServiceType: NodePort
@@ -62,7 +43,7 @@ Master:
   #     ingress.kubernetes.io/ssl-redirect: "false"
   #     ingress.kubernetes.io/proxy-body-size: 50m
   #     ingress.kubernetes.io/proxy-request-buffering: "off"
-  HostName: jenkins.devops.kubesphere.local
+  HostName: devops-jenkins.kubesphere-devops-system.svc
 
   HealthProbes: true
   HealthProbesLivenessTimeout: 90
@@ -497,9 +478,12 @@ rbac:
   roleBindingKind: ClusterRoleBinding
 
 securityRealm:
-  type: local # support values include local, ldap
+  type: openIdConnect # support values include local, ldap, openIdConnect
   ldap:
     host: openldap.kubesphere-system.svc:389
+  openIdConnect:
+    clientId: "ks-devops"
+    clientSecret: "ks-devops"
 
 ksAuth:
   enabled: false
