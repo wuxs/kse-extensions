@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: iam.kubesphere.io/v1beta1
+    kind: RoleBase
+    metadata:
+      labels:
+        scope.iam.kubesphere.io/devops: ""
+      name: devops-project-admin
+    role:
+      aggregationRoleTemplates:
+        roleSelector:
+          matchLabels:
+            scope.iam.kubesphere.io/devops: ""
+      apiVersion: iam.kubesphere.io/v1beta1
+      kind: Role
+      metadata:
+        annotations:
+          kubesphere.io/creator: system
+        name: admin
+      rules:
+        - apiGroups:
+            - '*'
+          resources:
+            - '*'
+          verbs:
+            - '*'
+  - apiVersion: iam.kubesphere.io/v1beta1
+    kind: RoleBase
+    metadata:
+      labels:
+        scope.iam.kubesphere.io/devops: ""
+      name: devops-project-operator
+    role:
+      aggregationRoleTemplates:
+        roleSelector:
+          matchLabels:
+            iam.kubesphere.io/aggregate-to-operator: ""
+            scope.iam.kubesphere.io/devops: ""
+      apiVersion: iam.kubesphere.io/v1beta1
+      kind: Role
+      metadata:
+        annotations:
+          iam.kubesphere.io/aggregation-roles: '["role-template-view-members","role-template-view-roles",
+          "role-template-view-pipelines","role-template-manage-pipelines", "role-template-view-pipelineruns","role-template-manage-pipelineruns",
+          "role-template-view-credentials","role-template-manage-credentials", "role-template-view-gitrepositories","role-template-manage-gitrepositories",
+          "role-template-view-gitops-applications","role-template-manage-gitops-applications"]'
+          kubesphere.io/creator: system
+        name: operator
+      rules:
+        - apiGroups:
+            - '*'
+          resources:
+            - '*'
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ""
+            - devops.kubesphere.io
+            - gitops.kubesphere.io
+          resources:
+            - '*'
+          verbs:
+            - '*'
+  - apiVersion: iam.kubesphere.io/v1beta1
+    kind: RoleBase
+    metadata:
+      labels:
+        scope.iam.kubesphere.io/devops: ""
+      name: devops-project-viewer
+    role:
+      aggregationRoleTemplates:
+        roleSelector:
+          matchLabels:
+            iam.kubesphere.io/aggregate-to-viewer: ""
+            scope.iam.kubesphere.io/devops: ""
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      metadata:
+        annotations:
+          iam.kubesphere.io/aggregation-roles: '["role-template-view-members","role-template-view-roles",
+          "role-template-view-pipelines","role-template-view-pipelineruns","role-template-view-credentials",
+          "role-template-view-gitrepositories", "role-template-view-gitops-applications"]'
+          kubesphere.io/creator: system
+        name: viewer
+      rules:
+        - apiGroups:
+            - '*'
+          resources:
+            - '*'
+          verbs:
+            - get
+            - list
+            - watch

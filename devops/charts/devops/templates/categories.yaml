@@ -1,0 +1,67 @@
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: devops-projects
+  labels:
+    scope.iam.kubesphere.io/workspace: ""
+spec:
+  displayName:
+    en: DevOps Projects
+    zh: DevOps 项目
+
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: credentials
+  labels:
+    scope.iam.kubesphere.io/devops: ""
+spec:
+  description:
+    en: Credentials Management
+  displayName:
+    en: Credentials
+    zh: 凭证
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: code-repositories
+  labels:
+    scope.iam.kubesphere.io/devops: ""
+spec:
+  description:
+    en: Code Repositories Management
+  displayName:
+    en: Code Repositories
+    zh: 代码仓库
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: pipelines
+  labels:
+    scope.iam.kubesphere.io/devops: ""
+spec:
+  description:
+    en: Pipeline Management
+  displayName:
+    en: Pipeline
+    zh: 流水线
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: continuous-deployments
+  labels:
+    scope.iam.kubesphere.io/devops: ""
+spec:
+  description:
+    en: Continuous Deployments Management
+  displayName:
+    en: Continuous Deployments
+    zh: 持续部署
