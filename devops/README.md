@@ -1,4 +1,4 @@
-
+## DevOps — Overview
 DevOps is a set of practices and tools that automate the processes between IT and software development teams. Among other things, as agile software development sees increasing popularity, continuous integration (CI) and continuous delivery (CD) have become an ideal solution in this connection. In a CI/CD workflow, every integration is tested through automatic building, including coding, releasing and testing. This helps developers to identify any integration errors beforehand and teams can deliver internal software to a production environment with speed, security, and reliability.
 
 Nevertheless, the traditional controller-agent architecture of Jenkins (i.e. multiple agents work for a controller) has the following shortcomings.
