@@ -1,8 +1,8 @@
-
 devops:
   enabled: true
   global:
-    # the api url of ks-core, the host must be browser-accessible
+    # the ks-core api
+    # if want to access to jenkinsUI, the ksCoreApi must be specified and browser-accessible
     ksCoreApi: "http://ks-apiserver.kubesphere-system.svc:30881"
   image:
     registry: registry.cn-huhehaote.aliyuncs.com/ksluban
@@ -17,6 +17,8 @@ devops:
       tag: dev-745ba06
   jenkins:
     Master:
+      Image: registry.cn-huhehaote.aliyuncs.com/ksluban/jenkins
+      ImageTag: v4.0.0-2.346.3
       resources:
         requests:
           cpu: 0.5

@@ -8,16 +8,16 @@ replicaCount: 1
 
 image:
   # support 'ghcr.io/kubesphere' or 'kubespheredev'
-  registry: ghcr.io/kubesphere
+  registry: kubesphere
   controller:
     repository: devops-controller
-#    tag: master
+    tag: v4.0.0
   apiserver:
     repository: devops-apiserver
-#    tag: master
+    tag: v4.0.0
   tools:
     repository: devops-tools
-#    tag: master
+    tag: v4.0.0
   pullPolicy: IfNotPresent
 
 gcJobs:
@@ -99,7 +99,7 @@ affinity: {}
 jenkins:
   enabled: true
   Master:
-    Image: "registry.cn-huhehaote.aliyuncs.com/ksluban/jenkins"
+    Image: "kubesphere/jenkins"
     ImageTag: "v4.0.0-2.346.3"
 
 argocd:
