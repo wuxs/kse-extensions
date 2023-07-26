@@ -6,10 +6,11 @@ items:
     metadata:
       name: workspace-view-devops
       annotations:
-        iam.kubesphere.io/role-template-rules: '{"devops": "view"}'
+        iam.kubesphere.io/dependencies: '["namespace-view-roles", "namespace-view-members"]'
+        iam.kubesphere.io/auto-aggregate: "true"
       labels:
         iam.kubesphere.io/category: devops-projects
-        iam.kubesphere.io/role-template: "true"
+        iam.kubesphere.io/aggregate-to-viewer: ""
         scope.iam.kubesphere.io/workspace: ""
     spec:
       displayName:
@@ -20,25 +21,31 @@ items:
         zh: 查看企业空间中的所有 DevOps 项目
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
           resources:
+            - namespaces
             - pipelines
             - pipelines/runs
-            - pipelines/pipelineruns
             - pipelines/branches
-            - pipelines/checkScriptCompile
+            - pipelines/branches/runs
+            - pipelines/branches/sonarstatus
             - pipelines/consolelog
-            - pipelines/scan
             - pipelines/sonarstatus
             - pipelineruns
-            - pipelineruns/nodedetails
-            - checkCron
+            - pipelines/pipelineruns
             - credentials
             - credentials/usage
-            - roles
-            - members
-            - devops
-            - devopsprojects
+            - gitrepositories
+            - s2ibinaries
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+           - gitops.kubesphere.io
+          resources:
+            - applications
+            - application-summary
           verbs:
             - get
             - list
@@ -49,10 +56,10 @@ items:
       name: workspace-create-devops
       annotations:
         iam.kubesphere.io/dependencies: '["workspace-view-devops"]'
-        iam.kubesphere.io/role-template-rules: '{"devops": "create"}'
+        iam.kubesphere.io/auto-aggregate: "true"
       labels:
         iam.kubesphere.io/category: devops-projects
-        iam.kubesphere.io/role-template: "true"
+        iam.kubesphere.io/aggregate-to-viewer: ""
         scope.iam.kubesphere.io/workspace: ""
     spec:
       displayName:
@@ -63,23 +70,20 @@ items:
         zh: 创建 DevOps 项目并成为其管理员
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
           resources:
-            - devops
-            - devopsprojects
+            - namespaces
           verbs:
             - create
-            - watch
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
       name: workspace-manage-devops
       annotations:
-        iam.kubesphere.io/dependencies: '["workspace-view-devops","workspace-view-members","workspace-create-devops"]'
-        iam.kubesphere.io/role-template-rules: '{"devops": "manage"}'
+        iam.kubesphere.io/auto-aggregate: "true"
       labels:
         iam.kubesphere.io/category: devops-projects
-        iam.kubesphere.io/role-template: "true"
+        iam.kubesphere.io/aggregate-to-admin: ""
         scope.iam.kubesphere.io/workspace: ""
     spec:
       displayName:
@@ -90,37 +94,23 @@ items:
         zh: 创建、编辑和删除企业空间中的 DevOps 项目
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
+            - gitops.kubesphere.io
           resources:
-            - pipelines
-            - pipelines/runs
-            - pipelines/pipelineruns
-            - pipelines/branches
-            - pipelines/checkScriptCompile
-            - pipelines/consolelog
-            - pipelines/scan
-            - pipelines/sonarstatus
-            - pipelineruns
-            - pipelineruns/nodedetails
-            - checkCron
-            - credentials
-            - credentials/usage
-            - roles
-            - members
-            - devops
-            - devopsprojects
+            - '*'
           verbs:
             - '*'
 
+---
+apiVersion: v1
+kind: List
+items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
       name: devops-view-credentials
-      annotations:
-        iam.kubesphere.io/role-template-rules: '{"credentials": "view"}'
       labels:
         iam.kubesphere.io/category: credentials
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -131,7 +121,7 @@ items:
         zh: 查看和使用 DevOps 项目中的凭证
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
           resources:
             - credentials
             - credentials/usage
@@ -145,10 +135,8 @@ items:
       name: devops-manage-credentials
       annotations:
         iam.kubesphere.io/dependencies: '["devops-view-credentials"]'
-        iam.kubesphere.io/role-template-rules: '{"credentials": "manage"}'
       labels:
         iam.kubesphere.io/category: credentials
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -159,10 +147,9 @@ items:
         zh: 创建、编辑和删除 DevOps 项目中的凭证
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
           resources:
             - credentials
-            - credentials/usage
           verbs:
             - '*'
 
@@ -170,12 +157,8 @@ items:
     kind: RoleTemplate
     metadata:
       name: devops-view-code-repository
-      annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-credentials"]'
-        iam.kubesphere.io/role-template-rules: '{"code-repository": "view"}'
       labels:
         iam.kubesphere.io/category: code-repositories
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -198,11 +181,9 @@ items:
     metadata:
       name: devops-manage-code-repository
       annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-code-repository"]'
-        iam.kubesphere.io/role-template-rules: '{"code-repository": "manage"}'
+        iam.kubesphere.io/dependencies: '["devops-view-credentials", "devops-view-code-repository"]'
       labels:
         iam.kubesphere.io/category: code-repositories
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -216,79 +197,19 @@ items:
             - devops.kubesphere.io
           resources:
             - gitrepositories
+            - scms/servers
+            - scms/organizations
+            - scms/organizations/repositories
+            - scms/verify
           verbs:
             - '*'
 
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
-      name: devops-view-pipelineruns
-      annotations:
-        iam.kubesphere.io/role-template-rules: '{"pipelineruns": "view"}'
-      labels:
-        iam.kubesphere.io/category: pipelines
-        iam.kubesphere.io/role-template: "true"
-        scope.iam.kubesphere.io/devops: ""
-    spec:
-      displayName:
-        en: PipelineRuns Viewing
-        zh: 流水线运行记录查看
-      description:
-        en: View pipelineruns in the DevOps project
-        zh: 查看 DevOps 项目中的流水线运行记录
-      rules:
-        - apiGroups:
-            - '*'
-          resources:
-            - pipelineruns
-            - pipelines/runs
-            - pipelines/pipelineruns
-            - pipelineruns/artifacts
-            - pipelineruns/nodedetails
-            - pipelineruns/status
-          verbs:
-            - get
-            - list
-            - watch
-  - apiVersion: iam.kubesphere.io/v1beta1
-    kind: RoleTemplate
-    metadata:
-      name: devops-manage-pipelineruns
-      annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-pipelines", "devops-view-pipelineruns"]'
-        iam.kubesphere.io/role-template-rules: '{"pipelineruns": "manage"}'
-      labels:
-        iam.kubesphere.io/category: pipelines
-        iam.kubesphere.io/role-template: "true"
-        scope.iam.kubesphere.io/devops: ""
-    spec:
-      displayName:
-        en: PipelineRuns Management
-        zh: 流水线运行管理
-      description:
-        en: 查看、删除 DevOps 项目中的流水线运行记录和下载制品
-        zh: View、delete pipelineruns and download artifacts in the DevOps project
-      rules:
-        - apiGroups:
-            - '*'
-          resources:
-            - pipelineruns
-            - pipelines/runs
-            - pipelines/pipelineruns
-            - pipelineruns/nodedetails
-            - pipelineruns/status
-          verbs:
-            - '*'
-  - apiVersion: iam.kubesphere.io/v1beta1
-    kind: RoleTemplate
-    metadata:
       name: devops-view-pipelines
-      annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-pipelineruns", "devops-view-code-repository"]'
-        iam.kubesphere.io/role-template-rules: '{"pipelines": "view", "pipelineruns":"view"}'
       labels:
         iam.kubesphere.io/category: pipelines
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -299,38 +220,32 @@ items:
         zh: 查看 DevOps 项目中的流水线
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
           resources:
             - pipelines
-            - pipelines/runs
             - pipelines/branches
-            - pipelines/checkScriptCompile
             - pipelines/consolelog
-            - pipelines/scan
+            - search
+            - crumbissuer
+            - jenkins
+            - ci
+            - clustersteptemplates
+            - templates
+            - clustertemplates
             - pipelines/sonarstatus
-            - jenkins/labelsData
+            - pipelines/branches/sonarstatus
           verbs:
             - get
             - list
             - watch
-        - apiGroups:
-            - ""
-          resources:
-            - events
-          verbs:
-            - list
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
       name: devops-manage-pipelines
       annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-pipelines", "devops-manage-pipelineruns",
-        "devops-view-credentials"]'
-        iam.kubesphere.io/role-template-rules: '{"pipelines": "manage", "pipelineruns":
-        "manage"}'
+        iam.kubesphere.io/dependencies: '["devops-view-credentials", "devops-view-code-repository", "devops-view-pipelines"]'
       labels:
         iam.kubesphere.io/category: pipelines
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -341,15 +256,21 @@ items:
         zh: 创建、编辑和删除 DevOps 项目中的流水线
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
           resources:
             - pipelines
-            - pipelines/runs
             - pipelines/branches
-            - pipelines/checkScriptCompile
-            - pipelines/consolelog
             - pipelines/scan
-            - pipelines/sonarstatus
+            - webhook
+            - webhooks
+            - pipelines/checkScriptCompile
+            - checkCron
+            - jenkins
+            - jenkinsfile
+            - clustersteptemplates
+            - clustersteptemplates/render
+            - templates
+            - templates/render
             - clustertemplates
             - clustertemplates/render
           verbs:
@@ -358,13 +279,83 @@ items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
-      name: devops-view-gitops-applications
+      name: devops-view-pipelineruns
       annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-code-repository"]'
-        iam.kubesphere.io/role-template-rules: '{"applications": "view"}'
+      labels:
+        iam.kubesphere.io/category: pipelines
+        scope.iam.kubesphere.io/devops: ""
+    spec:
+      displayName:
+        en: PipelineRuns Viewing
+        zh: 流水线运行记录查看
+      description:
+        en: View pipelineruns in the DevOps project
+        zh: 查看 DevOps 项目中的流水线运行记录
+      rules:
+        - apiGroups:
+            - devops.kubesphere.io
+          resources:
+            - pipelines/runs
+            - pipelines/runs/artifacts
+            - pipelines/runs/log
+            - pipelines/runs/nodes
+            - pipelines/runs/nodes/steps
+            - pipelines/runs/nodes/steps/log
+            - pipelines/runs/nodesdetail
+            - pipelines/branches/runs
+            - pipelines/branches/runs/artifacts
+            - pipelines/branches/runs/log
+            - pipelines/branches/runs/nodes/steps/log
+            - pipelines/branches/runs/nodes/steps
+            - pipelines/branches/runs/nodes
+            - pipelines/branches/runs/nodesdetail
+            - pipelines/pipelineruns
+            - pipelineruns
+            - pipelineruns/nodedetails
+            - pipelineruns/artifacts
+          verbs:
+            - get
+            - list
+            - watch
+  - apiVersion: iam.kubesphere.io/v1beta1
+    kind: RoleTemplate
+    metadata:
+      name: devops-manage-pipelineruns
+      annotations:
+        iam.kubesphere.io/dependencies: '["devops-view-pipelines", "devops-view-pipelineruns"]'
+      labels:
+        iam.kubesphere.io/category: pipelines
+        scope.iam.kubesphere.io/devops: ""
+    spec:
+      displayName:
+        en: PipelineRuns Management
+        zh: 流水线运行管理
+      description:
+        en: 管理 DevOps 项目中的流水线运行和下载制品
+        zh: Manage pipelineruns and download artifacts in the DevOps project
+      rules:
+        - apiGroups:
+            - devops.kubesphere.io
+          resources:
+            - pipelineruns
+            - pipelines/runs
+            - pipelines/runs/stop
+            - pipelines/runs/replay
+            - pipelines/runs/nodes/steps
+            - pipelines/branches/runs
+            - pipelines/branches/runs/stop
+            - pipelines/branches/runs/replay
+            - pipelines/branches/runs/nodes/steps
+            - pipelines/pipelineruns
+          verbs:
+            - '*'
+
+  - apiVersion: iam.kubesphere.io/v1beta1
+    kind: RoleTemplate
+    metadata:
+      name: devops-view-gitops-applications
       labels:
         iam.kubesphere.io/category: continuous-deployments
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -383,17 +374,21 @@ items:
             - get
             - list
             - watch
+        - apiGroups:
+            - devops.kubesphere.io
+          resources:
+            - s2ibinaries
+          verbs:
+            - get
+            - list
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
       name: devops-manage-gitops-applications
       annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-gitops-applications"]'
-        iam.kubesphere.io/role-template-rules: '{"applications": "manage"}'
+        iam.kubesphere.io/dependencies: '["devops-view-gitops-applications", "devops-view-code-repository"]'
       labels:
-        iam.kubesphere.io/aggregate-to-operator: ""
         iam.kubesphere.io/category: continuous-deployments
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
     spec:
       displayName:
@@ -407,6 +402,7 @@ items:
             - gitops.kubesphere.io
           resources:
             - applications
+            - applications/sync
           verbs:
             - '*'
         - apiGroups:
@@ -415,18 +411,63 @@ items:
             - clusters
           verbs:
             - list
+        - apiGroups:
+          - devops.kubesphere.io
+          resources:
+            - s2ibinaries
+          verbs:
+            - '*'
+
+  - apiVersion: iam.kubesphere.io/v1beta1
+      kind: RoleTemplate
+      metadata:
+        name: devops-view-roles
+        labels:
+          iam.kubesphere.io/category: access-control
+          scope.iam.kubesphere.io/devops: ""
+      spec:
+        displayName:
+          en: Project Roles View
+          zh: 项目角色查看
+        description:
+          en: View roles in the DevOps project
+          zh: 查看 DevOps 项目中的角色
+        rules:
+          - apiGroups:
+              - iam.kubesphere.io
+            resources:
+              - roles
+            verbs:
+              - get
+              - list
+              - watch
+  - apiVersion: iam.kubesphere.io/v1beta1
+    kind: RoleTemplate
+    metadata:
+      name: devops-manage-roles
+      annotations:
+        iam.kubesphere.io/dependencies: '["devops-view-roles"]'
+      labels:
+        iam.kubesphere.io/category: access-control
+        scope.iam.kubesphere.io/devops: ""
+    spec:
+      displayName:
+        en: Project Roles Management
+      rules:
+        - apiGroups:
+            - iam.kubesphere.io
+          resources:
+            - roles
+          verbs:
+            - '*'
 
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
-      annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-roles"]'
-        iam.kubesphere.io/role-template-rules: '{"members": "view"}'
+      name: devops-view-members
       labels:
         iam.kubesphere.io/category: access-control
-        iam.kubesphere.io/role-template: "true"
         scope.iam.kubesphere.io/devops: ""
-      name: devops-view-members
     spec:
       displayName:
         en: Project Members Viewing
@@ -436,7 +477,7 @@ items:
         zh: 查看 DevOps 项目中的成员
       rules:
         - apiGroups:
-            - '*'
+            - iam.kubesphere.io
           resources:
             - members
             - rolebindings
@@ -447,14 +488,12 @@ items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
+      name: devops-manage-members
       annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-members"]'
-        iam.kubesphere.io/role-template-rules: '{"members": "manage"}'
+        iam.kubesphere.io/dependencies: '["devops-view-roles", "devops-view-members"]'
       labels:
         iam.kubesphere.io/category: access-control
-        iam.kubesphere.io/role-template: "false"
         scope.iam.kubesphere.io/devops: ""
-      name: devops-manage-members
     spec:
       displayName:
         en: Project Members Management
@@ -464,57 +503,8 @@ items:
         zh: 管理 DevOps 项目中的成员
       rules:
         - apiGroups:
-            - '*'
+            - iam.kubesphere.io
           resources:
-            - members
-            - rolebindings
+            - namespacemembers
           verbs:
             - '*'
-  - apiVersion: iam.kubesphere.io/v1beta1
-    kind: RoleTemplate
-    metadata:
-      annotations:
-        iam.kubesphere.io/role-template-rules: '{"roles": "view"}'
-      labels:
-        iam.kubesphere.io/category: access-control
-        iam.kubesphere.io/role-template: "true"
-        scope.iam.kubesphere.io/devops: ""
-      name: devops-view-roles
-    spec:
-      displayName:
-        en: Project Roles View
-        zh: 项目角色查看
-      description:
-        en: View roles in the DevOps project
-        zh: 查看 DevOps 项目中的角色
-      rules:
-        - apiGroups:
-            - '*'
-          resources:
-            - roles
-          verbs:
-            - get
-            - list
-            - watch
-  - apiVersion: iam.kubesphere.io/v1beta1
-    kind: RoleTemplate
-    metadata:
-      annotations:
-        iam.kubesphere.io/role-template-rules: '{"roles": "manage"}'
-      labels:
-        iam.kubesphere.io/category: access-control
-        iam.kubesphere.io/role-template: "false"
-        scope.iam.kubesphere.io/devops: ""
-      name: devops-manage-roles
-    spec:
-      displayName:
-        en: Project Roles Management
-      rules:
-        - apiGroups:
-            - '*'
-          resources:
-            - roles
-          verbs:
-            - '*'
-
-

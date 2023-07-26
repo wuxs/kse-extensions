@@ -4,14 +4,29 @@ items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleBase
     metadata:
+      name: devops-project-admin
       labels:
         scope.iam.kubesphere.io/devops: ""
-      name: devops-project-admin
     role:
       aggregationRoleTemplates:
         roleSelector:
           matchLabels:
-            scope.iam.kubesphere.io/devops: ""
+            iam.kubesphere.io/aggregate-to-admin: ""
+        templateNames:
+          - devops-view-credentials
+          - devops-manage-credentials
+          - devops-view-code-repository
+          - devops-manage-code-repository
+          - devops-view-pipelines
+          - devops-manage-pipelines
+          - devops-view-pipelineruns
+          - devops-manage-pipelineruns
+          - devops-view-gitops-applications
+          - devops-manage-gitops-applications
+          - devops-view-roles
+          - devops-manage-roles
+          - devops-view-members
+          - devops-manage-members
       apiVersion: iam.kubesphere.io/v1beta1
       kind: Role
       metadata:
@@ -20,7 +35,8 @@ items:
         name: admin
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
+            - gitops.kubesphere.io
           resources:
             - '*'
           verbs:
@@ -28,25 +44,33 @@ items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleBase
     metadata:
+      name: devops-project-operator
       labels:
         scope.iam.kubesphere.io/devops: ""
-      name: devops-project-operator
     role:
       aggregationRoleTemplates:
         roleSelector:
           matchLabels:
             iam.kubesphere.io/aggregate-to-operator: ""
-            scope.iam.kubesphere.io/devops: ""
+        templateNames:
+          - devops-view-credentials
+          - devops-manage-credentials
+          - devops-view-code-repository
+          - devops-manage-code-repository
+          - devops-view-pipelines
+          - devops-manage-pipelines
+          - devops-view-pipelineruns
+          - devops-manage-pipelineruns
+          - devops-view-gitops-applications
+          - devops-manage-gitops-applications
+          - devops-view-roles
+          - devops-view-members
       apiVersion: iam.kubesphere.io/v1beta1
       kind: Role
       metadata:
-        annotations:
-          iam.kubesphere.io/aggregation-roles: '["role-template-view-members","role-template-view-roles",
-          "role-template-view-pipelines","role-template-manage-pipelines", "role-template-view-pipelineruns","role-template-manage-pipelineruns",
-          "role-template-view-credentials","role-template-manage-credentials", "role-template-view-gitrepositories","role-template-manage-gitrepositories",
-          "role-template-view-gitops-applications","role-template-manage-gitops-applications"]'
-          kubesphere.io/creator: system
         name: operator
+        annotations:
+          kubesphere.io/creator: system
       rules:
         - apiGroups:
             - '*'
@@ -57,7 +81,6 @@ items:
             - list
             - watch
         - apiGroups:
-            - ""
             - devops.kubesphere.io
             - gitops.kubesphere.io
           resources:
@@ -75,16 +98,20 @@ items:
         roleSelector:
           matchLabels:
             iam.kubesphere.io/aggregate-to-viewer: ""
-            scope.iam.kubesphere.io/devops: ""
+        templateNames:
+          - devops-view-credentials
+          - devops-view-code-repository
+          - devops-view-pipelines
+          - devops-view-pipelineruns
+          - devops-view-gitops-applications
+          - devops-view-roles
+          - devops-view-members
       apiVersion: rbac.authorization.k8s.io/v1
       kind: Role
       metadata:
-        annotations:
-          iam.kubesphere.io/aggregation-roles: '["role-template-view-members","role-template-view-roles",
-          "role-template-view-pipelines","role-template-view-pipelineruns","role-template-view-credentials",
-          "role-template-view-gitrepositories", "role-template-view-gitops-applications"]'
-          kubesphere.io/creator: system
         name: viewer
+        annotations:
+          kubesphere.io/creator: system
       rules:
         - apiGroups:
             - '*'
