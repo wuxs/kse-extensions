@@ -73,26 +73,20 @@ items:
           kubesphere.io/creator: system
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
+            - gitops.kubesphere.io
           resources:
             - '*'
           verbs:
             - get
             - list
             - watch
-        - apiGroups:
-            - devops.kubesphere.io
-            - gitops.kubesphere.io
-          resources:
-            - '*'
-          verbs:
-            - '*'
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleBase
     metadata:
+      name: devops-project-viewer
       labels:
         scope.iam.kubesphere.io/devops: ""
-      name: devops-project-viewer
     role:
       aggregationRoleTemplates:
         roleSelector:
@@ -114,7 +108,8 @@ items:
           kubesphere.io/creator: system
       rules:
         - apiGroups:
-            - '*'
+            - devops.kubesphere.io
+            - gitops.kubesphere.io
           resources:
             - '*'
           verbs:

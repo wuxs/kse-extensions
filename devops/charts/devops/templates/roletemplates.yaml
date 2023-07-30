@@ -4,13 +4,39 @@ items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
-      name: workspace-view-devops
-      annotations:
-        iam.kubesphere.io/dependencies: '["namespace-view-roles", "namespace-view-members"]'
-        iam.kubesphere.io/auto-aggregate: "true"
+      name: workspace-devops-projects
       labels:
         iam.kubesphere.io/category: devops-projects
         iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-self-provisioner: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
+        scope.iam.kubesphere.io/workspace: ""
+    spec:
+      displayName:
+        en: DevOps Project List
+        zh: DevOps 项目列表
+      description:
+        en: List all DevOps projects in the workspace
+        zh: 企业空间中的所有 DevOps 项目列表
+      rules:
+        - apiGroups:
+            - devops.kubesphere.io
+          resources:
+            - namespaces
+          verbs:
+            - get
+            - list
+            - watch
+  - apiVersion: iam.kubesphere.io/v1beta1
+    kind: RoleTemplate
+    metadata:
+      name: workspace-view-devops
+      annotations:
+        iam.kubesphere.io/dependencies: '["workspace-devops-projects"]'
+      labels:
+        iam.kubesphere.io/category: devops-projects
+        iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
         scope.iam.kubesphere.io/workspace: ""
     spec:
       displayName:
@@ -23,7 +49,6 @@ items:
         - apiGroups:
             - devops.kubesphere.io
           resources:
-            - namespaces
             - pipelines
             - pipelines/runs
             - pipelines/branches
@@ -54,12 +79,10 @@ items:
     kind: RoleTemplate
     metadata:
       name: workspace-create-devops
-      annotations:
-        iam.kubesphere.io/dependencies: '["workspace-view-devops"]'
-        iam.kubesphere.io/auto-aggregate: "true"
       labels:
         iam.kubesphere.io/category: devops-projects
-        iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-self-provisioner: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
         scope.iam.kubesphere.io/workspace: ""
     spec:
       displayName:
@@ -79,8 +102,6 @@ items:
     kind: RoleTemplate
     metadata:
       name: workspace-manage-devops
-      annotations:
-        iam.kubesphere.io/auto-aggregate: "true"
       labels:
         iam.kubesphere.io/category: devops-projects
         iam.kubesphere.io/aggregate-to-admin: ""
@@ -280,7 +301,6 @@ items:
     kind: RoleTemplate
     metadata:
       name: devops-view-pipelineruns
-      annotations:
       labels:
         iam.kubesphere.io/category: pipelines
         scope.iam.kubesphere.io/devops: ""
@@ -419,28 +439,28 @@ items:
             - '*'
 
   - apiVersion: iam.kubesphere.io/v1beta1
-      kind: RoleTemplate
-      metadata:
-        name: devops-view-roles
-        labels:
-          iam.kubesphere.io/category: access-control
-          scope.iam.kubesphere.io/devops: ""
-      spec:
-        displayName:
-          en: Project Roles View
-          zh: 项目角色查看
-        description:
-          en: View roles in the DevOps project
-          zh: 查看 DevOps 项目中的角色
-        rules:
-          - apiGroups:
-              - iam.kubesphere.io
-            resources:
-              - roles
-            verbs:
-              - get
-              - list
-              - watch
+    kind: RoleTemplate
+    metadata:
+      name: devops-view-roles
+      labels:
+        iam.kubesphere.io/category: access-control
+        scope.iam.kubesphere.io/devops: ""
+    spec:
+      displayName:
+        en: Project Roles View
+        zh: 项目角色查看
+      description:
+        en: View roles in the DevOps project
+        zh: 查看 DevOps 项目中的角色
+      rules:
+        - apiGroups:
+            - iam.kubesphere.io
+          resources:
+            - roles
+          verbs:
+            - get
+            - list
+            - watch
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
@@ -479,7 +499,7 @@ items:
         - apiGroups:
             - iam.kubesphere.io
           resources:
-            - members
+            - namespacemembers
             - rolebindings
           verbs:
             - get
