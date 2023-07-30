@@ -1,5 +1,4 @@
 devops:
-  enabled: true
   global:
     # the ks-core api
     # if want to access to jenkinsUI, the ksCoreApi must be specified and browser-accessible
@@ -8,13 +7,13 @@ devops:
     registry: registry.cn-huhehaote.aliyuncs.com/ksluban
     controller:
       repository: devops-controller
-      tag: dev-e502dec
+      tag: dev-0480627
     apiserver:
       repository: devops-apiserver
-      tag: dev-e502dec
+      tag: dev-0480627
     tools:
       repository: devops-tools
-      tag: dev-745ba06
+      tag: dev-0480627
   jenkins:
     Master:
       Image: registry.cn-huhehaote.aliyuncs.com/ksluban/jenkins
@@ -30,7 +29,6 @@ devops:
       size: 8Gi
 
 frontend:
-  enabled: true
   image:
     repository: docker.io/donniean/devops-frontend
     tag: latest
