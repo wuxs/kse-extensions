@@ -1,7 +1,7 @@
 kind: CronJob
 apiVersion: {{ template "cronjob.apiversion" . }}
 metadata:
-  name: {{ include "ks-devops.fullname" . }}
+  name: {{ include "ks-devops.name" . }}
   {{- if .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
   {{- end }}
@@ -15,7 +15,7 @@ spec:
       template:
         metadata:
           labels:
-            app: {{ include "ks-devops.fullname" . }}
+            app: {{ include "ks-devops.name" . }}
             release: {{ .Release.Name }}
 {{- if .Values.gcJobs.podAnnotations }}
           annotations:

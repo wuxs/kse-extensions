@@ -9,7 +9,7 @@ data:
       jwtSecret: {{ .Values.authentication.jwtSecret | quote }}
 
     devops:
-      host: http://{{ .Release.Name }}-jenkins.{{ default .Release.Namespace .Values.global.namespace }}
+      host: http://devops-jenkins.{{ default .Release.Namespace .Values.global.namespace }}
       username: admin
       maxConnections: 100
       namespace: {{ default .Release.Namespace .Values.global.namespace }}

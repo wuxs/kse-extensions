@@ -2,24 +2,15 @@
 Expand the name of the chart.
 */}}
 {{- define "ks-devops.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
-{{- define "ks-devops.fullname" -}}
-{{ .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- print "devops" -}}
 {{- end }}
 
 {{- define "ks-devops.apiserver-fullname" -}}
-{{ include "ks-devops.fullname" . }}-apiserver
+{{ include "ks-devops.name" . }}-apiserver
 {{- end }}
 
 {{- define "ks-devops.controller-fullname" -}}
-{{ include "ks-devops.fullname" . }}-controller
+{{ include "ks-devops.name" . }}-controller
 {{- end }}
 
 {{/*
@@ -89,7 +80,7 @@ Create the name of the service account to use
 */}}
 {{- define "ks-devops.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "ks-devops.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "ks-devops.name" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
