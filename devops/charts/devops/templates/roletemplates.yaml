@@ -133,6 +133,9 @@ items:
       labels:
         iam.kubesphere.io/category: credentials
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Credential Viewing
@@ -159,6 +162,8 @@ items:
       labels:
         iam.kubesphere.io/category: credentials
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Credential Management
@@ -181,6 +186,9 @@ items:
       labels:
         iam.kubesphere.io/category: code-repositories
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Code Repository Viewing
@@ -206,6 +214,8 @@ items:
       labels:
         iam.kubesphere.io/category: code-repositories
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Code Repository Management
@@ -232,6 +242,9 @@ items:
       labels:
         iam.kubesphere.io/category: pipelines
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Pipelines Viewing
@@ -268,6 +281,8 @@ items:
       labels:
         iam.kubesphere.io/category: pipelines
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Pipelines Management
@@ -304,6 +319,9 @@ items:
       labels:
         iam.kubesphere.io/category: pipelines
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-viewer: ""
     spec:
       displayName:
         en: PipelineRuns Viewing
@@ -346,6 +364,8 @@ items:
       labels:
         iam.kubesphere.io/category: pipelines
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
     spec:
       displayName:
         en: PipelineRuns Management
@@ -377,6 +397,9 @@ items:
       labels:
         iam.kubesphere.io/category: continuous-deployments
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Continuous Deployments Viewing
@@ -410,6 +433,8 @@ items:
       labels:
         iam.kubesphere.io/category: continuous-deployments
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
     spec:
       displayName:
         en: Continuous Deployments Management
@@ -445,6 +470,9 @@ items:
       labels:
         iam.kubesphere.io/category: access-control
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-viewer: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Project Roles View
@@ -470,6 +498,7 @@ items:
       labels:
         iam.kubesphere.io/category: access-control
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Project Roles Management
@@ -488,6 +517,9 @@ items:
       labels:
         iam.kubesphere.io/category: access-control
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
+        iam.kubesphere.io/aggregate-to-operator: ""
+        iam.kubesphere.io/aggregate-to-viewer: ""
     spec:
       displayName:
         en: Project Members Viewing
@@ -514,6 +546,7 @@ items:
       labels:
         iam.kubesphere.io/category: access-control
         scope.iam.kubesphere.io/devops: ""
+        iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Project Members Management

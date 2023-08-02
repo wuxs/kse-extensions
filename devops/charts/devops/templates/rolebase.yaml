@@ -12,21 +12,7 @@ items:
         roleSelector:
           matchLabels:
             iam.kubesphere.io/aggregate-to-admin: ""
-        templateNames:
-          - devops-view-credentials
-          - devops-manage-credentials
-          - devops-view-code-repository
-          - devops-manage-code-repository
-          - devops-view-pipelines
-          - devops-manage-pipelines
-          - devops-view-pipelineruns
-          - devops-manage-pipelineruns
-          - devops-view-gitops-applications
-          - devops-manage-gitops-applications
-          - devops-view-roles
-          - devops-manage-roles
-          - devops-view-members
-          - devops-manage-members
+            scope.iam.kubesphere.io/devops: ""
       apiVersion: iam.kubesphere.io/v1beta1
       kind: Role
       metadata:
@@ -52,19 +38,7 @@ items:
         roleSelector:
           matchLabels:
             iam.kubesphere.io/aggregate-to-operator: ""
-        templateNames:
-          - devops-view-credentials
-          - devops-manage-credentials
-          - devops-view-code-repository
-          - devops-manage-code-repository
-          - devops-view-pipelines
-          - devops-manage-pipelines
-          - devops-view-pipelineruns
-          - devops-manage-pipelineruns
-          - devops-view-gitops-applications
-          - devops-manage-gitops-applications
-          - devops-view-roles
-          - devops-view-members
+            scope.iam.kubesphere.io/devops: ""
       apiVersion: iam.kubesphere.io/v1beta1
       kind: Role
       metadata:
@@ -92,14 +66,7 @@ items:
         roleSelector:
           matchLabels:
             iam.kubesphere.io/aggregate-to-viewer: ""
-        templateNames:
-          - devops-view-credentials
-          - devops-view-code-repository
-          - devops-view-pipelines
-          - devops-view-pipelineruns
-          - devops-view-gitops-applications
-          - devops-view-roles
-          - devops-view-members
+            scope.iam.kubesphere.io/devops: ""
       apiVersion: rbac.authorization.k8s.io/v1
       kind: Role
       metadata:
