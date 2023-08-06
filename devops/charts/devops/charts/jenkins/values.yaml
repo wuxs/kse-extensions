@@ -483,8 +483,8 @@ securityRealm:
   ldap:
     host: openldap.kubesphere-system.svc:389
   openIdConnect:
-    clientId: "ks-devops"
-    clientSecret: "ks-devops"
+    clientId: "kubesphere"
+    clientSecret: "kubesphere"
 
 ksAuth:
   enabled: false
