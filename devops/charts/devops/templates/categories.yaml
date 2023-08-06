@@ -3,7 +3,7 @@ kind: Category
 metadata:
   name: devops-projects
   labels:
-    scope.iam.kubesphere.io/workspace: ""
+    iam.kubesphere.io/scope: workspace
 spec:
   displayName:
     en: DevOps Projects
@@ -16,7 +16,8 @@ kind: Category
 metadata:
   name: credentials
   labels:
-    scope.iam.kubesphere.io/devops: ""
+    iam.kubesphere.io/scope: namespace
+    devops.kubesphere.io/managed: true
 spec:
   description:
     en: Credentials Management
@@ -30,7 +31,8 @@ kind: Category
 metadata:
   name: code-repositories
   labels:
-    scope.iam.kubesphere.io/devops: ""
+    iam.kubesphere.io/scope: namespace
+    devops.kubesphere.io/managed: true
 spec:
   description:
     en: Code Repositories Management
@@ -44,7 +46,8 @@ kind: Category
 metadata:
   name: pipelines
   labels:
-    scope.iam.kubesphere.io/devops: ""
+    iam.kubesphere.io/scope: namespace
+    devops.kubesphere.io/managed: true
 spec:
   description:
     en: Pipeline Management
@@ -58,7 +61,8 @@ kind: Category
 metadata:
   name: continuous-deployments
   labels:
-    scope.iam.kubesphere.io/devops: ""
+    iam.kubesphere.io/scope: namespace
+    devops.kubesphere.io/managed: true
 spec:
   description:
     en: Continuous Deployments Management
