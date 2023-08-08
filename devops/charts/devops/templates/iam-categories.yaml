@@ -4,6 +4,7 @@ metadata:
   name: devops-projects
   labels:
     iam.kubesphere.io/scope: workspace
+    kubesphere.io/managed: "true"
 spec:
   displayName:
     en: DevOps Projects
@@ -17,7 +18,7 @@ metadata:
   name: credentials
   labels:
     iam.kubesphere.io/scope: namespace
-    devops.kubesphere.io/managed: true
+    devops.kubesphere.io/managed: "true"
 spec:
   description:
     en: Credentials Management
@@ -32,7 +33,7 @@ metadata:
   name: code-repositories
   labels:
     iam.kubesphere.io/scope: namespace
-    devops.kubesphere.io/managed: true
+    devops.kubesphere.io/managed: "true"
 spec:
   description:
     en: Code Repositories Management
@@ -47,7 +48,7 @@ metadata:
   name: pipelines
   labels:
     iam.kubesphere.io/scope: namespace
-    devops.kubesphere.io/managed: true
+    devops.kubesphere.io/managed: "true"
 spec:
   description:
     en: Pipeline Management
@@ -62,7 +63,7 @@ metadata:
   name: continuous-deployments
   labels:
     iam.kubesphere.io/scope: namespace
-    devops.kubesphere.io/managed: true
+    devops.kubesphere.io/managed: "true"
 spec:
   description:
     en: Continuous Deployments Management

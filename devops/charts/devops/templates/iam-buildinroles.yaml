@@ -9,7 +9,7 @@ items:
         iam.kubesphere.io/scope: namespace
     targetSelector:
       matchLabels:
-        devops.kubesphere.io/managed: true
+        devops.kubesphere.io/managed: "true"
     role:
       aggregationRoleTemplates:
         roleSelector:
@@ -37,7 +37,7 @@ items:
         iam.kubesphere.io/scope: namespace
     targetSelector:
       matchLabels:
-        devops.kubesphere.io/managed: true
+        devops.kubesphere.io/managed: "true"
     role:
       aggregationRoleTemplates:
         roleSelector:
@@ -67,7 +67,7 @@ items:
         iam.kubesphere.io/scope: namespace
     targetSelector:
       matchLabels:
-        devops.kubesphere.io/managed: true
+        devops.kubesphere.io/managed: "true"
     role:
       aggregationRoleTemplates:
         roleSelector:
