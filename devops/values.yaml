@@ -9,15 +9,11 @@ extension:
       tag: dev-9ea8e5a
 
 agent:
-  global:
-    # the ks-core api
-    # if want to access to jenkinsUI, the ksCoreApi must be specified and browser-accessible
-    ksCoreApi: "http://ks-apiserver.kubesphere-system.svc:30881"
   image:
     registry: registry.cn-huhehaote.aliyuncs.com/ksluban
     controller:
       repository: devops-controller
-      tag: dev-9ea8e5a
+      tag: dev-31c3ab8
     apiserver:
       repository: devops-apiserver
       tag: dev-9ea8e5a
@@ -25,6 +21,11 @@ agent:
       repository: devops-tools
       tag: dev-9ea8e5a
   jenkins:
+    securityRealm:
+      openIdConnect:
+        # the kubesphere-core api used for jenkins OIDC
+        # if want to access to jenkinsUI, the ksCoreApi must be specified and browser-accessible
+        kubesphereCoreApi: "http://ks-apiserver.kubesphere-system.svc:30881"
     Master:
       Image: registry.cn-huhehaote.aliyuncs.com/ksluban/jenkins
       ImageTag: v4.0.0-2.346.3

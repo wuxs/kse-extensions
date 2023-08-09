@@ -485,6 +485,7 @@ securityRealm:
   openIdConnect:
     clientId: "kubesphere"
     clientSecret: "kubesphere"
+    kubesphereCoreApi: "http://ks-apiserver.kubesphere-system.svc:30881"
 
 ksAuth:
   enabled: false

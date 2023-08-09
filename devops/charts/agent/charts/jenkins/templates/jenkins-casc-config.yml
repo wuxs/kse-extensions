@@ -411,11 +411,11 @@ data:
         oic:
           clientId: "{{ .Values.securityRealm.openIdConnect.clientId }}"
           clientSecret: "{{ .Values.securityRealm.openIdConnect.clientSecret }}"
-          tokenServerUrl: "{{ .Values.global.ksCoreApi }}/oauth/token"
-          authorizationServerUrl: "{{ .Values.global.ksCoreApi }}/oauth/authorize"
-          userInfoServerUrl: "{{ .Values.global.ksCoreApi }}/oauth/userinfo"
+          tokenServerUrl: "{{ .Values.securityRealm.openIdConnect.kubesphereCoreApi }}/oauth/token"
+          authorizationServerUrl: "{{ .Values.securityRealm.openIdConnect.kubesphereCoreApi }}/oauth/authorize"
+          userInfoServerUrl: "{{ .Values.securityRealm.openIdConnect.kubesphereCoreApi }}/oauth/userinfo"
+          endSessionEndpoint: "{{ .Values.securityRealm.openIdConnect.kubesphereCoreApi }}/oauth/logout"
           logoutFromOpenidProvider: true
-          endSessionEndpoint: "{{ .Values.global.ksCoreApi }}/oauth/logout"
           scopes: {{ default "openid profile email" .Values.securityRealm.openIdConnect.scopes }}
           fullNameFieldName: {{ default "name" .Values.securityRealm.openIdConnect.fullNameFieldName }}
           userNameField: {{ default "name" .Values.securityRealm.openIdConnect.userNameField }}
