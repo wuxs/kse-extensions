@@ -1,4 +1,14 @@
-devops:
+extension:
+  image:
+    registry: registry.cn-huhehaote.aliyuncs.com/ksluban
+    frontend:
+      repository: devops-frontend
+      tag: dev-0804
+    apiserver:
+      repository: devops-apiserver
+      tag: dev-9ea8e5a
+
+agent:
   global:
     # the ks-core api
     # if want to access to jenkinsUI, the ksCoreApi must be specified and browser-accessible
@@ -27,8 +37,3 @@ devops:
           memory: 4Gi # recommend keep same as requests.memory
     Persistence:
       size: 8Gi
-
-frontend:
-  image:
-    repository: docker.io/donniean/devops-frontend
-    tag: latest
