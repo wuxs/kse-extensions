@@ -1,0 +1,18 @@
+{{- $namespace := default .Release.Namespace .Values.global.namespace }}
+{{- if empty (lookup "v1" "Service" $namespace "devops-apiserver") }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-apiserver
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "apiserver.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    {{- include "apiserver.selectorLabels" . | nindent 4 }}
+{{- end }}

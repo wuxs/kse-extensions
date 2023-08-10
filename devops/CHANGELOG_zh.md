@@ -1,0 +1,1 @@
+- 更新 jenkins 认证为 OpenId Connect Authentication；

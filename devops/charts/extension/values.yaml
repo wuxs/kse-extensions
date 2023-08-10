@@ -1,0 +1,108 @@
+image:
+  registry: kubesphere
+  frontend:
+    repository: devops-frontend
+    tag: latest
+  apiserver:
+    repository: devops-apiserver
+    tag: v4.0.0
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+
+replicaCount: 1
+autoscaling:
+  enabled: false
+
+nameOverride: ""
+fullnameOverride: ""
+namespace: "kubesphere-devops-system"
+
+frontend:
+  podAnnotations: {}
+  podSecurityContext: {}
+  # fsGroup: 2000
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 500m
+  #   memory: 1024Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  service:
+    type: ClusterIP
+    port: 80
+
+apiserver:
+  podAnnotations: {}
+  podSecurityContext: {}
+  # fsGroup: 2000
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 500m
+    #   memory: 1024Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  service:
+    type: ClusterIP
+    port: 80
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "devops"
+
+
+authentication:
+  # If not set, jwt tools will generate and set it automatically
+  jwtSecret: "UDjssmmDgxZtkXVDSeFvBtsZeBSFWhJ6"
+
+jenkins:
+  enabled: true
+  workerNamespace: kubesphere-devops-worker
+  fullnameOverride: devops-jenkins
+  Master:
+    AdminUser: admin
+    UseSecurity: true
+    # AdminPassword: yourPasword
+      # the api-token length must be 34, and must start with HashVersion: 11, and must match pattern[a-f0-9]{32}
+      # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L203C14-L203C26
+      # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L190
+    # AdminApiToken: 11596e09b62dc1f48fee868179dcd55126
+
+argocd:
+  enabled: true
+  namespace: "argocd"
