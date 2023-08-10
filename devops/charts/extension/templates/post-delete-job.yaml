@@ -1,0 +1,30 @@
+{{- if .Values.namespace }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-post-delete"
+  annotations:
+    helm.sh/hook: post-delete
+    helm.sh/hook-weight: "1"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-delete-job
+          image: "kubesphere/kubectl:v1.27.4"
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              if kubectl get ns argocd; then
+                kubectl delete ns argocd
+              fi
+              if kubectl get ns {{ .Values.namespace }}; then
+                kubectl delete ns {{ .Values.namespace }}
+              fi
+              if kubectl get ns kubesphere-devops-worker; then
+                kubectl delete ns kubesphere-devops-worker
+              fi
+{{- end }}
