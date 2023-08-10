@@ -5,16 +5,17 @@ displayName:
   zh: DevOps
   en: DevOps
 description:
-  zh: DevOps 项目是一个独立的命名空间，其中定义了一组流水线。用户可以按照自己的方式对流水线进行分组（例如：项目类型、组织类型）。
-  en: A DevOps project is a separate namespace where a set of pipelines is defined. Users can group their pipelines themselves (for example, project type and organization type).
-category: integration-delivery
+  zh: KubeSphere DevOps 提供端到端的工作流，集成主流 CI/CD 工具，帮助不同的组织加快产品上市时间。
+  en: KubeSphere DevOps offers an end-to-end workflow, integrating mainstream CI/CD tools, and helps organizations accelerate the time to market for products.
 keywords:
   - DevOps
-  - CICD
-  - Others
+  - CI/CD
+  - Integration & Delivery
 home: https://www.kubesphere.io/devops/
+category: integration-delivery
 sources:
-  - https://github.com/kubesphere-extensions/devops
+  - https://github.com/kubesphere/ks-devops
+  - https://github.com/kubesphere-sigs/ks-devops-helm-chart
 kubeVersion: ">=1.19.0"
 ksVersion: ">=4.0.0-beta"
 provider:
@@ -34,9 +35,11 @@ maintainers:
 staticFileDirectory: static
 icon: ./static/devops-icon.png
 screenshots:
-  - ./static/screenshots/devops-screenshot-1.png
-  - ./static/screenshots/devops-screenshot-2.png
-  - ./static/screenshots/devops-screenshot-3.png
+  - https://ks-extension-staging.pek3b.qingstor.com/devops/0.3.0/devops-screenshot-0.png
+  - https://ks-extension-staging.pek3b.qingstor.com/devops/0.3.0/devops-screenshot-1.png
+  - https://ks-extension-staging.pek3b.qingstor.com/devops/0.3.0/devops-screenshot-2.png
+  - https://ks-extension-staging.pek3b.qingstor.com/devops/0.3.0/devops-screenshot-3.png
+  - https://ks-extension-staging.pek3b.qingstor.com/devops/0.3.0/devops-screenshot-4.png
 installationMode: Multicluster
 dependencies:
   - name: extension
