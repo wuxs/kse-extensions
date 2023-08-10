@@ -4,37 +4,10 @@ items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
-      name: workspace-devops-basic
-      annotations:
-        iam.kubesphere.io/role-template-rules: '{"devops": "view"}'
-      labels:
-        iam.kubesphere.io/category: devops-projects
-        iam.kubesphere.io/aggregate-to-regular: ""
-        iam.kubesphere.io/aggregate-to-self-provisioner: ""
-        iam.kubesphere.io/scope: workspace
-        kubesphere.io/managed: "true"
-    spec:
-      displayName:
-        en: DevOps Project List
-        zh: DevOps 项目列表
-      description:
-        en: Display DevOps projects menu and list in the workspace
-        zh: 在企业空间中展示 DevOps 项目菜单及列表
-      rules:
-        - apiGroups:
-            - devops.kubesphere.io
-          resources:
-            - namespaces
-          verbs:
-            - get
-            - list
-            - watch
-  - apiVersion: iam.kubesphere.io/v1beta1
-    kind: RoleTemplate
-    metadata:
       name: workspace-view-devops
       annotations:
         iam.kubesphere.io/dependencies: '["workspace-devops-basic"]'
+        iam.kubesphere.io/role-template-rules: '{"devops": "view"}'
       labels:
         iam.kubesphere.io/category: devops-projects
         iam.kubesphere.io/aggregate-to-viewer: ""

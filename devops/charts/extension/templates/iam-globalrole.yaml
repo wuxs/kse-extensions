@@ -6,6 +6,7 @@ rules:
   - apiGroups:
       - devops.kubesphere.io
     resources:
+      - namespaces
       - clustersteptemplates
       - clustertemplates
       - scms/servers
