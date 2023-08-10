@@ -3,20 +3,20 @@ extension:
     registry: registry.cn-huhehaote.aliyuncs.com/ksluban
     frontend:
       repository: devops-frontend
-      tag: dev-0804
+      tag: dev-0810
     apiserver:
       repository: devops-apiserver
-      tag: dev-9ea8e5a
+      tag: dev-1d12729
 
 agent:
   image:
     registry: registry.cn-huhehaote.aliyuncs.com/ksluban
     controller:
       repository: devops-controller
-      tag: dev-31c3ab8
+      tag: dev-1d12729
     apiserver:
       repository: devops-apiserver
-      tag: dev-9ea8e5a
+      tag: dev-1d12729
     tools:
       repository: devops-tools
       tag: dev-9ea8e5a
