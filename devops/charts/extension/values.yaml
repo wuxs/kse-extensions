@@ -1,8 +1,8 @@
 image:
-  registry: kubesphere
+  registry: registry.cn-beijing.aliyuncs.com/kse
   frontend:
     repository: devops-frontend
-    tag: latest
+    tag: v4.0.0
   apiserver:
     repository: devops-apiserver
     tag: v4.0.0

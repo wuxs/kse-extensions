@@ -1,40 +1,17 @@
-extension:
-  image:
-    registry: registry.cn-huhehaote.aliyuncs.com/ksluban
-    frontend:
-      repository: devops-frontend
-      tag: dev-0810
-    apiserver:
-      repository: devops-apiserver
-      tag: dev-1d12729
-
 agent:
-  image:
-    registry: registry.cn-huhehaote.aliyuncs.com/ksluban
-    controller:
-      repository: devops-controller
-      tag: dev-1d12729
-    apiserver:
-      repository: devops-apiserver
-      tag: dev-1d12729
-    tools:
-      repository: devops-tools
-      tag: dev-9ea8e5a
   jenkins:
     securityRealm:
       openIdConnect:
-        # the kubesphere-core api used for jenkins OIDC
-        # if want to access to jenkinsUI, the ksCoreApi must be specified and browser-accessible
+        # The kubesphere-core api used for jenkins OIDC
+        # If want to access to jenkinsUI, the kubesphereCoreApi must be specified and browser-accessible
+        # Modifying this configuration will take effect during installation
+        # If you wish for changes to take effect after installation, you need to update the jenkins-casc-config ConfigMap，copy the securityRealm configuration from jenkins.yaml to jenkins_user.yaml, save, and wait for approximately 70 seconds for the changes to take effect.
         kubesphereCoreApi: "http://ks-apiserver.kubesphere-system.svc:30881"
     Master:
-      Image: registry.cn-huhehaote.aliyuncs.com/ksluban/jenkins
-      ImageTag: v4.0.0-2.346.3
       resources:
         requests:
           cpu: 0.5
-          memory: 4Gi
+          memory: 6Gi
         limits:
           cpu: 2
-          memory: 4Gi # recommend keep same as requests.memory
-    Persistence:
-      size: 8Gi
+          memory: 6Gi # Set same as requests.memory

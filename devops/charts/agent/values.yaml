@@ -7,8 +7,7 @@ autoscaling:
   enabled: false
 
 image:
-  # support 'ghcr.io/kubesphere' or 'kubespheredev'
-  registry: kubesphere
+  registry: registry.cn-beijing.aliyuncs.com/kse
   controller:
     repository: devops-controller
     tag: v4.0.0
@@ -117,8 +116,17 @@ ingress:
 jenkins:
   enabled: true
   Master:
-    Image: "kubesphere/jenkins"
+    Image: "registry.cn-beijing.aliyuncs.com/kse/devops-jenkins"
     ImageTag: "v4.0.0-2.346.3"
+    resources:
+      requests:
+        cpu: 0.5
+        memory: 6Gi
+      limits:
+        cpu: 2
+        memory: 6Gi # Set same as requests.memory
+  Persistence:
+    size: 16Gi
   securityRealm:
     openIdConnect:
       # the kubesphere-core api used for jenkins OIDC
