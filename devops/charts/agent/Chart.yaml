@@ -7,7 +7,7 @@ appVersion: v4.0.0
 home: https://www.kubesphere.io/devops/
 sources:
   - https://github.com/kubesphere/ks-devops
-  - https://github.com/kubesphere-extensions/devops
+  - https://github.com/kubesphere-sigs/ks-devops-helm-chart
 annotations:
   extensions.kubesphere.io/devops: agent
 dependencies:
