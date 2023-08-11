@@ -130,7 +130,7 @@ items:
         iam.kubesphere.io/aggregate-to-admin: ""
       annotations:
         iam.kubesphere.io/role-template-rules: '{"pipelines": "view"}'
-        iam.kubesphere.io/dependencies: '["devops-view-projects","devops-view-code-repository"]'
+        iam.kubesphere.io/dependencies: '["devops-view-code-repository"]'
     spec:
       displayName:
         en: Pipelines Viewing
@@ -200,7 +200,8 @@ items:
     metadata:
       name: devops-view-pipelineruns
       annotations:
-        iam.kubesphere.io/dependencies: '["devops-view-projects","devops-view-pipelines"]'
+        iam.kubesphere.io/role-template-rules: '{"pipelineruns": "view"}'
+        iam.kubesphere.io/dependencies: '["devops-view-pipelines"]'
       labels:
         iam.kubesphere.io/category: devops-pipelines
         iam.kubesphere.io/scope: namespace
@@ -247,6 +248,7 @@ items:
       name: devops-manage-pipelineruns
       annotations:
         iam.kubesphere.io/dependencies: '["devops-view-pipelineruns"]'
+        iam.kubesphere.io/role-template-rules: '{"pipelineruns": "manage"}'
       labels:
         iam.kubesphere.io/category: devops-pipelines
         iam.kubesphere.io/scope: namespace
@@ -462,7 +464,7 @@ items:
       name: devops-manage-project-settings
       annotations:
         iam.kubesphere.io/dependencies: '["devops-view-roles", "devops-view-members"]'
-        iam.kubesphere.io/role-template-rules: '{"devops": "manage"}'
+        iam.kubesphere.io/role-template-rules: '{"devops-settings": "manage"}'
       labels:
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
