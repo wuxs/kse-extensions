@@ -7,7 +7,7 @@ items:
     metadata:
       name: devops-view-credentials
       labels:
-        iam.kubesphere.io/category: credentials
+        iam.kubesphere.io/category: devops-credentials
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-viewer: ""
@@ -40,7 +40,7 @@ items:
         iam.kubesphere.io/dependencies: '["devops-view-credentials"]'
         iam.kubesphere.io/role-template-rules: '{"credentials": "manage"}'
       labels:
-        iam.kubesphere.io/category: credentials
+        iam.kubesphere.io/category: devops-credentials
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-operator: ""
@@ -65,7 +65,7 @@ items:
     metadata:
       name: devops-view-code-repository
       labels:
-        iam.kubesphere.io/category: code-repositories
+        iam.kubesphere.io/category: devops-code-repositories
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-viewer: ""
@@ -97,7 +97,7 @@ items:
         iam.kubesphere.io/dependencies: '["devops-view-credentials", "devops-view-code-repository"]'
         iam.kubesphere.io/role-template-rules: '{"gitrepositories": "manage"}'
       labels:
-        iam.kubesphere.io/category: code-repositories
+        iam.kubesphere.io/category: devops-code-repositories
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-operator: ""
@@ -122,7 +122,7 @@ items:
     metadata:
       name: devops-view-pipelines
       labels:
-        iam.kubesphere.io/category: pipelines
+        iam.kubesphere.io/category: devops-pipelines
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-operator: ""
@@ -163,7 +163,7 @@ items:
         iam.kubesphere.io/role-template-rules: '{"pipelines": "manage"}'
         iam.kubesphere.io/dependencies: '["devops-view-credentials", "devops-view-code-repository", "devops-view-pipelines"]'
       labels:
-        iam.kubesphere.io/category: pipelines
+        iam.kubesphere.io/category: devops-pipelines
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-operator: ""
@@ -202,7 +202,7 @@ items:
       annotations:
         iam.kubesphere.io/dependencies: '["devops-view-projects","devops-view-pipelines"]'
       labels:
-        iam.kubesphere.io/category: pipelines
+        iam.kubesphere.io/category: devops-pipelines
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-admin: ""
@@ -248,7 +248,7 @@ items:
       annotations:
         iam.kubesphere.io/dependencies: '["devops-view-pipelineruns"]'
       labels:
-        iam.kubesphere.io/category: pipelines
+        iam.kubesphere.io/category: devops-pipelines
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-admin: ""
@@ -282,7 +282,7 @@ items:
     metadata:
       name: devops-view-gitops-applications
       labels:
-        iam.kubesphere.io/category: continuous-deployments
+        iam.kubesphere.io/category: devops-continuous-deployments
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-operator: ""
@@ -323,7 +323,7 @@ items:
         iam.kubesphere.io/role-template-rules: '{"applications": "manage"}'
         iam.kubesphere.io/dependencies: '["devops-view-gitops-applications", "devops-view-code-repository"]'
       labels:
-        iam.kubesphere.io/category: continuous-deployments
+        iam.kubesphere.io/category: devops-continuous-deployments
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-admin: ""
@@ -349,7 +349,7 @@ items:
     metadata:
       name: devops-view-roles
       labels:
-        iam.kubesphere.io/category: access-control
+        iam.kubesphere.io/category: devops-access-control
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-operator: ""
@@ -381,13 +381,17 @@ items:
         iam.kubesphere.io/dependencies: '["devops-view-roles"]'
         iam.kubesphere.io/role-template-rules: '{"roles": "manage"}'
       labels:
-        iam.kubesphere.io/category: access-control
+        iam.kubesphere.io/category: devops-access-control
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
         en: Project Roles Management
+        zh: 项目角色管理
+      description:
+        en: Manage roles in the DevOps project
+        zh: 管理 DevOps 项目中的角色
       rules:
         - apiGroups:
             - iam.kubesphere.io
@@ -401,7 +405,7 @@ items:
     metadata:
       name: devops-view-members
       labels:
-        iam.kubesphere.io/category: access-control
+        iam.kubesphere.io/category: devops-access-control
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-admin: ""
@@ -434,7 +438,7 @@ items:
         iam.kubesphere.io/dependencies: '["devops-view-roles", "devops-view-members"]'
         iam.kubesphere.io/role-template-rules: '{"members": "manage"}'
       labels:
-        iam.kubesphere.io/category: access-control
+        iam.kubesphere.io/category: devops-access-control
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
         iam.kubesphere.io/aggregate-to-admin: ""
@@ -455,26 +459,28 @@ items:
   - apiVersion: iam.kubesphere.io/v1beta1
     kind: RoleTemplate
     metadata:
-      name: devops-project-settings
+      name: devops-manage-project-settings
       annotations:
         iam.kubesphere.io/dependencies: '["devops-view-roles", "devops-view-members"]'
         iam.kubesphere.io/role-template-rules: '{"devops": "manage"}'
       labels:
         iam.kubesphere.io/scope: namespace
         devops.kubesphere.io/managed: "true"
+        iam.kubesphere.io/category: devops-project-settings
         iam.kubesphere.io/aggregate-to-admin: ""
     spec:
       displayName:
-        en: DevOps Project Settings
-        zh: DevOps 项目设置
+        en: Project Settings Management
+        zh: 项目设置管理
       description:
-        en: DevOps project settings
-        zh: 设置 DevOps 项目
+        en: Update and delete the DevOps project
+        zh: 更新和删除此 DevOps 项目
       rules:
         - apiGroups:
             - devops.kubesphere.io
           resources:
             - namespaces
+            - devopsprojects
           verbs:
             - '*'
 {{- end }}

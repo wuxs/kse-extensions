@@ -1,7 +1,7 @@
 apiVersion: iam.kubesphere.io/v1beta1
 kind: Category
 metadata:
-  name: devops-projects
+  name: workspace-devops-projects
   labels:
     iam.kubesphere.io/scope: workspace
     kubesphere.io/managed: "true"
@@ -15,7 +15,7 @@ spec:
 apiVersion: iam.kubesphere.io/v1beta1
 kind: Category
 metadata:
-  name: credentials
+  name: devops-credentials
   labels:
     iam.kubesphere.io/scope: namespace
     devops.kubesphere.io/managed: "true"
@@ -30,7 +30,7 @@ spec:
 apiVersion: iam.kubesphere.io/v1beta1
 kind: Category
 metadata:
-  name: code-repositories
+  name: devops-code-repositories
   labels:
     iam.kubesphere.io/scope: namespace
     devops.kubesphere.io/managed: "true"
@@ -45,7 +45,7 @@ spec:
 apiVersion: iam.kubesphere.io/v1beta1
 kind: Category
 metadata:
-  name: pipelines
+  name: devops-pipelines
   labels:
     iam.kubesphere.io/scope: namespace
     devops.kubesphere.io/managed: "true"
@@ -60,7 +60,7 @@ spec:
 apiVersion: iam.kubesphere.io/v1beta1
 kind: Category
 metadata:
-  name: continuous-deployments
+  name: devops-continuous-deployments
   labels:
     iam.kubesphere.io/scope: namespace
     devops.kubesphere.io/managed: "true"
@@ -70,3 +70,33 @@ spec:
   displayName:
     en: Continuous Deployments
     zh: 持续部署
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: devops-access-control
+  labels:
+    iam.kubesphere.io/scope: namespace
+    devops.kubesphere.io/managed: "true"
+spec:
+  description:
+    en: Access Control Management
+  displayName:
+    en: Access Control
+    zh: 访问控制
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: devops-project-settings
+  labels:
+    iam.kubesphere.io/scope: namespace
+    devops.kubesphere.io/managed: "true"
+spec:
+  description:
+    en: DevOps Project Settings
+  displayName:
+    en: Project Settings
+    zh: 项目设置
