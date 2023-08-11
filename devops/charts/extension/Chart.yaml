@@ -2,11 +2,11 @@ apiVersion: v2
 name: extension
 description: A Helm chart for KubeSphere-Extension DevOps extension(frontend and part of backend)
 type: application
-version: 0.0.1
+version: 1.0.0
 appVersion: v4.0.0
 home: https://kubesphere.io/devops/
 sources:
   - https://github.com/kubesphere/ks-devops
-  - https://github.com/kubesphere-extensions/devops
+  - https://github.com/kubesphere-sigs/ks-devops-helm-chart
 annotations:
   extensions.kubesphere.io/devops: frontend
