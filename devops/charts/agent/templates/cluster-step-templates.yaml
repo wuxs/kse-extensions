@@ -16,7 +16,7 @@ spec:
   parameters:
     - name: url
       type: string
-      display: 'URL'
+      display: 'Repository URL'
       required: true
     - name: credentialsId
       type: secret
@@ -26,6 +26,9 @@ spec:
       display: 'Branch'
       defaultValue: 'master'
       required: true
+    - name: importCodeRepo
+      type: importCodeRepo
+      reactions: {{`'[{"target": "url", "fulfill": {"state": {"value": "{{$context?.getRepoUrl?.($self.value)}}"}}}, {"target": "credentialsId", "fulfill": {"state": {"value": "{{$self.value?.secret}}"}}}]'`}}
   template: |
     {{`{
       "arguments": [
@@ -86,9 +89,13 @@ spec:
     - name: remote
       type: string
       display: 'Repository URL'
+      required: true
     - name: credentialsId
       type: secret
       display: 'Credential Name'
+    - name: importCodeRepo
+      type: importCodeRepo
+      reactions: {{`'[{"target": "remote", "fulfill": {"state": {"value": "{{$context?.getRepoUrl?.($self.value)}}"}}}, {"target": "credentialsId", "fulfill": {"state": {"value": "{{$self.value?.secret}}"}}}]'`}}
   template: |
     {{`{
       "arguments": [
@@ -902,4 +909,3 @@ spec:
     }`}}
 
 ---
-
