@@ -1,7 +1,6 @@
 apiVersion: v1
 name: dmp
 version: 0.1.0
-category: dmp
 displayName:
   zh: 数据库管理平台
   en: "Database Management Platform"
@@ -10,13 +9,13 @@ description:
   en: "Cloud native database management platform"
 keywords:
   - Database
+  - Management
 home: https://kubesphere.io
+category: database
 sources:
   - https://github.com/kubesphere
 kubeVersion: ">=1.19.0"
-ksVersion: ">=3.0.0"
-screenshots:
-- ./favicon.svg
+ksVersion: ">=4.0.0"
 provider:
   zh:
     name: "青云科技"
@@ -26,27 +25,17 @@ provider:
     name: "QingCloud"
     email: "support@kubesphere.cloud"
     url: "https://www.qingcloud.com"
-dependencies:
-  - name: frontend
-    condition: frontend.enabled
-  - name: dmp
-    condition: dmp.enabled
-  - name: clickhouse-operator
-    condition: clickhouse-operator.enabled
-  - name: eck-operator
-    condition: eck-operator.enabled
-  - name: strimzi-kafka-operator
-    condition: strimzi-kafka-operator.enabled
-  - name: open-mongodb
-    condition: open-mongodb.enabled
-  - name: mysql-operator
-    condition: mysql-operator.enabled
-  - name: opensearch-operator
-    condition: opensearch-operator.enabled
-  - name: redis-operator
-    condition: redis-operator.enabled
-  - name: postgres-operator
-    condition: postgres-operator.enabled
-  - name: rabbitmq
-    condition: rabbitmq.enabled
+maintainers:
+  - name: djangoyi
+    email: djangoyi@yunify.com
 icon: ./favicon.svg
+screenshots:
+- ./favicon.svg
+installationMode: Multicluster
+dependencies:
+  - name: extension
+    tags:
+      - extension
+  - name: agent
+    tags:
+      - agent

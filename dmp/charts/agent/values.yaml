@@ -1,0 +1,28 @@
+dmp:
+  image:
+    repository: djangoyi/dmp
+    tag: "2.0.2"
+
+clickhouse-operator:
+  enablePrometheusMonitor: true
+
+# eck-operator: {}
+
+strimzi-kafka-operator:
+  watchAnyNamespace: true
+
+open-mongodb: {}
+
+mysql-operator:
+  webhook:
+    certManager:
+      enabled: false
+
+opensearch-operator: {}
+
+redis-operator: {}
+
+postgres-operator:
+  enablePrometheusMonitor: true
+
+rabbitmq: {}

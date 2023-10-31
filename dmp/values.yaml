@@ -1,44 +1,13 @@
-frontend:
-  enabled: true
-  image:
-    repository: 51wangping/dmp-frontend
-    tag: latest
+agent:
+  frontend:
+    enabled: true
+    image:
+      repository: 51wangping/dmp-frontend
+      tag: latest
 
-dmp:
-  enabled: true
-  image:
-    repository: djangoyi/dmp
-    tag: "2.0.2"
-
-clickhouse-operator:
-  enabled: true
-  enablePrometheusMonitor: true
-
-eck-operator:
-  enabled: true
-
-strimzi-kafka-operator:
-  enabled: true
-  watchAnyNamespace: true
-
-open-mongodb:
-  enabled: true
-
-mysql-operator:
-  enabled: true
-  webhook:
-    certManager:
-      enabled: false
-
-opensearch-operator:
-  enabled: true
-
-redis-operator:
-  enabled: true
-
-postgres-operator:
-  enabled: true
-  enablePrometheusMonitor: true
-
-rabbitmq:
-  enabled: true
+extension:
+  dmp:
+    enabled: true
+    image:
+      repository: djangoyi/dmp
+      tag: "2.0.2"
