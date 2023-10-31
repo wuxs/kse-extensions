@@ -10,4 +10,3 @@ sources:
   - https://github.com/kubesphere-sigs/ks-devops-helm-chart
 annotations:
   extensions.kubesphere.io/devops: frontend
-dependencies: {}

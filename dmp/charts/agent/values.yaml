@@ -18,7 +18,10 @@ mysql-operator:
     certManager:
       enabled: false
 
-opensearch-operator: {}
+opensearch-operator:
+  serviceMonitor:
+    labels:
+      release: whizard-monitoring-agent
 
 redis-operator: {}
 
