@@ -1,15 +1,17 @@
-apiVersion: v1
+apiVersion: kubesphere.io/v1alpha1
 name: snapshot-controller
 version: 0.0.1
 displayName:
   zh: snapshot-controller
   en: snapshot-controller
 description:
-  zh: snapshot-controller 安装卷快照相关的 crd 和一个公共的控制器。
+  zh: snapshot-controller 安装卷快照相关的 crd 和一个通用的卷快照控制器。
   en: snapshot-controller installs volume snapshot related crds and a common snapshot controller.
 keywords:
   - Storage
   - Snapshot
+  - Backup
+  - Restore
 home: https://github.com/kubesphere-extensions/kse-extensions
 category: storage
 sources:
@@ -30,8 +32,8 @@ maintainers:
     email: stoneshi@yunify.com
 staticFileDirectory: static
 icon: https://ks-extension.pek3b.qingstor.com/providers/qingcloud.png
-installationMode: HostOnly
+installationMode: Multicluster
 dependencies:
-  - name: backend
+  - name: snapshot-controller
     tags:
-      - backend
+      - agent

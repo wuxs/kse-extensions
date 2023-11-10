@@ -1,2 +1,2 @@
-backend:
-  enabled: true
+snapshot-controller:
+  namespace: "kube-system"

@@ -1,1 +1,1 @@
-This is volume snapshot controller.
+This is volume snapshot controller. For more information please refer to https://github.com/kubernetes-csi/external-snapshotter.
