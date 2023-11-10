@@ -22,7 +22,7 @@ spec:
       labels:
         app: snapshot-controller
     spec:
-      serviceAccount: snapshot-controller
+      serviceAccount: {{ .Values.serviceAccount.name }}
       containers:
         - name: snapshot-controller
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
