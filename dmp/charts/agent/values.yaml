@@ -3,11 +3,6 @@ dmp:
     repository: djangoyi/dmp
     tag: "2.0.2"
 
-clickhouse-operator:
-  enablePrometheusMonitor: true
-
-# eck-operator: {}
-
 strimzi-kafka-operator:
   watchAnyNamespace: true
 
@@ -18,10 +13,7 @@ mysql-operator:
     certManager:
       enabled: false
 
-opensearch-operator:
-  serviceMonitor:
-    labels:
-      release: whizard-monitoring-agent
+opensearch-operator: {}
 
 redis-operator: {}
 
