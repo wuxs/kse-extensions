@@ -1,0 +1,39 @@
+apiVersion: kubesphere.io/v1alpha1
+name: storageclass-accessor
+version: 0.0.1
+displayName:
+  zh: storageclass-accessor
+  en: storageclass-accessor
+description:
+  zh: "这个 webhook 负责验证一个持久卷是否可以在指定的命名空间（namespace）和 工作空间（workspace）中创建。"
+  en: "This webhook validats if a pvc can be created in target namespace and workspace"
+category: storage
+keywords:
+  - Storage
+  - Storage Class
+  - Webhook
+  - Accessor
+home: https://github.com/kubesphere-extensions/kse-extensions
+sources:
+  - https://github.com/kubesphere/storageclass-accessor
+kubeVersion: ">=1.19.0"
+ksVersion: ">=4.0.0"
+provider:
+  en:
+    name: "QingCloud Technologies"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+  zh:
+    name: "北京青云科技股份有限公司"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.com.cn"
+maintainers:
+  - name: stoneshi
+    email: stoneshi@yunify.com
+staticFileDirectory: static
+icon: https://ks-extension.pek3b.qingstor.com/providers/qingcloud.png
+installationMode: Multicluster
+dependencies:
+  - name: storageclass-accessor
+    tags:
+      - agent
