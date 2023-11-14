@@ -30,7 +30,12 @@ maintainers:
     email: djangoyi@yunify.com
 icon: ./favicon.svg
 screenshots:
-- ./favicon.svg
+- https://ks-extension.pek3b.qingstor.com/extensions/dmp/1.png
+- https://ks-extension.pek3b.qingstor.com/extensions/dmp/2.png
+- https://ks-extension.pek3b.qingstor.com/extensions/dmp/3.png
+- https://ks-extension.pek3b.qingstor.com/extensions/dmp/4.png
+- https://ks-extension.pek3b.qingstor.com/extensions/dmp/5.png
+- https://ks-extension.pek3b.qingstor.com/extensions/dmp/6.png
 installationMode: Multicluster
 dependencies:
   - name: extension
