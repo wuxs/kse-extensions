@@ -1,0 +1,1 @@
+pvc-auto-resizer 通过 prometheus 监测 pvc 的容量使用情况，在阈值达到时对 pvc 进行自动扩容。
