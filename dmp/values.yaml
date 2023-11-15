@@ -1,11 +1,11 @@
-agent:
+extension:
   frontend:
     enabled: true
     image:
       repository: 51wangping/dmp-frontend
-      tag: latest
+      tag: main
 
-extension:
+agent:
   dmp:
     enabled: true
     image:
