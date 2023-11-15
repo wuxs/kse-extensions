@@ -3,10 +3,10 @@ fullname: "pvc-auto-resizer"
 replicaCount: 1
 
 image:
-  repository: kubespheredev/pvc-auto-resizer
+  repository: kubesphere/pvc-autoresizer
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "5d31253"
+  tag: 72e4769
   
 commandArgs: 
   prometheusUrl: "http://prometheus-k8s.kubesphere-monitoring-system.svc:9090"
