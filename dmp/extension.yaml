@@ -1,16 +1,20 @@
 apiVersion: v1
 name: dmp
-version: 0.1.0
+version: 2.0.0
 displayName:
-  zh: 数据库管理平台
-  en: "Database Management Platform"
+  zh: "RadonDB DMP"
+  en: "RadonDB DMP"
 description:
-  zh: "云原生数据库管理平台DMP，为用户解决多种数据库的跨云部署、多云管理难题，助力客户稳步迈向多元混合的数据库新时代。覆盖MySQL、PostgreSQL、Redis、MongoDB等数个全球主流数据库，完整构建高性能、备份、容灾、交换、流转等数据库生态闭环，实现了数据库即服务（DBaaS）"
-  en: "Cloud native database management platform"
+  zh: "RadonDB DMP 是一款面向 Kubernetes 多云场景的企业级云原生数据库管理平台，完全可视化统一管理，最快秒级部署数据库，同时聚合全场景运维能力，助力“云原生 + AI”数据引擎增智提效。"
+  en: "RadonDB DMP is an enterprise-grade cloud-native database management platform designed for Kubernetes multi-cloud environments. It provides fully visualized unified management, enables the fastest deployment of databases in seconds, and aggregates comprehensive operational capabilities across all scenarios, empowering 'cloud-native + AI' data engines for increased intelligence and efficiency."
 keywords:
-  - Database
-  - Management
-home: https://kubesphere.io
+  - kubernetes
+  - kubesphere
+  - database management
+  - dmp
+  - dbaas
+  - message queue
+home: https://kubesphere.com.cn/radondb/
 category: database
 sources:
   - https://github.com/kubesphere-extensions/kse-extensions
@@ -18,16 +22,16 @@ kubeVersion: ">=1.19.0"
 ksVersion: ">=4.0.0"
 provider:
   zh:
-    name: "青云科技"
-    email: "support@kubesphere.cloud"
-    url: "https://www.qingcloud.com"
+    name: "北京青云科技股份有限公司"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
   en:
-    name: "QingCloud"
-    email: "support@kubesphere.cloud"
-    url: "https://www.qingcloud.com"
+    name: "QingCloud Technologies"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
 maintainers:
-  - name: djangoyi
-    email: djangoyi@yunify.com
+  - name: dingchangchen
+    email: dingchangchen@yunify.com
 staticFileDirectory: static
 icon: ./static/icon.png
 screenshots:
