@@ -18,7 +18,7 @@ home: https://kubesphere.com.cn/radondb/
 category: database
 sources:
   - https://github.com/kubesphere-extensions/kse-extensions
-kubeVersion: ">=1.19.0"
+kubeVersion: ">=1.23.0-0"
 ksVersion: ">=4.0.0"
 provider:
   zh:
