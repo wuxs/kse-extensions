@@ -4,7 +4,7 @@ kind: RoleTemplate
 metadata:
   annotations:
     iam.kubesphere.io/dependencies: '["cluster-view-volumesnapshots"]'
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshots": "manage"}'
+    iam.kubesphere.io/role-template-rules: '{"cluster-volumesnapshots": "manage"}'
   labels:
     iam.kubesphere.io/category: cluster-storage-management
     iam.kubesphere.io/scope: cluster
@@ -30,7 +30,7 @@ apiVersion: iam.kubesphere.io/v1beta1
 kind: RoleTemplate
 metadata:
   annotations:
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshots": "view"}'
+    iam.kubesphere.io/role-template-rules: '{"cluster-volumesnapshots": "view"}'
   labels:
     iam.kubesphere.io/category: cluster-storage-management
     iam.kubesphere.io/scope: cluster
@@ -59,7 +59,7 @@ kind: RoleTemplate
 metadata:
   annotations:
     iam.kubesphere.io/dependencies: '["cluster-view-volumesnapshotcontents"]'
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshotcontents": "manage"}'
+    iam.kubesphere.io/role-template-rules: '{"cluster-volumesnapshotcontents": "manage"}'
   labels:
     iam.kubesphere.io/category: cluster-storage-management
     iam.kubesphere.io/scope: cluster
@@ -85,7 +85,7 @@ apiVersion: iam.kubesphere.io/v1beta1
 kind: RoleTemplate
 metadata:
   annotations:
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshotcontents": "view"}'
+    iam.kubesphere.io/role-template-rules: '{"cluster-volumesnapshotcontents": "view"}'
   labels:
     iam.kubesphere.io/category: cluster-storage-management
     iam.kubesphere.io/scope: cluster
@@ -114,7 +114,7 @@ kind: RoleTemplate
 metadata:
   annotations:
     iam.kubesphere.io/dependencies: '["cluster-view-volumesnapshotclasses"]'
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshotclasses": "manage"}'
+    iam.kubesphere.io/role-template-rules: '{"cluster-volumesnapshotclasses": "manage"}'
   labels:
     iam.kubesphere.io/category: cluster-storage-management
     iam.kubesphere.io/scope: cluster
@@ -140,7 +140,7 @@ apiVersion: iam.kubesphere.io/v1beta1
 kind: RoleTemplate
 metadata:
   annotations:
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshotclasses": "view"}'
+    iam.kubesphere.io/role-template-rules: '{"cluster-volumesnapshotclasses": "view"}'
   labels:
     iam.kubesphere.io/category: cluster-storage-management
     iam.kubesphere.io/scope: cluster
@@ -169,7 +169,7 @@ kind: RoleTemplate
 metadata:
   annotations:
     iam.kubesphere.io/dependencies: '["namespace-view-volumesnapshots"]'
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshots": "manage"}'
+    iam.kubesphere.io/role-template-rules: '{"namespace-volumesnapshots": "manage"}'
   labels:
     iam.kubesphere.io/category: namespace-storage-management
     iam.kubesphere.io/scope: namespace
@@ -196,7 +196,7 @@ apiVersion: iam.kubesphere.io/v1beta1
 kind: RoleTemplate
 metadata:
   annotations:
-    iam.kubesphere.io/role-template-rules: '{"volumesnapshots": "view"}'
+    iam.kubesphere.io/role-template-rules: '{"namespace-volumesnapshots": "view"}'
   labels:
     iam.kubesphere.io/category: namespace-storage-management
     iam.kubesphere.io/scope: namespace
