@@ -21,3 +21,5 @@ global:
       database: "dmp"
       username: "postgres"
       password: "postgres"
+
+resources: {}

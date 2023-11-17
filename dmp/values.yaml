@@ -1,13 +1,25 @@
 extension:
   frontend:
-    enabled: true
     image:
       repository: 51wangping/dmp-frontend
       tag: main
+    resources:
+      limits:
+        cpu: 200m
+        memory: 300Mi
+      requests:
+        cpu: 200m
+        memory: 300Mi
 
 agent:
   dmp:
-    enabled: true
     image:
       repository: djangoyi/dmp
       tag: "2.0.2"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 300Mi
+      requests:
+        cpu: 200m
+        memory: 300Mi
