@@ -15,6 +15,9 @@ spec:
   displayName:
     en: Storage Class Accessors Management
     zh: 存储类访问规则管理
+  description:
+    en: Create, edit and delete storageclass accessors in the cluster
+    zh: 创建、编辑和删除集群中的存储类访问规则
   rules: 
     - apiGroups:
         - storage.kubesphere.io
@@ -38,6 +41,9 @@ spec:
   displayName:
     en: Storage Class Accessors Viewing
     zh: 存储类访问规则查看
+  description:
+    en: View storageclass accessors in the cluster
+    zh: 查看集群中的存储类访问规则
   rules: 
     - apiGroups:
         - storage.kubesphere.io
