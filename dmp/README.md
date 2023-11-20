@@ -10,5 +10,5 @@ RadonDB DMP is an enterprise-level cloud-native database management platform new
 4. Easier management plane: It is beginner-friendly, with the majority of operations completed within 2 minutes. Database deployment can be achieved in a few steps. A unified management plane can control all databases, aggregating scattered operational tasks.
 5. Full-stack Day 2 operations and maintenance: It provides operational capabilities such as intelligent alerts, real-time monitoring, backup and disaster recovery, health checks, etc., throughout the database lifecycle. It eliminates operational silos and improves operational security and management efficiency.
 
-To view and subscribe for more information, please visit the RadonDB DMP product page: [RadonDB DMP Product Page](https://kubesphere.com.cn/radondb/).  
+To view and subscribe for more information, please visit the RadonDB DMP product page: [RadonDB DMP Product Page]( https://kubesphere.co/radondb/).  
 RadonDB open-source project: [https://github.com/radondb](https://github.com/radondb).

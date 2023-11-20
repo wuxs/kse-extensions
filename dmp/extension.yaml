@@ -19,7 +19,7 @@ category: database
 sources:
   - https://github.com/kubesphere-extensions/kse-extensions
 kubeVersion: ">=1.23.0-0"
-ksVersion: ">=4.0.0"
+ksVersion: ">=4.0.0-0"
 provider:
   zh:
     name: "北京青云科技股份有限公司"
@@ -28,7 +28,7 @@ provider:
   en:
     name: "QingCloud Technologies"
     email: "kubesphere@yunify.com"
-    url: "https://kubesphere.io"
+    url: " https://kubesphere.co/radondb/"
 maintainers:
   - name: dingchangchen
     email: dingchangchen@yunify.com
