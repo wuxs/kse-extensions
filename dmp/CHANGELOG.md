@@ -3,4 +3,4 @@
 2. Support modifying database instances through editing YAML.
 3. Provide backup/restore capabilities, including manual backup, automated backup, and recovery from backups.
 4. Support metric monitoring and alerting functionality (requires integration with observability components).
-5. The currently supported databases/middleware include: MySQL, PostgreSQL, MongoDB, Redis, OpenSearch, Kafka, Rabbitmq.
+5. The currently supported databases/middleware include: MySQL, PostgreSQL, MongoDB, Redis, OpenSearch, Kafka, RabbitMQ.
