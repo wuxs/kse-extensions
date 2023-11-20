@@ -20,7 +20,7 @@ spec:
               CRD1=mysqlclusters.mysql.radondb.com
               CRD2=backups.mysql.radondb.com
               SEC=radondb-mysql-webhook-certs
-              CERT=$(kubectl -n $MYNS get secrets $SEC -ojsonpath='{.data.tls\.key}')
+              CERT=$(kubectl -n $MYNS get secrets $SEC -ojsonpath='{.data.tls\.crt}')
               kubectl patch CustomResourceDefinition $CRD1 --type=merge -p '{"spec":{"conversion":{"webhook":{"clientConfig":{"caBundle":"'$CERT'","service":{"namespace":"'$MYNS'"}}}}}}'
               kubectl patch CustomResourceDefinition $CRD2 --type=merge -p '{"spec":{"conversion":{"webhook":{"clientConfig":{"caBundle":"'$CERT'","service":{"namespace":"'$MYNS'"}}}}}}'
               echo $CERT

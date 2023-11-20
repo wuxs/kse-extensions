@@ -10,11 +10,12 @@ spec:
     strategy: Webhook
     webhook:
       clientConfig:
-        caBundle: Cg==
+        caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUREekNDQWZlZ0F3SUJBZ0lSQUsycnAxalkydlRuWXJNZnFMbTJqRGt3RFFZSktvWklodmNOQVFFTEJRQXcKQURBZUZ3MHlNekV4TWpBd01qSTVORGxhRncweU5EQXlNVGd3TWpJNU5EbGFNQUF3Z2dFaU1BMEdDU3FHU0liMwpEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUR4UmRDWHpLbEZTcW9JNWpDaUx1VEhTMks0ZTN5bUY2SmkvYXNRCndod1JnZGZWMDRwOXBVeGtwY09EK3V6OTlNUG5FSDF2L3pKNTJZVXFaemx3NTBiMUNWSktCUXdOc2x4R04xL0MKM093YXNqSit3cUdMVStMNXB6c1dZNk1uejc2UGZHVnAzanpHN0Vscnc4bEVUcVJOcU1SdXFRbW45ZjNqQ0NmTApqVGxsMHE4Z1dyemdDS05Uci9vSUtXSXdsVG9Kb0pPc0lNM0U3ZkwzT0JXNmFqVldFcnFlaXQ2eEE2eE1RN04rCnhVMW9iRnZtQVlCdHFYTVphODlWS3hVVHlsdXJlUVpwaE5MTGhUcjdsZ3ZFVzRPVkNWRVc2ZmRzK2JrSXhVUG0KaWo0VlloZHFhdHJ2bWxSdmQ4NHpQMXc3bENtb3dPSUljdktvT05sS2hzVzFRQlo3QWdNQkFBR2pnWU13Z1lBdwpEZ1lEVlIwUEFRSC9CQVFEQWdXZ01Bd0dBMVVkRXdFQi93UUNNQUF3WUFZRFZSMFJBUUgvQkZZd1ZJSWhjbUZrCmIyNWtZaTF0ZVhOeGJDMTNaV0pvYjI5ckxtUmxabUYxYkhRdWMzWmpnaTl5WVdSdmJtUmlMVzE1YzNGc0xYZGwKWW1odmIyc3VaR1ZtWVhWc2RDNXpkbU11WTJ4MWMzUmxjaTVzYjJOaGJEQU5CZ2txaGtpRzl3MEJBUXNGQUFPQwpBUUVBZTgyd1AyaDBLVW03cm5YSk9PWnp5bFlrKy81emlOTGxGaXBGUVpjMXNGRXdFQjBlMjNPcE5lb2Y5d0x2CjR5alhkQVBjMmFzOVN1YWVpQlhZUmdheHkvYnRNTnVLeXRhTFJ0QjExVEdlMzd0T29PZDVLZHdpMnRuKzgzVG8KeGJWT1hXeExSRzBua3VaK2t6OWlHNEp5eFFmTkhKd3hNWWhKYzg5cUozTmtlMWYxU0tPbGhLcXRNTVkreXJqbQp0Vnhuc2VmOEpaV05zVTZnWXRIVFk4TXBhUitYek15Ym5zZGZHcW5uNS95WktCckkwMzd2bCtPbGxwUGlacXV2CkVNUzVmN2dweUhkeTRYY1dXRVEwOTdBV0dtV3ZRZ0lCS1lBbDFkMDR6b2x6K3VsWXdaNUE2dlM2K3RSRU5IelcKUEV1bmluSVRIazlBeHl1Kzc1bll3TFh6d2c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
         service:
           name: radondb-mysql-webhook
           namespace: default
           path: /convert
+          port: 443
       conversionReviewVersions:
       - v1
   group: mysql.radondb.com
@@ -88,6 +89,15 @@ spec:
                   s3Schedule:
                     type: string
                 type: object
+              lag:
+                description: Lagged
+                format: int32
+                type: integer
+              leaderAsfollower:
+                default: false
+                description: Leader as follower represents if make leader use as follower
+                  to read
+                type: boolean
               metricsOpts:
                 default:
                   enabled: false
@@ -2261,6 +2271,57 @@ spec:
                 description: Represents the name of the cluster restore from backup
                   path.
                 type: string
+              restorePoint:
+                description: RestorePoint is the target date and time to restore data.
+                  The format is "2006-01-02 15:04:05"
+                type: string
+              sourceConfig:
+                description: Bootstraping from remote data source
+                properties:
+                  items:
+                    description: If unspecified, each key-value pair in the Data field
+                      of the referenced Secret will be projected into the volume as
+                      a file whose name is the key and content is the value. If specified,
+                      the listed keys will be projected into the specified paths,
+                      and unlisted keys will not be present. If a key is specified
+                      which is not present in the Secret, the volume setup will error
+                      unless it is marked optional. Paths must be relative and may
+                      not contain the '..' path or start with '..'.
+                    items:
+                      description: Maps a string key to a path within a volume.
+                      properties:
+                        key:
+                          description: The key to project.
+                          type: string
+                        mode:
+                          description: 'Optional: mode bits used to set permissions
+                            on this file. Must be an octal value between 0000 and
+                            0777 or a decimal value between 0 and 511. YAML accepts
+                            both octal and decimal values, JSON requires decimal values
+                            for mode bits. If not specified, the volume defaultMode
+                            will be used. This might be in conflict with other options
+                            that affect the file mode, like fsGroup, and the result
+                            can be other mode bits set.'
+                          format: int32
+                          type: integer
+                        path:
+                          description: The relative path of the file to map the key
+                            to. May not be an absolute path. May not contain the path
+                            element '..'. May not start with the string '..'.
+                          type: string
+                      required:
+                      - key
+                      - path
+                      type: object
+                    type: array
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                  optional:
+                    description: Specify whether the Secret or its key must be defined
+                    type: boolean
+                type: object
               tlsSecretName:
                 description: Containing CA (ca.crt) and server cert (tls.crt), server
                   private key (tls.key) for SSL
@@ -2369,6 +2430,15 @@ spec:
                   - type
                   type: object
                 type: array
+              lastBackupTime:
+                description: LastBackup Create time, just for filter
+                format: date-time
+                type: string
+              lastbackup:
+                description: LastBackup
+                type: string
+              lastbackupGtid:
+                type: string
               nodes:
                 description: Nodes contains the list of the node status fulfilled.
                 items:
@@ -3499,6 +3569,10 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  restorePoint:
+                    description: RestorePoint is the target date and time to restore
+                      data. The format is "2006-01-02 15:04:05"
+                    type: string
                 type: object
               enableAutoRebuild:
                 default: false
@@ -3517,6 +3591,15 @@ spec:
                 - Never
                 - IfNotPresent
                 type: string
+              lag:
+                description: Lagged
+                format: int32
+                type: integer
+              leaderAsfollower:
+                default: false
+                description: Leader as follower represents if make leader use as follower
+                  to read
+                type: boolean
               logOpts:
                 description: LogOpts is the options of log settings.
                 properties:
@@ -5041,6 +5124,15 @@ spec:
                   - type
                   type: object
                 type: array
+              lastBackupTime:
+                description: LastBackup Create time, just for filter
+                format: date-time
+                type: string
+              lastbackup:
+                description: LastBackup
+                type: string
+              lastbackupGtid:
+                type: string
               nodes:
                 description: Nodes contains the list of the node status fulfilled.
                 items:

@@ -10,11 +10,12 @@ spec:
     strategy: Webhook
     webhook:
       clientConfig:
-        caBundle: Cg==
+        caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUREekNDQWZlZ0F3SUJBZ0lSQUsycnAxalkydlRuWXJNZnFMbTJqRGt3RFFZSktvWklodmNOQVFFTEJRQXcKQURBZUZ3MHlNekV4TWpBd01qSTVORGxhRncweU5EQXlNVGd3TWpJNU5EbGFNQUF3Z2dFaU1BMEdDU3FHU0liMwpEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUR4UmRDWHpLbEZTcW9JNWpDaUx1VEhTMks0ZTN5bUY2SmkvYXNRCndod1JnZGZWMDRwOXBVeGtwY09EK3V6OTlNUG5FSDF2L3pKNTJZVXFaemx3NTBiMUNWSktCUXdOc2x4R04xL0MKM093YXNqSit3cUdMVStMNXB6c1dZNk1uejc2UGZHVnAzanpHN0Vscnc4bEVUcVJOcU1SdXFRbW45ZjNqQ0NmTApqVGxsMHE4Z1dyemdDS05Uci9vSUtXSXdsVG9Kb0pPc0lNM0U3ZkwzT0JXNmFqVldFcnFlaXQ2eEE2eE1RN04rCnhVMW9iRnZtQVlCdHFYTVphODlWS3hVVHlsdXJlUVpwaE5MTGhUcjdsZ3ZFVzRPVkNWRVc2ZmRzK2JrSXhVUG0KaWo0VlloZHFhdHJ2bWxSdmQ4NHpQMXc3bENtb3dPSUljdktvT05sS2hzVzFRQlo3QWdNQkFBR2pnWU13Z1lBdwpEZ1lEVlIwUEFRSC9CQVFEQWdXZ01Bd0dBMVVkRXdFQi93UUNNQUF3WUFZRFZSMFJBUUgvQkZZd1ZJSWhjbUZrCmIyNWtZaTF0ZVhOeGJDMTNaV0pvYjI5ckxtUmxabUYxYkhRdWMzWmpnaTl5WVdSdmJtUmlMVzE1YzNGc0xYZGwKWW1odmIyc3VaR1ZtWVhWc2RDNXpkbU11WTJ4MWMzUmxjaTVzYjJOaGJEQU5CZ2txaGtpRzl3MEJBUXNGQUFPQwpBUUVBZTgyd1AyaDBLVW03cm5YSk9PWnp5bFlrKy81emlOTGxGaXBGUVpjMXNGRXdFQjBlMjNPcE5lb2Y5d0x2CjR5alhkQVBjMmFzOVN1YWVpQlhZUmdheHkvYnRNTnVLeXRhTFJ0QjExVEdlMzd0T29PZDVLZHdpMnRuKzgzVG8KeGJWT1hXeExSRzBua3VaK2t6OWlHNEp5eFFmTkhKd3hNWWhKYzg5cUozTmtlMWYxU0tPbGhLcXRNTVkreXJqbQp0Vnhuc2VmOEpaV05zVTZnWXRIVFk4TXBhUitYek15Ym5zZGZHcW5uNS95WktCckkwMzd2bCtPbGxwUGlacXV2CkVNUzVmN2dweUhkeTRYY1dXRVEwOTdBV0dtV3ZRZ0lCS1lBbDFkMDR6b2x6K3VsWXdaNUE2dlM2K3RSRU5IelcKUEV1bmluSVRIazlBeHl1Kzc1bll3TFh6d2c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
         service:
           name: radondb-mysql-webhook
           namespace: default
           path: /convert
+          port: 443
       conversionReviewVersions:
       - v1
   group: mysql.radondb.com
@@ -134,6 +135,9 @@ spec:
                   - type
                   type: object
                 type: array
+              gtid:
+                description: Get the Gtid
+                type: string
             required:
             - completed
             type: object
@@ -276,6 +280,9 @@ spec:
               completionTime:
                 format: date-time
                 type: string
+              gtid:
+                description: Get the Gtid
+                type: string
               manual:
                 properties:
                   active:
@@ -301,6 +308,9 @@ spec:
                     description: Specifies whether or not the Job is finished executing
                       (does not indicate success or failure).
                     type: boolean
+                  gtid:
+                    description: Get the Gtid
+                    type: string
                   reason:
                     type: string
                   startTime:
@@ -345,6 +355,9 @@ spec:
                       description: Specifies whether or not the Job is finished executing
                         (does not indicate success or failure).
                       type: boolean
+                    gtid:
+                      description: Get the Gtid
+                      type: string
                     reason:
                       type: string
                     startTime:
