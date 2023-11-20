@@ -1,0 +1,31 @@
+Welcome to RadonDB MySQL Kubernetes!
+
+{{- if .Values.mysqlcluster.install }}
+
+Create MySQLCluster:
+{{- else }}
+
+> Create MySQLCluster:
+{{- end }}
+
+kubectl apply -f https://github.com/radondb/radondb-mysql-kubernetes/releases/latest/download/mysql_v1beta1_mysqlcluster.yaml
+
+Create Users:
+
+kubectl apply -f https://github.com/radondb/radondb-mysql-kubernetes/releases/latest/download/mysql_v1beta1_mysqluser.yaml
+
+{{- if .Values.mysqlcluster.install }}
+
+> Connect to the database:
+{{- else }}
+
+Connect to the database:
+{{- end }}
+
+kubectl exec -it svc/sample-leader -c mysql -- mysql -usuper_user -pRadonDB@123
+
+Change password:
+
+kubectl patch secret sample-user-password --patch="{\"data\": { \"super_user\": \"$(echo -n <yourpass> |base64 -w0)\" }}" -oyaml
+
+Github: https://github.com/radondb/radondb-mysql-kubernetes
