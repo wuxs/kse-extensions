@@ -33,7 +33,7 @@ maintainers:
   - name: dingchangchen
     email: dingchangchen@yunify.com
 staticFileDirectory: static
-icon: ./static/icon.png
+icon: https://ks-extension.pek3b.qingstor.com/extensions/dmp/icon.png
 screenshots:
 - https://ks-extension.pek3b.qingstor.com/extensions/dmp/1.png
 - https://ks-extension.pek3b.qingstor.com/extensions/dmp/2.png
