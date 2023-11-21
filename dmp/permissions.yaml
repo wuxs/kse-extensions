@@ -25,7 +25,13 @@ rules:
       - '*'
     verbs:
       - '*'
-
+  - apiGroups:
+      - admissionregistration.k8s.io
+      - iam.kubesphere.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
 ---
 kind: Role
 rules:
