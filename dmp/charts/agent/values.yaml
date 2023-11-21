@@ -1,6 +1,6 @@
 strimzi-kafka-operator:
   watchAnyNamespace: true
-  operationTimeoutMs: 15000000
+  operationTimeoutMs: "15000000"
 
 open-mongodb: {}
 
