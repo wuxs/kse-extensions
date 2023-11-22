@@ -1,8 +1,8 @@
 extension:
   frontend:
     image:
-      repository: 51wangping/dmp-frontend
-      tag: main
+      repository: registry.cn-beijing.aliyuncs.com/kse/dmp-frontend
+      tag: "2.0.0"
     resources:
       limits:
         cpu: 200m
@@ -14,8 +14,8 @@ extension:
 agent:
   dmp:
     image:
-      repository: djangoyi/dmp
-      tag: "2.0.2"
+      repository: registry.cn-beijing.aliyuncs.com/kse/dmp
+      tag: "2.0.0"
     resources:
       limits:
         cpu: 200m
