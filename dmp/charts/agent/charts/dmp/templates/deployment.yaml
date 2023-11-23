@@ -28,5 +28,7 @@ spec:
           env:
             - name: DSN
               value: {{ include "postgresql.dns" . }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
 
 

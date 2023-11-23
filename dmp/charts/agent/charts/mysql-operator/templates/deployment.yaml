@@ -1,0 +1,146 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "mysql-operator.fullname" . }}
+  labels:
+    app: {{ template "mysql-operator.name" . }}
+    chart: {{ template "mysql-operator.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "mysql-operator.name" . }}
+      release: {{ .Release.Name | quote }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "mysql-operator.name" . }}
+        release: {{ .Release.Name | quote }}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      volumes:
+      {{- if .Values.manager.enableWebhooks }}
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: "{{ template "webhook.name" . }}-certs"
+      {{- end }}
+      - name: timezone
+        hostPath:
+          path: /etc/localtime
+      containers:
+      {{- if .Values.rbacProxy.create }}
+      - name: kube-rbac-proxy
+      {{- $imageList:=(splitList "/" .Values.rbacProxy.image) }}
+        {{- $imagerepo:=(join "/" (slice $imageList 0 (sub (len $imageList) 1)) | default "library") }}
+        {{- $imagetag:= printf "%s:%s" $imageList .Values.manager.tag }}
+      {{- $imagetag:= (splitList "/" .Values.rbacProxy.image )|last }}
+      {{- if .Values.imageNamespaceOverride}}
+      {{- if .Values.imagePrefix}}
+        image: {{ printf "%s/%s/%s" .Values.imagePrefix .Values.imageNamespaceOverride $imagetag|quote }}
+      {{- else  }}
+        image: {{ printf "%s/%s" .Values.imageNamespaceOverride $imagetag|quote }}
+      {{- end}}
+      {{- else }}
+      {{- if .Values.imagePrefix}}
+        image: {{ printf "%s/%s/%s" .Values.imagePrefix $imagerepo $imagetag|quote }}
+      {{- else }}
+        image: {{ .Values.rbacProxy.image|quote }}
+      {{- end }}
+      {{- end }}
+        imagePullPolicy: {{ .Values.rbacProxy.imagePullPolicy }}
+        args:
+        - "--secure-listen-address=0.0.0.0:8443"
+        - "--upstream=http://127.0.0.1:8080/"
+        - "--logtostderr=true"
+        - "--v=10"
+        ports:
+        - containerPort: 8443
+          name: https
+        volumeMounts:
+        - name: timezone
+          mountPath: /etc/localtime
+      {{- end }}
+      - name: manager
+        ports:
+        - containerPort: 9443
+          name: webhook-server
+          protocol: TCP
+        volumeMounts:
+        {{- if .Values.manager.enableWebhooks }}
+        - name: cert
+          mountPath: /tmp/k8s-webhook-server/serving-certs/
+          readOnly: true
+        {{- end }}
+        - name: timezone
+          mountPath: /etc/localtime
+        command:
+        - /manager
+        args:
+        - --health-probe-bind-address=:8081
+        - --metrics-bind-address=127.0.0.1:8080
+        - --leader-elect
+        {{- $imageList:=(splitList "/" .Values.manager.image) }}
+        {{- $imagerepo:=(join "/" (slice $imageList 0 (sub (len $imageList) 1)) | default "library") }}
+        {{- $imagetag:= printf "%s:%s" ($imageList | last) .Values.manager.tag }}
+        {{- if .Values.imageNamespaceOverride}}
+        {{- if .Values.imagePrefix}}
+        image: {{ printf "%s/%s/%s" .Values.imagePrefix .Values.imageNamespaceOverride $imagetag|quote }}
+        {{- else  }}
+        image: {{ printf "%s/%s" .Values.imageNamespaceOverride $imagetag|quote }}
+        {{- end}}
+        {{- else }}
+        {{- if .Values.imagePrefix}}
+        image: {{ printf "%s/%s/%s" .Values.imagePrefix $imagerepo $imagetag|quote }}
+        {{- else }}
+        image: {{ printf "%s/%s" $imagerepo $imagetag|quote }}
+        {{- end }}
+        {{- end }}
+        imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        env:
+        - name: IMAGE_NAMESPACE_OVERRIDE
+          value: {{ .Values.imageNamespaceOverride | quote }}
+        - name: IMAGE_PREFIX
+          value: {{ .Values.imagePrefix }}
+        - name: ENABLE_WEBHOOKS
+          value: {{ .Values.manager.enableWebhooks | quote }}
+        securityContext:
+          allowPrivilegeEscalation: false
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+{{ toYaml .Values.manager.resources | indent 10 }}
+      serviceAccountName: {{ template "serviceAccountName" . }}
+      terminationGracePeriodSeconds: 10
+      tolerations:
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: {{ .Values.tolerationSeconds }}
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: {{ .Values.tolerationSeconds }}
+      affinity: 
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ template "mysql-operator.name" . }} 
+            topologyKey: "kubernetes.io/hostname"

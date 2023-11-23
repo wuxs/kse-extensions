@@ -1,0 +1,54 @@
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: global-dmp-management
+  labels:
+    iam.kubesphere.io/scope: "global"
+    kubesphere.io/managed: "true"
+spec:
+  displayName:
+    en: RadonDB DMP
+    zh: RadonDB DMP
+---
+
+apiVersion: iam.kubesphere.io/v1beta1
+kind: RoleTemplate
+metadata:
+  name: global-dmp-manage
+  labels:
+    iam.kubesphere.io/category: global-dmp-management
+    iam.kubesphere.io/scope: "global"
+    kubesphere.io/managed: "true"
+  annotations:
+    iam.kubesphere.io/role-template-rules: '{"dmpManage":"manage"}'
+spec:
+  description:
+    en: Manage all database resources under RadonDB DMP
+    zh: 管理所有 RadonDB DMP 下的数据库资源
+  displayName:
+    en: RadonDB DMP Management
+    zh: RadonDB DMP 管理
+  rules:
+    - apiGroups:
+        - dmp.kubesphere.io
+        - dmp.platform.io
+      resources:
+        - "*"
+      verbs:
+        - "*"
+    - apiGroups:
+        - resources.kubesphere.io
+      resources:
+        - workspaces
+      verbs:
+        - get
+        - list
+    - apiGroups:
+        - ""
+      resources:
+        - pods
+        - services
+        - persistentvolumeclaims
+      verbs:
+        - get
+        - list

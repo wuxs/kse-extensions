@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-post-install"
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "1"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-install-job
+          image: "kubesphere/kubectl:v1.27.4"
+          command: ["/bin/bash","-c"]
+          args:
+            - |
+              #!/bin/bash
+              CRD1=mysqlclusters.mysql.radondb.com
+              CRD2=backups.mysql.radondb.com
+              SEC=radondb-mysql-webhook-certs
+              CERT=$(kubectl -n $MYNS get secrets $SEC -ojsonpath='{.data.tls\.crt}')
+              kubectl patch CustomResourceDefinition $CRD1 --type=merge -p '{"spec":{"conversion":{"webhook":{"clientConfig":{"caBundle":"'$CERT'","service":{"namespace":"'$MYNS'"}}}}}}'
+              kubectl patch CustomResourceDefinition $CRD2 --type=merge -p '{"spec":{"conversion":{"webhook":{"clientConfig":{"caBundle":"'$CERT'","service":{"namespace":"'$MYNS'"}}}}}}'
+              echo $CERT
+          env:
+          - name: MYNS
+            value: "{{ .Release.Namespace }}"

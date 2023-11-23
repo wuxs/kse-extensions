@@ -1,0 +1,4 @@
+frontend:
+  image:
+    repository: 51wangping/dmp-frontend
+    tag: latest

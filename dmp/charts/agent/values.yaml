@@ -1,0 +1,19 @@
+strimzi-kafka-operator:
+  watchAnyNamespace: true
+  operationTimeoutMs: "15000000"
+
+open-mongodb: {}
+
+mysql-operator:
+  webhook:
+    certManager:
+      enabled: false
+
+opensearch-operator: {}
+
+redis-operator: {}
+
+postgres-operator:
+  enablePrometheusMonitor: true
+
+rabbitmq: {}

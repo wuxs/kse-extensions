@@ -1,0 +1,398 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: backups.mysql.radondb.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUREekNDQWZlZ0F3SUJBZ0lSQUsycnAxalkydlRuWXJNZnFMbTJqRGt3RFFZSktvWklodmNOQVFFTEJRQXcKQURBZUZ3MHlNekV4TWpBd01qSTVORGxhRncweU5EQXlNVGd3TWpJNU5EbGFNQUF3Z2dFaU1BMEdDU3FHU0liMwpEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUR4UmRDWHpLbEZTcW9JNWpDaUx1VEhTMks0ZTN5bUY2SmkvYXNRCndod1JnZGZWMDRwOXBVeGtwY09EK3V6OTlNUG5FSDF2L3pKNTJZVXFaemx3NTBiMUNWSktCUXdOc2x4R04xL0MKM093YXNqSit3cUdMVStMNXB6c1dZNk1uejc2UGZHVnAzanpHN0Vscnc4bEVUcVJOcU1SdXFRbW45ZjNqQ0NmTApqVGxsMHE4Z1dyemdDS05Uci9vSUtXSXdsVG9Kb0pPc0lNM0U3ZkwzT0JXNmFqVldFcnFlaXQ2eEE2eE1RN04rCnhVMW9iRnZtQVlCdHFYTVphODlWS3hVVHlsdXJlUVpwaE5MTGhUcjdsZ3ZFVzRPVkNWRVc2ZmRzK2JrSXhVUG0KaWo0VlloZHFhdHJ2bWxSdmQ4NHpQMXc3bENtb3dPSUljdktvT05sS2hzVzFRQlo3QWdNQkFBR2pnWU13Z1lBdwpEZ1lEVlIwUEFRSC9CQVFEQWdXZ01Bd0dBMVVkRXdFQi93UUNNQUF3WUFZRFZSMFJBUUgvQkZZd1ZJSWhjbUZrCmIyNWtZaTF0ZVhOeGJDMTNaV0pvYjI5ckxtUmxabUYxYkhRdWMzWmpnaTl5WVdSdmJtUmlMVzE1YzNGc0xYZGwKWW1odmIyc3VaR1ZtWVhWc2RDNXpkbU11WTJ4MWMzUmxjaTVzYjJOaGJEQU5CZ2txaGtpRzl3MEJBUXNGQUFPQwpBUUVBZTgyd1AyaDBLVW03cm5YSk9PWnp5bFlrKy81emlOTGxGaXBGUVpjMXNGRXdFQjBlMjNPcE5lb2Y5d0x2CjR5alhkQVBjMmFzOVN1YWVpQlhZUmdheHkvYnRNTnVLeXRhTFJ0QjExVEdlMzd0T29PZDVLZHdpMnRuKzgzVG8KeGJWT1hXeExSRzBua3VaK2t6OWlHNEp5eFFmTkhKd3hNWWhKYzg5cUozTmtlMWYxU0tPbGhLcXRNTVkreXJqbQp0Vnhuc2VmOEpaV05zVTZnWXRIVFk4TXBhUitYek15Ym5zZGZHcW5uNS95WktCckkwMzd2bCtPbGxwUGlacXV2CkVNUzVmN2dweUhkeTRYY1dXRVEwOTdBV0dtV3ZRZ0lCS1lBbDFkMDR6b2x6K3VsWXdaNUE2dlM2K3RSRU5IelcKUEV1bmluSVRIazlBeHl1Kzc1bll3TFh6d2c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+        service:
+          name: radondb-mysql-webhook
+          namespace: default
+          path: /convert
+          port: 443
+      conversionReviewVersions:
+      - v1
+  group: mysql.radondb.com
+  names:
+    kind: Backup
+    listKind: BackupList
+    plural: backups
+    singular: backup
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: The Backup name
+      jsonPath: .status.backupName
+      name: BackupName
+      type: string
+    - description: The Backup Date time
+      jsonPath: .status.backupDate
+      name: BackupDate
+      type: string
+    - description: The Backup Type
+      jsonPath: .status.backupType
+      name: Type
+      type: string
+    - description: Whether the backup Success?
+      jsonPath: .status.conditions[?(@.type=="Complete")].status
+      name: Success
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Backup is the Schema for the backups API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: This is the backup Job CRD. BackupSpec defines the desired
+              state of Backup
+            properties:
+              clusterName:
+                description: ClusterName represents the cluster name to backup
+                type: string
+              historyLimit:
+                default: 3
+                description: History Limit of job
+                format: int32
+                type: integer
+              hostName:
+                description: HostName represents the host for which to take backup
+                  If is empty, is use leader HostName
+                type: string
+              image:
+                default: radondb/mysql57-sidecar:v3.0.0
+                description: To specify the image that will be used for sidecar container.
+                type: string
+              nfsServerAddress:
+                description: Represents the ip address of the nfs server.
+                type: string
+            required:
+            - clusterName
+            type: object
+          status:
+            description: BackupStatus defines the observed state of Backup
+            properties:
+              backupDate:
+                description: Get the backup Date
+                type: string
+              backupName:
+                description: Get the backup path.
+                type: string
+              backupType:
+                description: Get the backup Type
+                type: string
+              completed:
+                default: false
+                description: Completed indicates whether the backup is in a final
+                  state, no matter whether its' corresponding job failed or succeeded
+                type: boolean
+              conditions:
+                description: Conditions represents the backup resource conditions
+                  list.
+                items:
+                  description: BackupCondition defines condition struct for backup
+                    resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message
+                      type: string
+                    reason:
+                      description: Reason
+                      type: string
+                    status:
+                      description: Status of the condition, one of (\"True\", \"False\",
+                        \"Unknown\")
+                      type: string
+                    type:
+                      description: type of cluster condition, values in (\"Ready\")
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              gtid:
+                description: Get the Gtid
+                type: string
+            required:
+            - completed
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - description: The Backup name
+      jsonPath: .status.backupName
+      name: BackupName
+      type: string
+    - description: The Backup Start time
+      jsonPath: .status.startTime
+      name: StartTime
+      type: string
+    - description: The Backup CompletionTime time
+      jsonPath: .status.completionTime
+      name: completionTime
+      type: string
+    - description: The Backup Type
+      jsonPath: .status.backupType
+      name: Type
+      type: string
+    - description: The Backup Initiator
+      jsonPath: .status.type
+      name: Initiator
+      type: string
+    - description: The Backup State
+      jsonPath: .status.state
+      name: State
+      type: string
+    - description: The Backup State
+      jsonPath: .status.backupSize
+      name: Size
+      type: string
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Backup is the Schema for the backups API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: BackupSpec defines the desired state of Backup
+            properties:
+              backupops:
+                description: Backup Storage
+                properties:
+                  host:
+                    description: BackupHost
+                    type: string
+                  nfs:
+                    properties:
+                      volume:
+                        description: 'Defines a Volume for backup MySQL data. More
+                          info: https://kubernetes.io/docs/concepts/storage/persistent-volumes'
+                        properties:
+                          path:
+                            description: 'Path that is exported by the NFS server.
+                              More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                            type: string
+                          readOnly:
+                            description: 'ReadOnly here will force the NFS export
+                              to be mounted with read-only permissions. Defaults to
+                              false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                            type: boolean
+                          server:
+                            description: 'Server is the hostname or IP address of
+                              the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                            type: string
+                        required:
+                        - path
+                        - server
+                        type: object
+                    type: object
+                  s3:
+                    properties:
+                      secretName:
+                        description: S3 Bucket
+                        type: string
+                    type: object
+                type: object
+              clusterName:
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                  Important: Run "make" to regenerate code after modifying this file
+                  ClusterName is the name of the cluster to be backed up.'
+                type: string
+              manual:
+                description: Defines details for manual  backup Jobs
+                properties:
+                  backupRetention:
+                    default: 7
+                    description: Backup Retention
+                    format: int32
+                    type: integer
+                  type:
+                    type: string
+                type: object
+              method:
+                description: BackupMethod represents the type of backup
+                type: string
+              schedule:
+                description: Backup Schedule
+                properties:
+                  backupRetention:
+                    description: Backup Retention
+                    format: int32
+                    type: integer
+                  cronExpression:
+                    description: Cron expression for backup schedule
+                    type: string
+                  jobhistoryLimit:
+                    description: History Limit of job
+                    format: int32
+                    type: integer
+                  type:
+                    type: string
+                type: object
+            type: object
+          status:
+            properties:
+              backupName:
+                type: string
+              backupSize:
+                type: string
+              backupType:
+                type: string
+              completionTime:
+                format: date-time
+                type: string
+              gtid:
+                description: Get the Gtid
+                type: string
+              manual:
+                properties:
+                  active:
+                    description: The number of actively running manual backup Pods.
+                    format: int32
+                    type: integer
+                  backupName:
+                    type: string
+                  backupSize:
+                    description: Get the backup Size
+                    type: string
+                  backupType:
+                    description: Get the backup Type
+                    type: string
+                  completionTime:
+                    description: Get the backup Type
+                    format: date-time
+                    type: string
+                  failed:
+                    format: int32
+                    type: integer
+                  finished:
+                    description: Specifies whether or not the Job is finished executing
+                      (does not indicate success or failure).
+                    type: boolean
+                  gtid:
+                    description: Get the Gtid
+                    type: string
+                  reason:
+                    type: string
+                  startTime:
+                    description: Get the backup Date
+                    format: date-time
+                    type: string
+                  state:
+                    description: Get current backup status
+                    type: string
+                  succeeded:
+                    description: Conditions represents the backup resource conditions
+                      list.
+                    format: int32
+                    type: integer
+                required:
+                - finished
+                - reason
+                type: object
+              scheduled:
+                items:
+                  properties:
+                    backupName:
+                      description: Get the backup path.
+                      type: string
+                    backupSize:
+                      description: Get the backup Size
+                      type: string
+                    backupType:
+                      description: Get the backup Type
+                      type: string
+                    completionTime:
+                      description: Get the backup Type
+                      format: date-time
+                      type: string
+                    cronJobName:
+                      description: The name of the associated  scheduled backup CronJob
+                      type: string
+                    failed:
+                      format: int32
+                      type: integer
+                    finished:
+                      description: Specifies whether or not the Job is finished executing
+                        (does not indicate success or failure).
+                      type: boolean
+                    gtid:
+                      description: Get the Gtid
+                      type: string
+                    reason:
+                      type: string
+                    startTime:
+                      description: Get the backup Date
+                      format: date-time
+                      type: string
+                    state:
+                      description: Get current backup status
+                      type: string
+                    succeeded:
+                      description: Conditions represents the backup resource conditions
+                        list.
+                      format: int32
+                      type: integer
+                  required:
+                  - finished
+                  - reason
+                  type: object
+                type: array
+              startTime:
+                format: date-time
+                type: string
+              state:
+                type: string
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
