@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: jw008/appstore
+  repository: hollisy/apps-manage
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "v1.0.3"
 
 imagePullSecrets: []
 nameOverride: ""
