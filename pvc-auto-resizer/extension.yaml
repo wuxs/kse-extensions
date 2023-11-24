@@ -1,6 +1,6 @@
 apiVersion: kubesphere.io/v1alpha1
 name: pvc-auto-resizer
-version: 0.0.1
+version: 1.0.0
 displayName:
   zh: pvc-auto-resizer
   en: pvc-auto-resizer

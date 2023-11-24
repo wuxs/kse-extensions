@@ -1,6 +1,6 @@
 apiVersion: kubesphere.io/v1alpha1
 name: snapshot-controller
-version: 0.0.1
+version: 1.0.0
 displayName:
   zh: snapshot-controller
   en: snapshot-controller
