@@ -1,5 +1,0 @@
-frontend:
-  enabled: true
-  image:
-    repository: docker.io/donniean/alerting-frontend
-    tag: latest

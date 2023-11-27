@@ -2,10 +2,8 @@
 
 This repository contains tests for KSE's extension components. It includes the following four extension components:
 
-- `alerting`: An extension component that provides functionality for setting up and managing alerts in KSE.
 - `devops`: An extension component that provides additional DevOps-related tools and features in KSE.
 - `federated-projects`: An extension component that enables users to collaborate across multiple projects in KSE.
-- `log-query`: An extension component that provides advanced log querying capabilities in KSE.
 - `openpitrix`: An extension component that provides application store in KSE.
 
 ## Getting Started

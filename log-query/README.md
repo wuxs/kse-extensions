@@ -1,1 +1,0 @@
-# Log Query
