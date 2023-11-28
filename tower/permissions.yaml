@@ -1,0 +1,37 @@
+kind: ClusterRole
+rules:
+  - apiGroups:
+      - ''
+    resources:
+      - 'services'
+      - 'configmaps'
+    verbs:
+      - '*'
+  - apiGroups:
+      - 'apps'
+    resources:
+      - 'deployments'
+    verbs:
+      - '*'
+  - apiGroups:
+      - 'extensions.kubesphere.io'
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - 'cluster.kubesphere.io'
+    resources:
+      - '*'
+    verbs:
+      - '*'
+
+---
+kind: Role
+rules:
+  - apiGroups:
+      - ''
+    resources:
+      - 'secrets'
+    verbs:
+      - '*'
