@@ -1,0 +1,9 @@
+apiVersion: v2
+appVersion: "v0.1.0"
+description: A Helm chart for springcloud-controller, which is a Kubernetes Operator for Spring Cloud applications.
+name: springcloud-controller
+version: 0.1.0
+home: https://kubesphere.io
+dependencies:
+  - name: nacos
+    version: 0.1.5

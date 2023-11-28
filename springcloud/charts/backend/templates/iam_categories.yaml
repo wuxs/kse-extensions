@@ -1,0 +1,14 @@
+apiVersion: iam.kubesphere.io/v1beta1
+kind: Category
+metadata:
+  name: springcloud-microservices
+  labels:
+    iam.kubesphere.io/scope: namespace
+    kubesphere.io/managed: "true"
+spec:
+  description:
+    en: 'Spring Cloud microservices, microservice configuration, microservice gateway.'
+    zh: 'Spring Cloud 微服务、微服务配置、微服务网关。'
+  displayName:
+    en: Spring Cloud Microservices
+    zh: Spring Cloud 微服务
