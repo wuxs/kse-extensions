@@ -1,5 +1,0 @@
-frontend:
-  enabled: true
-  image:
-    repository: docker.io/donniean/federated-projects-frontend
-    tag: latest
