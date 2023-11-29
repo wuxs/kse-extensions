@@ -2,11 +2,11 @@ apiVersion: kubesphere.io/v1alpha1
 name: pvc-auto-resizer
 version: 1.0.0
 displayName:
-  zh: pvc-auto-resizer
-  en: pvc-auto-resizer
+  zh: 持久卷自动扩展器
+  en: PVC Auto-resizer
 description:
-  zh: "pvc-auto-resizer 通过 prometheus 监测 pvc 的容量使用情况，在阈值达到时对 pvc 进行自动扩容。"
-  en: "pvc-auto-resizer monitors pvc's capacity usage by prometheus and expands the pvc when threshold is reached."
+  zh: "持久卷自动扩展器通过 prometheus 监测 pvc 的容量使用情况，在阈值达到时对 pvc 进行自动扩容。"
+  en: "PVC Auto-resizer monitors pvc's capacity usage by prometheus and expands the pvc when threshold is reached."
 category: storage
 keywords:
   - Storage

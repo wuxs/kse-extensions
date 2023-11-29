@@ -2,11 +2,11 @@ apiVersion: kubesphere.io/v1alpha1
 name: storageclass-accessor
 version: 1.0.0
 displayName:
-  zh: storageclass-accessor
-  en: storageclass-accessor
+  zh: 存储类准入器
+  en: Storageclass Accessor
 description:
-  zh: "这个 webhook 负责验证一个持久卷是否可以在指定的命名空间（namespace）和 工作空间（workspace）中创建。"
-  en: "This webhook validats if a pvc can be created in target namespace and workspace"
+  zh: "存储类准入器通过一个 ValidatingAdmissionWebhook 保证持久卷仅可在规则允许的命名空间（namespace）和 工作空间（workspace）中创建。"
+  en: "Storageclass Accessor ensures the pvc can only be created in rule-allowed namespace and workspace by a ValidatingAdmissionWebhook"
 category: storage
 keywords:
   - Storage
