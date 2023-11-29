@@ -15,8 +15,16 @@ sources:
 kubeVersion: ">=1.19.0"
 ksVersion: ">=3.0.0"
 dependencies:
-  - name: openpitrix
-    condition: openpitrix.enabled
   - name: apps
     condition: apps.enabled
 icon: ./favicon.svg
+category: fake
+provider:
+  zh:
+    name: "青云科技"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
+  en:
+    name: "QingCloud"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
