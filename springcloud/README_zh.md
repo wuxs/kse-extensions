@@ -1,0 +1,1 @@
+Spring Cloud 扩展组件提供了微服务、微服务配置和微服务网关功能。微服务注册和配置功能基于Nacos实现，微服务网关基于 Spring Cloud Gateway 实现。如果您原有的应用程序符合Nacos 规范，KubeSphere Spring Cloud 功能可以帮助您在保持原有框架不变的同时获得容器化应用的运维效率。

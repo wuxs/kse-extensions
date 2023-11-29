@@ -1,0 +1,34 @@
+apiVersion: iam.kubesphere.io/v1beta1
+kind: GlobalRole
+metadata:
+  name: springcloud-authenticated
+rules:
+  - apiGroups:
+    - resources.kubesphere.io
+    resources:
+    - customresourcedefinitions
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - aggregated.springcloud.kubesphere.io
+    resources:
+    - configs
+    - files
+    verbs:
+    - get
+    - list
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: GlobalRoleBinding
+metadata:
+  name: springcloud-authenticated
+roleRef:
+  apiGroup: iam.kubesphere.io
+  kind: GlobalRole
+  name: springcloud-authenticated
+subjects:
+  - apiGroup: iam.kubesphere.io
+    kind: Group
+    name: system:authenticated

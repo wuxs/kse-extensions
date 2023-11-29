@@ -1,0 +1,71 @@
+apiVersion: iam.kubesphere.io/v1beta1
+kind: RoleTemplate
+metadata:
+  annotations:
+    iam.kubesphere.io/role-template-rules: '{"springcloud-microservices": "view"}'
+  labels:
+    iam.kubesphere.io/category: springcloud-microservices
+    iam.kubesphere.io/scope: namespace
+    kubesphere.io/managed: "true"
+    iam.kubesphere.io/aggregate-to-viewer: ""
+  name: springcloud-microservices-view
+spec:
+  description:
+    en: 'View Spring Cloud microservices, microservice configuration, microservice gateway.'
+    zh: '查看 Spring Cloud 微服务、微服务配置、微服务网关。'
+  displayName:
+    en: 'Spring Cloud Microservices View'
+    zh: 'Spring Cloud 微服务查看'
+  rules:
+  - apiGroups:
+    - aggregated.springcloud.kubesphere.io
+    resources:
+    - '*'
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - monitoring.kubesphere.io
+    resources:
+    - 'pods'
+    verbs:
+    - get
+    - list
+    
+
+---
+apiVersion: iam.kubesphere.io/v1beta1
+kind: RoleTemplate
+metadata:
+  annotations:
+    iam.kubesphere.io/role-template-rules: '{"springcloud-microservices": "manage"}'
+    iam.kubesphere.io/dependencies: '["springcloud-microservices-view"]'
+  labels:
+    iam.kubesphere.io/category: springcloud-microservices
+    iam.kubesphere.io/scope: namespace
+    kubesphere.io/managed: "true"
+    iam.kubesphere.io/aggregate-to-operator: ""
+    iam.kubesphere.io/aggregate-to-admin: ""
+  name: springcloud-microservices-manage
+spec:
+  description:
+    en: 'Management Spring Cloud microservices, microservice configuration, microservice gateway.'
+    zh: '管理 Spring Cloud 微服务、微服务配置、微服务网关。'
+  displayName:
+    en: 'Spring Cloud Microservices Management'
+    zh: 'Spring Cloud 微服务管理'
+  rules:
+  - apiGroups:
+    - aggregated.springcloud.kubesphere.io
+    - springcloud.kubesphere.io
+    resources:
+    - '*'
+    verbs:
+    - '*'
+  - apiGroups:
+    - 'apps'
+    resources:
+    - 'deployments'
+    verbs:
+    - '*'
+    
