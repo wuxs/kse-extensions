@@ -1,0 +1,50 @@
+apiVersion: kubesphere.io/v1alpha1
+name: ippool
+version: 1.0.0
+displayName:
+  zh: IPPool(Calico) 扩展组件
+  en: IPPool(Calico) Extension
+description:
+  zh: IPPool(Calico) 扩展组件
+  en: IPPool(Calico) Extension For KubeSphere
+category: networking
+keywords:
+  - networking
+home: https://kubesphere.io
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.19.0"
+ksVersion: ">=4.0.0-alpha"
+maintainers:
+  - name: "kubesphere"
+    email: "ks@kubesphere.io"
+    url: "https://www.kubesphere.io"
+provider:
+  en:
+    name: "kubesphere"
+    email: "ks@kubesphere.io"
+    url: "https://www.kubesphere.io"
+icon: ./static/favicon.svg
+screenshots:
+  - ./static/screenshots/screenshot.png
+dependencies:
+  - name: frontend
+    tags:
+    - extension
+  - name: ippool
+    tags:
+    - agent
+# installationMode describes how to install subcharts, it can be HostOnly or Multicluster.
+# In Multicluster mode, the subchart with tag `extension` will only be deployed to the host cluster,
+# and the subchart with tag `agent` will be deployed to all selected clusters.
+installationMode: HostOnly
+# external dependencies example
+#externalDependencies:
+#  - name: a
+#    type: extension
+#    version: ">= 2.6.0"
+#    required: true
+#  - name: b
+#    type: extension
+#    version: ">= 2.2.0"
+#    required: true

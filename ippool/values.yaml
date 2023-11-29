@@ -1,0 +1,12 @@
+ippool:
+  enabled: true
+  type: "calico"
+  apiserver:
+    image:
+      repository: registry.cn-beijing.aliyuncs.com/kse/ippool-apiserver
+      tag: v1.0.0
+
+  controller:
+    image:
+      repository: registry.cn-beijing.aliyuncs.com/kse/ippool-controller
+      tag: v1.0.0
