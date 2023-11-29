@@ -1,0 +1,1 @@
+pvc-auto-resizer monitors pvc's capacity usage by prometheus and expands the pvc when threshold is reached.
