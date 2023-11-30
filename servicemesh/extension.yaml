@@ -1,0 +1,26 @@
+apiVersion: v1
+name: servicemesh
+version: 0.1.0
+displayName:
+  zh: 服务网格
+  en: Service Mesh
+description:
+  zh: 用于 KubeSphere 平台启用服务网格。KubeSphere 服务网格基于 Istio，将微服务治理和流量管理可视化。它拥有强大的工具包，包括熔断机制、蓝绿部署、金丝雀发布、流量镜像、链路追踪、可观测性和流量控制等。
+  en: Used to enable ServiceMesh for the KubeSphere platform. On the basis of Istio, KubeSphere Service Mesh visualizes microservices governance and traffic management. It features a powerful toolkit including circuit breaking, blue-green deployment, canary release, traffic mirroring, tracing, observability, and traffic control.
+keywords:
+  - ServiceMesh
+  - Service Mesh
+  - Istio
+  - Kiali
+  - Jaeger
+home: https://kubesphere.io
+sources:
+  - https://github.com/kubesphere-extensions/servicemesh
+kubeVersion: ">=1.19.0"
+ksVersion: ">=3.0.0"
+dependencies:
+#  - name: frontend
+#    condition: frontend.enabled
+  - name: backend
+    condition: backend.enabled
+icon: ./favicon.svg

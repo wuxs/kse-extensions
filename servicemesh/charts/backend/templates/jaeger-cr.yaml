@@ -1,0 +1,37 @@
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: jaeger
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingress:
+    enabled: false
+  agent:
+    image: {{ .Values.jaeger.image.jaeger_agent_repo }}:{{ .Values.jaeger.image.jaeger_agent_tag }}
+  collector:
+    image: {{ .Values.jaeger.image.jaeger_collector_repo }}:{{ .Values.jaeger.image.jaeger_collector_tag }}
+    maxReplicas: 5
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "128Mi"
+      requests:
+        cpu: "20m"
+        memory: "50Mi"
+  query:
+    image: {{ .Values.jaeger.image.jaeger_query_repo }}:{{ .Values.jaeger.image.jaeger_query_tag }}
+  storage:
+    dependencies:
+      enabled: false
+    esIndexCleaner:
+      enabled: true
+      image: {{ .Values.jaeger.image.jaeger_es_cleaner_repo }}:{{ .Values.jaeger.image.jaeger_es_cleaner_tag }}
+    options:
+      es:
+        {{- toYaml .Values.jaeger.storage.options.es | nindent 8 }}
+    {{- with .Values.jaeger.storage.options.secretName }}
+    secretName:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    type: elasticsearch
+  strategy: production

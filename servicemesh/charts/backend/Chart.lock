@@ -1,0 +1,15 @@
+dependencies:
+- name: base
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.16.5
+- name: istiod
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.16.5
+- name: jaeger-operator
+  repository: https://jaegertracing.github.io/helm-charts
+  version: 2.33.0
+- name: kiali-operator
+  repository: https://kiali.org/helm-charts
+  version: 1.59.1
+digest: sha256:b16922b8c7bd065489d758a5c28557c3dbe21cfd83f439c32e76e0d8e955fb04
+generated: "2023-06-27T18:16:01.284886+08:00"
