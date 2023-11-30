@@ -1,0 +1,40 @@
+kind: ClusterRole
+rules:
+  - verbs:
+      - 'create'
+      - 'patch'
+      - 'update'
+      - 'get'
+      - 'delete'
+      - 'list'
+      - 'watch'
+    apiGroups:
+      - 'extensions.kubesphere.io'
+      - 'admissionregistration.k8s.io'
+      - 'rbac.authorization.k8s.io'
+      - 'crd.projectcalico.org'
+      - 'coordination.k8s.io'
+      - ''
+      - 'apps'
+    resources:
+      - '*'
+---
+kind: Role
+rules:
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+      - 'apps'
+      - 'batch'
+      - 'app.k8s.io'
+      - 'autoscaling'
+    resources:
+      - '*'
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'networking.k8s.io'
+    resources:
+      - 'ingresses'
+      - 'networkpolicies'

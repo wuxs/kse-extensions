@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend.fullname" . }}-controller
+  labels:
+    app: ippool-controller
+  namespace: {{ .Release.Namespace }}
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+    type: RollingUpdate
+  replicas: {{ .Values.controller.replicas }}
+  selector:
+    matchLabels:
+      app: ippool-controller
+  template:
+    metadata:
+      labels:
+        app: ippool-controller
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: ippool-controller
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - command:
+            - controller-manager
+            - --logtostderr=true
+            - --leader-elect=true
+            - --ippool-type={{ .Values.type }}
+          name: {{ include "backend.fullname" . }}-controller
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: hook
+              containerPort: 8443
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.controller.resources | nindent 12 }}
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: webhook-secret
+          - mountPath: /etc/localtime
+            name: host-time
+            readOnly: true
+      volumes:
+        - name: webhook-secret
+          secret:
+            defaultMode: 420
+            secretName: controller-webhook-cert
+        - hostPath:
+            path: /etc/localtime
+            type: ""
+          name: host-time
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
