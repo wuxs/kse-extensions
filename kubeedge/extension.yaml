@@ -28,7 +28,7 @@ ksVersion: ">=3.0.0"
 staticFileDirectory: static
 dependencies:
   - name: cloudcore
-    condition: kubeedge.enabled
+#    condition: kubeedge.enabled
     tags:
       - agent
 icon: ./favicon.svg
