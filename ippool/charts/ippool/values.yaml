@@ -7,9 +7,9 @@ type: "calico"
 apiserver:
   replicas: 1
   image:
-    repository: kubesphere/ippool-apiserver
+    repository: registry.cn-beijing.aliyuncs.com/kse/ippool-apiserver
     pullPolicy: IfNotPresent
-    tag: "v0.1.0"
+    tag: "v1.0.0"
   service:
     type: ClusterIP
     port: 8080
@@ -24,9 +24,9 @@ apiserver:
 controller:
   replicas: 1
   image:
-    repository: kubesphere/ippool-controller
+    repository: registry.cn-beijing.aliyuncs.com/kse/ippool-controller
     pullPolicy: IfNotPresent
-    tag: "v0.1.0"
+    tag: "v1.0.0"
   service:
     type: ClusterIP
     port: 443
