@@ -1,0 +1,8 @@
+kubeedge:
+  enabled: true
+cloudcore:
+  cloudCore:
+    modules:
+      cloudHub:
+        advertiseAddress:
+          - ""
