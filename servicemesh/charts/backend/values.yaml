@@ -137,11 +137,13 @@ kiali:
 jaeger-operator:
   certs:
     issuer:
-      create: true
+      create: false
     certificate:
-      create: true
+      create: false
       namespace: ""
       secretName: ""
+    secret:
+      create: true
 
   webhooks:
     mutatingWebhook:
