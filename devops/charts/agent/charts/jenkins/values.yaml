@@ -493,7 +493,7 @@ ksAuth:
 
 # Install service monitor
 prometheus:
-  namespace: ""
+  namespace: "kubesphere-monitoring-system"
   serviceMonitor:
     disabled: false
     labels:

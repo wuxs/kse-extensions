@@ -15,6 +15,7 @@ rules:
       - 'app.k8s.io'
       - 'autoscaling'
       - 'rbac.authorization.k8s.io'
+      - 'monitoring.coreos.com'
     resources:
       - '*'
     verbs:
@@ -35,7 +36,6 @@ rules:
       - 'batch'
       - 'app.k8s.io'
       - 'autoscaling'
-      - 'monitoring.coreos.com'
     resources:
       - '*'
     verbs:
