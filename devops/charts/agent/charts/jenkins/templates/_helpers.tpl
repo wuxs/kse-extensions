@@ -62,14 +62,25 @@ https://github.com/helm/charts/issues/5167#issuecomment-619137759
   {{- end -}}
 {{- end -}}
 
+{{- define "ContainerRuntime" -}}
+  {{- $containerRuntimeVersion := trim (mustFirst(lookup "v1" "Node" "" "")).status.nodeInfo.containerRuntimeVersion -}}
+  {{- mustRegexFind "^([^:/]+)://" $containerRuntimeVersion ) }}
+{{- end -}}
+
 {{- define "jenkins.agent.variant" -}}
-    {{ if eq .Values.Agent.Builder.ContainerRuntime "podman" }}
-    {{- print "-podman" -}}
+    {{ if empty .Values.Agent.Builder.ContainerRuntime }}
+      {{ if eq (include "ContainerRuntime" .) "containerd" }}
+      {{- print "-podman" -}}
+      {{- end -}}
+    {{- else -}}
+      {{ if eq .Values.Agent.Builder.ContainerRuntime "podman" }}
+      {{- print "-podman" -}}
+      {{- end -}}
     {{- end -}}
 {{- end -}}
 
 {{- define "jenkins.agent.privileged" -}}
-    {{ if eq .Values.Agent.Builder.ContainerRuntime "podman" }}
+    {{ if eq (include "jenkins.agent.variant" .) "podman" }}
     {{- print "true" -}}
     {{- else -}}
     {{- print "false" -}}

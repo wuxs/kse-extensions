@@ -443,7 +443,7 @@ Agent:
     mavenJDK11:
       image: builder-maven
       tag: v3.2.1-jdk11
-    ContainerRuntime: docker # Available values: docker, podman
+   # ContainerRuntime: docker # Available values: docker, podman
 
 Persistence:
   Enabled: true
