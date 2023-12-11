@@ -16,8 +16,8 @@ category: integration-delivery
 sources:
   - https://github.com/kubesphere/ks-devops
   - https://github.com/kubesphere-sigs/ks-devops-helm-chart
-kubeVersion: ">=1.19.0"
-ksVersion: ">=4.0.0"
+kubeVersion: ">=1.19.0-0"
+ksVersion: ">=4.0.0-0"
 provider:
   en:
     name: "QingCloud Technologies"
