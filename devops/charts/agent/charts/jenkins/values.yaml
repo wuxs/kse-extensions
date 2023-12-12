@@ -497,7 +497,7 @@ prometheus:
   serviceMonitor:
     disabled: false
     labels:
-      devops-jenkins app.kubernetes.io/vendor: kubesphere
+      app.kubernetes.io/vendor: kubesphere
   prometheusRule:
     disabled: false
     labels:
