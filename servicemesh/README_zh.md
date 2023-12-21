@@ -3,4 +3,13 @@
 
 # 注意
 - 需要在配置中配置可用的 Prometheus 服务和 OpenSearch 服务。
-- Jaeger Operator 需要安装 [cert-manager](https://cert-manager.io/docs/installation/) 1.6.1+，或者有 Webhook 服务证书的 Secret。
+
+
+| 参数                                             | 含义                 | 默认值                                                               | 取值 |
+| ------------------------------------------------ | -------------------- | -------------------------------------------------------------------- | -------- |
+| backend.istiod.meshConfig.defaultConfig.sampling | 链路追踪采样率       | 1.0                                                                  | 1-100    |
+| backend.kiali.prometheus_url                     | promethus 地址       | http://prometheus-operated.kubesphere-monitoring-system.svc:9090     |          |
+| backend.storage.options.es.server-urls           | OpenSearch/ES 地址   | https://opensearch-cluster-master.kubesphere-logging-system.svc:9200 |          |
+| backend.storage.options.es.username              | OpenSearch/ES 账户名 | admin                                                                |          |
+| backend.storage.options.es.password              | OpenSearch/ES 密码   | admin                                                                |          |
+| backend.storage.options.secretName         |         OpenSearch/ES 访问 Secret 名             |                                                                      |          |
