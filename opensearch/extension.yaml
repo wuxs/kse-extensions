@@ -1,0 +1,41 @@
+apiVersion: v1
+name: opensearch
+version: 2.11.1
+displayName:
+  zh: OpenSearch 日志存储扩展组件
+  en: OpenSearch Log Storage Extensions
+description:
+  zh: OpenSearch  是 KubeSphere 内置的日志存储扩展组件，用于存储日志、审计、事件、通知历史等信息。
+  en: OpenSearch is the built-in log storage extension of KubeSphere, which is used to store logs, audits, events, and notification history.
+category: logging
+keywords:
+  - Logging
+  - Observability
+home: https://kubesphere.io
+provider:                   
+  zh:
+    name: "青云科技"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
+  en:
+    name: "QingCloud"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
+staticFileDirectory: static
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.19.0"
+ksVersion: ">=4.0.0"
+icon: ./static/opensearch.svg
+dependencies:
+  - name: opensearch-master
+    tags:
+      - agent
+  - name: opensearch-data
+    tags:
+      - agent
+  - name: opensearch-dashboards
+    condition: opensearch-dashboards.enabled
+    tags:
+      - agent
+installationMode: Multicluster
