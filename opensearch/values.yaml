@@ -1,9 +1,2 @@
-opensearch-master:
-  namespaceOverride: kubesphere-logging-system
-
-opensearch-data:
-  namespaceOverride: kubesphere-logging-system
-  
 opensearch-dashboards:
   enabled: false
-  namespaceOverride: kubesphere-logging-system
