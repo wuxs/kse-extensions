@@ -1,2 +1,0 @@
-snapshot-controller:
-  namespace: "kube-system"
