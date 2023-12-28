@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "backend.fullname" . }}-apiserver
   labels:
-    app: ippool-apiserver
+    app: network-extension-apiserver
   namespace: {{ .Release.Namespace }}
 spec:
   strategy:
@@ -13,17 +13,17 @@ spec:
   replicas: {{ .Values.apiserver.replicas }}
   selector:
     matchLabels:
-      app: ippool-apiserver
+      app: network-extension-apiserver
   template:
     metadata:
       labels:
-        app: ippool-apiserver
+        app: network-extension-apiserver
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: ippool-apiserver
+      serviceAccountName: network-extension-apiserver
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -53,3 +53,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

@@ -1,0 +1,14 @@
+network:
+  ippool:
+    type: "calico"
+
+  apiserver:
+    image:
+      repository: registry.cn-beijing.aliyuncs.com/kse/network-extension-apiserver
+      tag: v1.0.0
+
+  controller:
+    image:
+      repository: registry.cn-beijing.aliyuncs.com/kse/network-extension-controller
+      tag: v1.0.0
+

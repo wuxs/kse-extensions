@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "backend.fullname" . }}-controller
   labels:
-    app: ippool-controller
+    app: network-extension-controller
   namespace: {{ .Release.Namespace }}
 spec:
   strategy:
@@ -13,17 +13,17 @@ spec:
   replicas: {{ .Values.controller.replicas }}
   selector:
     matchLabels:
-      app: ippool-controller
+      app: network-extension-controller
   template:
     metadata:
       labels:
-        app: ippool-controller
+        app: network-extension-controller
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: ippool-controller
+      serviceAccountName: network-extension-controller
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -31,7 +31,8 @@ spec:
             - controller-manager
             - --logtostderr=true
             - --leader-elect=true
-            - --ippool-type={{ .Values.type }}
+            - --ippool-type={{ .Values.ippool.type }}
+            - --enable-network-policy=true
           name: {{ include "backend.fullname" . }}-controller
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
