@@ -43,7 +43,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.argocd.enabled }}
           args:
-          - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
+          - --argocd-namespace={{ default .Release.Namespace .Values.argocd.namespace }}
           - --argocd-enabled=true
           {{- end}}
           env:

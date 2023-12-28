@@ -5,8 +5,8 @@ metadata:
   labels:
     {{- include "argo-cd.labels" (dict "context" .) | nindent 4 }}
   name: {{ template "argo-cd.fullname" . }}-default-deny
-  {{- if .Values.global.argocdNamespace }}
-  namespace: {{ .Values.global.argocdNamespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
 spec:
   podSelector: {}

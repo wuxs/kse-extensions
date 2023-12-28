@@ -44,7 +44,7 @@ spec:
           - '--enabled-controllers'
           {{- if .Values.argocd.enabled }}
           - argocd=true
-          - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
+          - --argocd-namespace={{ default .Release.Namespace .Values.argocd.namespace }}
           {{- end}}
           env:
             - name: JENKINS_ADMIN_TOKEN

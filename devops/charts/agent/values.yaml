@@ -1,6 +1,5 @@
 global:
   namespace: "kubesphere-devops-system"
-  argocdNamespace: "argocd"
 
 replicaCount: 1
 autoscaling:
@@ -135,3 +134,4 @@ jenkins:
 
 argocd:
   enabled: true
+  namespace: "argocd"

@@ -3,8 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "argo-cd.notifications.fullname" . }}
-  {{- if .Values.global.argocdNamespace }}
-  namespace: {{ .Values.global.argocdNamespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
     {{- include "argo-cd.labels" (dict "context" . "component" .Values.notifications.name "name" .Values.notifications.name) | nindent 4 }}
@@ -50,7 +50,7 @@ spec:
             {{- if .Values.notifications.metrics.enabled }}
             - --metrics-port={{ .Values.notifications.metrics.port }}
             {{- end }}
-            - --namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
+            - --namespace={{ default .Release.Namespace .Values.namespace }}
             - --argocd-repo-server={{ template "argo-cd.repoServer.fullname" . }}:{{ .Values.repoServer.service.port }}
             - --secret-name={{ include "argo-cd.notifications.secretName" . }}
             - --config-map-name={{ include "argo-cd.notifications.configMapName" . }}

@@ -3,8 +3,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ template "argo-cd.notifications.fullname" . }}-bot
-  {{- if .Values.global.argocdNamespace }}
-  namespace: {{ .Values.global.argocdNamespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
