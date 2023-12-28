@@ -114,6 +114,7 @@ ingress:
 
 jenkins:
   enabled: true
+  fullnameOverride: devops-jenkins
   Master:
     Image: "registry.cn-beijing.aliyuncs.com/kse/devops-jenkins"
     ImageTag: "v4.0.0-2.346.3"
@@ -124,6 +125,8 @@ jenkins:
       limits:
         cpu: 2
         memory: 6Gi # Set same as requests.memory
+  Agent:
+    WorkerNamespace: kubesphere-devops-worker
   Persistence:
     size: 16Gi
   securityRealm:

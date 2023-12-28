@@ -92,7 +92,6 @@ authentication:
 
 jenkins:
   enabled: true
-  workerNamespace: kubesphere-devops-worker
   fullnameOverride: devops-jenkins
   Master:
     AdminUser: admin
@@ -102,6 +101,8 @@ jenkins:
       # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L203C14-L203C26
       # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L190
     # AdminApiToken: 11596e09b62dc1f48fee868179dcd55126
+  Agent:
+    WorkerNamespace: kubesphere-devops-worker
 
 argocd:
   enabled: true

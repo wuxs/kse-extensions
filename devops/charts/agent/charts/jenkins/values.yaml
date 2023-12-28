@@ -1,4 +1,4 @@
-fullnameOverride: devops-jenkins
+fullnameOverride:
 Master:
   StatefulSet:
     Enabled: false

@@ -48,7 +48,7 @@ spec:
             - name: JENKINS_ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: devops-jenkins
+                  name: {{ .Values.jenkins.fullnameOverride }}
                   key: jenkins-admin-token
           ports:
             - containerPort: 9090

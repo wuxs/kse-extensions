@@ -14,7 +14,7 @@ data:
       maxConnections: 100
       namespace: {{ default .Release.Namespace .Values.namespace }}
     {{- if .Values.jenkins.enabled }}
-      workerNamespace: {{ .Values.jenkins.workerNamespace }}
+      workerNamespace: {{ .Values.jenkins.Agent.WorkerNamespace }}
     {{- end }}
 kind: ConfigMap
 metadata:
