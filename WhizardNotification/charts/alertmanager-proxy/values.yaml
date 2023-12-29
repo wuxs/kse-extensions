@@ -1,0 +1,9 @@
+namespaceOverride: ""
+
+image:
+  repository: kubesphere/alertmanager-proxy
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+args:
+  - "--alertmanager-url=http://whizard-notification-alertmanager.kubesphere-monitoring-system.svc:9093"

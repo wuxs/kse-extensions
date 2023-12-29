@@ -1,0 +1,34 @@
+apiVersion: v1
+name: whizard-auditing
+namespace: kubesphere-logging-system
+version: 0.1.0
+displayName:
+  zh: KubeSphere 审计扩展组件
+  en: KubeSphere Auditing Extension
+description:
+  zh: 这是KubeSphere 审计扩展组件
+  en: This is KubeSphere Auditing Extension
+keywords:
+  - Observability
+  - Auditing
+home: https://kubesphere.io
+sources:
+  - https://github.com/kubesphere
+category: observability
+provider:
+  zh:
+    name: "青云科技"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+  en:
+    name: "QingCloud"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+kubeVersion: ">=1.21.0"
+ksVersion: ">=4.0.0-0"
+dependencies:
+  - name: kube-auditing
+    tags:
+    - agent
+installationMode: Multicluster
+icon: ./favicon.svg

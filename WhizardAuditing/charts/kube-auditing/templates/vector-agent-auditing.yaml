@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-agent-auditing
+  namespace: {{ include "auditing.namespace" . }}
+  labels:
+    logging.whizard.io/vector-role: Agent
+    logging.whizard.io/enable: "true"
+stringData:
+  auditing.yaml: |
+    sources:
+      k8s_auditing:
+        include:
+        - /etc/kubernetes/audit/audit*.log
+        max_line_bytes: 1048576
+        type: file
+      ks_auditing:
+        include:
+        - /etc/kubesphere/audit/audit*.log
+        max_line_bytes: 1048576
+        type: file
+    transforms:
+      k8s_auditing_parsed:
+        inputs:
+        - k8s_auditing
+        source: |-
+          . = parse_json!(.message)
+          .timestamp = .stageTimestamp
+        type: remap
+      ks_auditing_parsed:
+        inputs:
+        - ks_auditing
+        source: |-
+          . = parse_json!(.message)
+          .timestamp = .StageTimestamp
+        type: remap
+      k8s_auditing_filter:
+        inputs:
+        - k8s_auditing_parsed
+        condition:
+          type: vrl
+          source: |-
+            verb = upcase!(.verb)
+            !includes(["GET", "LIST", "WATCH"], verb)
+        type: filter
+      ks_auditing_filter:
+        inputs:
+        - ks_auditing_parsed
+        condition:
+          type: vrl
+          source: |-
+            verb = upcase!(.Verb)
+            !includes(["GET", "LIST", "WATCH"], verb)
+        type: filter
+      k8s_auditing_formatted:
+        inputs:
+        - k8s_auditing_filter
+        source: |-
+          .Level = del(.level)
+          .AuditID = del(.auditID)
+          .Stage = del(.stage)
+          .RequestURI = del(.requestURI)
+          .Verb = del(.verb)
+          .SourceIPs = join!(.sourceIPs, separator: ",")
+          del(.sourceIPs)
+          .RequestReceivedTimestamp = del(.requestReceivedTimestamp)
+          .StageTimestamp = del(.stageTimestamp)
+          .timestamp = .StageTimestamp
+          .User.Username = .user.username
+          .User.Groups = join(.user.groups, separator: ",") ?? ""
+          if exists(.user.uid) { .User.UID = .user.uid }
+          del(.user)
+          if exists(.objectRef.resource) { .ObjectRef.Resource = .objectRef.resource }
+          if exists(.objectRef.namespace) { .ObjectRef.Namespace = .objectRef.namespace }
+          if exists(.objectRef.name) { .ObjectRef.Name = .objectRef.name }
+          if exists(.objectRef.apiGroup) { .ObjectRef.APIGroup = .objectRef.apiGroup }
+          if exists(.objectRef.apiVersion) { .ObjectRef.APIVersion = .objectRef.apiVersion }
+          if exists(.objectRef.resourceVersion) { .ObjectRef.ResourceVersion = .objectRef.resourceVersion }
+          if exists(.objectRef.subresource) { .ObjectRef.Subresource = .objectRef.subresource }
+          del(.objectRef)
+          .ResponseStatus.status = .responseStatus.status
+          .ResponseStatus.reason = .responseStatus.reason
+          .ResponseStatus.code = .responseStatus.code
+          del(.responseStatus)
+          if exists(.requestObject) { .RequestObject = encode_json(.requestObject) }
+          if exists(.responseObject) { .ResponseObject = encode_json(.responseObject) }
+          del(.requestObject)
+          del(.responseObject)
+          del(.kind)
+          del(.apiVersion)
+          del(.annotations)
+          del(.userAgent)
+          .timestamp = .stageTimestamp
+          if .timestamp == null { .timestamp = .StageTimestamp }
+          ._type = "auditing"
+          .cluster="{{ .Values.global.clusterInfo.name }}"
+        type: remap
+      auditing_remapped:
+        inputs:
+        - k8s_auditing_formatted
+        - ks_auditing_filter
+        source: |-
+          ._type = "auditing"
+          .cluster="{{ .Values.global.clusterInfo.name }}"
+        type: remap

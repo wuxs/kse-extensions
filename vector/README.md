@@ -1,0 +1,1 @@
+The vector extension component is a vector-based log collection solution

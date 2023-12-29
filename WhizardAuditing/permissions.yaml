@@ -1,0 +1,20 @@
+kind: ClusterRole
+rules:
+  - verbs:
+      - 'get'
+    apiGroups:
+      - ''
+    resources:
+      - 'secrets'
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'extensions.kubesphere.io'
+    resources:
+      - '*'
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+    resources:
+      - '*'

@@ -1,0 +1,44 @@
+apiVersion: v2
+name: whizard-events
+namespace: kubesphere-logging-system
+version: 0.1.1
+displayName:
+  zh: 事件扩展组件
+  en: Events Extension
+description:
+  zh: 提供 Kubernetes 事件的导出、过滤和告警等功能。
+  en: Provide Kubernetes Event Exporting, Filtering and Alerting.
+category: observability
+keywords:
+  - Observability
+  - Events
+home: https://kubesphere.io
+provider:                   
+  zh:
+    name: "青云科技"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
+  en:
+    name: "QingCloud"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.21.0"
+ksVersion: ">=4.0.0-0"
+dependencies:
+  - name: kube-events-exporter
+    tags:
+      - agent
+installationMode: Multicluster
+externalDependencies:
+  - name: vector
+    type: extension
+    version: ">=0.29.0"
+    required: true
+  - name: opensearch
+    type: extension
+    version: ">= 2.6.0"
+    required: false
+staticFileDirectory: static
+icon: ./favicon.svg

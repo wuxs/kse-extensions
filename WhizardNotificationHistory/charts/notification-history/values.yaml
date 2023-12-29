@@ -1,0 +1,4 @@
+hook:
+  image:
+    repo: kubesphere/kubectl
+    tag: v1.21.0

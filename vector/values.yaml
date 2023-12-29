@@ -1,0 +1,50 @@
+aggregator:
+  role: Aggregator
+  image:
+    tag: 0.34.1-debian
+agent:
+  image:
+    tag: 0.34.1-debian
+  role: Agent
+  extraVolumes:
+    - name: host-time
+      hostPath:
+        path: /etc/localtime
+        type: ''
+    - name: k8s-audit
+      hostPath:
+        path: /etc/kubernetes/audit
+        type: ''
+    - name: ks-audit
+      hostPath:
+        path: /etc/kubesphere/audit
+        type: ''
+  extraVolumeMounts:
+    - name: host-time
+      readOnly: true
+      mountPath: /etc/localtime
+    - name: k8s-audit
+      mountPath: /etc/kubernetes/audit
+    - name: ks-audit
+      mountPath: /etc/kubesphere/audit
+  service:
+    ports:
+    - name: api
+      protocol: TCP
+      port: 8686
+    - name: prom-exporter
+      port: 9090
+      protocol: TCP
+
+  sinks:
+    opensearch:
+      api_version: v8
+      auth:
+        strategy: basic
+        user: admin
+        password: admin
+      endpoints:
+        - https://opensearch-cluster-data.kubesphere-logging-system.svc:9200
+      tls:
+        verify_certificate: false
+

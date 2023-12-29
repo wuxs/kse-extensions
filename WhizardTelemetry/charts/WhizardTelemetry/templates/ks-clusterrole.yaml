@@ -1,0 +1,15 @@
+{{- if .Values.ksRbac.create }}
+apiVersion: iam.kubesphere.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: {{ include "whizard-telemetry.fullname" . }}
+  labels:
+    {{- include "whizard-telemetry.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+    - "iam.kubesphere.io"
+  resources:
+    - subjectaccessreviews
+  verbs:
+    - create
+{{- end }}

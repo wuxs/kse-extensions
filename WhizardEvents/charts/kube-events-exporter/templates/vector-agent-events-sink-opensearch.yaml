@@ -1,0 +1,26 @@
+{{- $namespace := include "kube-events-exporter.namespaceOverride" . }}
+{{- $sinks := (lookup "v1" "Secret" $namespace  "vector-sinks") -}}
+{{- $op := ($sinks.data.opensearch | b64dec) -}}
+
+{{- if $op -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-agent-events-sink-opensearch
+  namespace: {{ include "kube-events-exporter.namespaceOverride" . }}
+  labels:
+    {{- include "kube-events-exporter.labels" . | nindent 4 }}
+    logging.whizard.io/component: "events"
+    logging.whizard.io/vector-role: Agent
+    logging.whizard.io/enable: "true"
+stringData:
+  sink.yaml: |
+    sinks:
+      opensearch_events:
+        {{ $op | nindent 8 }}
+        type: elasticsearch
+        inputs:
+        - kube_events_remapped
+        bulk:
+          index: "{{ "{{ .cluster }}-{{ ._type }}-%Y.%m.%d" }}"
+{{- end}}

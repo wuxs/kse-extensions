@@ -1,0 +1,25 @@
+{{- $namespace := include "auditing.namespace" . }}
+{{- $sinks := (lookup "v1" "Secret" $namespace  "vector-sinks") -}}
+{{- $op := ($sinks.data.opensearch | b64dec) -}}
+
+{{- if $op -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-agent-auditing-sink-opensearch
+  namespace: {{ include "auditing.namespace" . }}
+  labels:
+    logging.whizard.io/component: "auditing"
+    logging.whizard.io/vector-role: Agent
+    logging.whizard.io/enable: "true"
+stringData:
+  sink.yaml: |
+    sinks:
+      opensearch_auditing:
+        {{ $op | nindent 8 }}
+        type: elasticsearch
+        inputs:
+        - auditing_remapped
+        bulk:
+          index: "{{ "{{ .cluster }}-{{ ._type }}-%Y.%m.%d" }}"
+{{- end}}

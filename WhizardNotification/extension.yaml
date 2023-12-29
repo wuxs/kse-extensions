@@ -1,0 +1,49 @@
+apiVersion: v1
+name: whizard-notification
+namespace: kubesphere-logging-system
+version: 2.5.0
+displayName:
+  zh: KubeSphere 通知扩展组件
+  en: KubeSphere Notification Extension
+description:
+  zh: 这是KubeSphere 通知扩展组件
+  en: This is KubeSphere Notification Extension
+category: observability
+keywords:
+  - Observability
+  - Notification
+home: https://kubesphere.io
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.21.0"
+ksVersion: ">=4.0.0-0"
+provider:
+  zh:
+    name: "青云科技"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+  en:
+    name: "QingCloud"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+staticFileDirectory: static
+dependencies:
+  - name: iam
+    tags:
+      - extension
+  - name: notification-manager
+    tags:
+    - extension
+  - name: alertmanager
+    tags:
+    - extension
+  - name: alertmanager-proxy
+    tags:
+      - extension
+installationMode: HostOnly
+externalDependencies:
+  - name: whizard-telemetry
+    type: extension
+    version: ">= 0.4.1"
+    required: true
+icon: ./static/logo.png

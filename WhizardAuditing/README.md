@@ -1,0 +1,1 @@
+Kube-Auditing Operator provides one K8s auditing webhook (Kube-Auditing-Webhook), two CRDs (Webhook, Rule), and an integrated controller to perform K8s Audit data filtering, storage, and alerting.
