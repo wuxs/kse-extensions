@@ -1,0 +1,1 @@
+This extension is used to manage notification history with which users can collect, archive, view, and search all notifications sent with ease (including notification time, recipients, content, and other information).

@@ -1,0 +1,1 @@
+Notification Manager manages notifications in multi-tenant K8s environment. It receives alerts, cloud event, and others (such as auditing, k8s events) from different senders and then send notifications to various tenant receivers based on tenant label like namespace or user.

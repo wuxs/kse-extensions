@@ -1,0 +1,19 @@
+{{- if .Values.global.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "whizard-telemetry.fullname" . }}
+  labels:
+    {{- include "whizard-telemetry.labels" . | nindent 4 }}
+rules:
+{{- if .Values.config.monitoring.enabled }}
+- apiGroups:
+    - ""
+  resources:
+    - namespaces
+  verbs:
+    - get
+    - list
+    - watch
+{{- end }}
+{{- end }}

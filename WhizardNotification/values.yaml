@@ -1,0 +1,80 @@
+notification-manager:
+  kubesphere:
+    enabled: true
+    version: v4.0.0
+
+  notificationmanager:
+    annotations:
+      kubesphere.io/serviceaccount-name: notification-tenant-sidecar
+
+alertmanager-proxy:
+  service:
+    nodePort: 31093
+
+alertmanager:
+  replicaCount: 1
+
+  configmapReload:
+    enabled: true
+
+  config:
+    inhibit_rules:
+    - equal: ["cluster", "namespace", "alertname"]
+      source_matchers:
+      - severity = "critical"
+      target_matchers:
+      - severity =~ "warning|info"
+    - equal: ["cluster", "namespace", "alertname"]
+      source_matchers:
+      - severity = "warning"
+      target_matchers:
+      - severity = "info"
+    - equal: ["cluster", "namespace"]
+      source_matchers:
+      - alertname = "InfoInhibitor"
+      target_matchers:
+      - severity = "info"
+
+    receivers:
+    - name: "Default"
+    - name: "null"
+    - name: Watchdog
+    - name: prometheus
+      webhook_configs:
+      - url: http://notification-manager-svc.kubesphere-monitoring-system.svc:19093/api/v2/alerts
+    - name: event
+      webhook_configs:
+      - send_resolved: false
+        url: http://notification-manager-svc.kubesphere-monitoring-system.svc:19093/api/v2/alerts
+    - name: auditing
+      webhook_configs:
+      - send_resolved: false
+        url: http://notification-manager-svc.kubesphere-monitoring-system.svc:19093/api/v2/alerts
+
+    route:
+      group_by:
+      - "cluster"
+      - "namespace"
+      - "alertname"
+      - "rule_id"
+      group_wait: 30s
+      receiver: "Default"
+      repeat_interval: 12h
+      routes:
+      - matchers:
+        - alertname = "Watchdog"
+        receiver: Watchdog
+      - matchers:
+        - alertname = "InfoInhibitor"
+        receiver: "null"
+      - group_interval: 30s
+        matchers:
+        - alerttype = "event"
+        receiver: "event"
+      - group_interval: 30s
+        matchers:
+        - alerttype = "auditing"
+        receiver: "auditing"
+      - matchers:
+        - alerttype =~ ".*"
+        receiver: "prometheus"

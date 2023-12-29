@@ -1,0 +1,25 @@
+{{- $namespace := include "history.namespaceOverride" . }}
+{{- $sinks := (lookup "v1" "Secret" $namespace "vector-sinks") -}}
+{{- $op := ($sinks.data.opensearch | b64dec) -}}
+
+{{- if $op -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-aggregator-notification-history-sink-opensearch
+  namespace: {{ include "history.namespaceOverride" . }}
+  labels:
+    logging.whizard.io/component: "notification-history"
+    logging.whizard.io/vector-role: Aggregator
+    logging.whizard.io/enable: "true"
+stringData:
+  sink.yaml: |
+    sinks:
+      opensearch_notification_history:
+        {{ $op | nindent 8 }}
+        type: elasticsearch
+        inputs:
+        - notification_history_remapped
+        bulk:
+          index: "{{ "{{ .cluster }}-{{ ._type }}-%Y.%m.%d" }}"
+{{- end}}

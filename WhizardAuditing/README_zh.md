@@ -1,0 +1,1 @@
+Kube-Auditing Operator提供一个K8s审计Webhook（Kube-Auditing-Webhook），两个CRD（Webhook，Rule），以及一个集成控制器，以执行K8s审计数据过滤、存储和告警。
