@@ -58,8 +58,8 @@ spec:
 {{- end }}
       initContainers:
         - name: "copy-default-config"
-          image: "{{ .Values.Master.Image }}:{{ .Values.Master.ImageTag }}"
-          imagePullPolicy: "{{ .Values.Master.ImagePullPolicy }}"
+          image: "{{ default .Values.Master.image.registry .Values.global.image.registry }}/{{ .Values.Master.image.repository }}:{{ .Values.Master.image.tag }}"
+          imagePullPolicy: "{{ .Values.Master.image.pullPolicy }}"
           command: [ "sh", "/var/jenkins_config/apply_config.sh" ]
           env:
           {{- if .Values.Master.UseSecurity }}
@@ -114,8 +114,8 @@ spec:
               name: secrets-dir
       containers:
         - name: {{ template "jenkins.fullname" . }}
-          image: "{{ .Values.Master.Image }}:{{ .Values.Master.ImageTag }}"
-          imagePullPolicy: "{{ .Values.Master.ImagePullPolicy }}"
+          image: "{{ default .Values.Master.image.registry .Values.global.image.registry }}/{{ .Values.Master.image.repository }}:{{ .Values.Master.image.tag }}"
+          imagePullPolicy: "{{ .Values.Master.image.pullPolicy }}"
           {{- if .Values.Master.UseSecurity }}
           args: [ "--argumentsRealm.passwd.$(ADMIN_USER)=$(ADMIN_PASSWORD)",  "--argumentsRealm.roles.$(ADMIN_USER)=admin"]
           {{- end }}
@@ -246,8 +246,8 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end -}}
-{{- if .Values.Master.ImagePullSecret }}
+{{- with (default .Values.Master.image.pullSecrets .Values.global.image.pullSecrets) }}
       imagePullSecrets:
-      - name: {{ .Values.Master.ImagePullSecret }}
+        {{- toYaml . | nindent 8 }}
 {{- end -}}
 {{- end -}}

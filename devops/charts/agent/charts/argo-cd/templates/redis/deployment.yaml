@@ -29,7 +29,7 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.global.imagePullSecrets }}
+      {{- with .Values.global.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -48,8 +48,8 @@ spec:
         {{- with .Values.redis.extraArgs }}
         {{- . | toYaml | nindent 8 }}
         {{- end }}
-        image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
-        imagePullPolicy: {{ .Values.redis.image.imagePullPolicy}}
+        image: {{ default .Values.redis.image.registry .Values.global.image.registry }}/{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+        imagePullPolicy: {{ .Values.redis.image.pullPolicy}}
         {{- if .Values.redis.containerSecurityContext }}
         securityContext: {{- toYaml .Values.redis.containerSecurityContext | nindent 10 }}
         {{- end }}
@@ -76,8 +76,8 @@ spec:
           value: {{ printf "redis://localhost:%v" .Values.redis.containerPort }}
         - name: REDIS_EXPORTER_WEB_LISTEN_ADDRESS
           value: {{ printf "0.0.0.0:%v" .Values.redis.metrics.containerPort }}
-        image: {{ .Values.redis.metrics.image.repository }}:{{ .Values.redis.metrics.image.tag }}
-        imagePullPolicy: {{ .Values.redis.metrics.image.imagePullPolicy}}
+        image: {{ default .Values.redis.metrics.image.registry .Values.global.image.registry }}/{{ .Values.redis.metrics.image.repository }}:{{ .Values.redis.metrics.image.tag }}
+        imagePullPolicy: {{ .Values.redis.metrics.image.pullPolicy}}
         ports:
         - containerPort: {{ .Values.redis.metrics.containerPort }}
           name: metrics

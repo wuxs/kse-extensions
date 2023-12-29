@@ -26,7 +26,7 @@ spec:
           configMap:
             name: devops-config
             defaultMode: 420
-      {{- with .Values.imagePullSecrets }}
+      {{- with (default .Values.global.image.pullSecrets .Values.controller.image.pullSecrets) }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -37,8 +37,8 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.controller.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.controller.repository }}:{{ .Values.image.controller.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ default .Values.controller.image.registry .Values.global.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
           args:
           - '--pipelinerun-data-store=configmap'
           - '--enabled-controllers'

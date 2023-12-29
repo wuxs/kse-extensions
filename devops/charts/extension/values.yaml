@@ -1,13 +1,19 @@
+global:
+  namespace: "kubesphere-devops-system"
+  image:
+    registry:
+    pullSecrets: []
+
 image:
-  registry: registry.cn-beijing.aliyuncs.com/kse
+  registry: registry.cn-beijing.aliyuncs.com
   frontend:
-    repository: devops-frontend
+    repository: kse/devops-frontend
     tag: v4.0.0
   apiserver:
-    repository: devops-apiserver
+    repository: kse/devops-apiserver
     tag: v4.0.0
   pullPolicy: IfNotPresent
-imagePullSecrets: []
+  pullSecrets: []
 
 replicaCount: 1
 autoscaling:

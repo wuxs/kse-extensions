@@ -20,13 +20,17 @@ spec:
 {{ toYaml .Values.gcJobs.podAnnotations | indent 12 }}
 {{- end }}
         spec:
+          {{- with (default .Values.global.image.pullSecrets .Values.gcJobs.image.pullSecrets) }}
+          imagePullSecrets:
+          {{- toYaml . | nindent 12 }}
+          {{- end -}}
           containers:
             - command:
                 - ks
                 - pip
                 - gc
-              image: "{{ .Values.image.registry }}/{{ .Values.image.tools.repository }}:{{ .Values.image.tools.tag }}"
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              image: "{{ default .Values.gcJobs.image.registry .Values.global.image.registry }}/{{ .Values.gcJobs.image.repository }}:{{ .Values.gcJobs.image.tag }}"
+              imagePullPolicy: {{ .Values.gcJobs.image.pullPolicy }}
               args:
                 - "--max-count={{ .Values.gcJobs.maxCount }}"
                 - "--max-age={{ .Values.gcJobs.maxAge }}"

@@ -26,7 +26,7 @@ spec:
           configMap:
             name: devops-config
             defaultMode: 420
-      {{- with .Values.imagePullSecrets }}
+      {{- with (default .Values.image.pullSecrets .Values.global.image.pullSecrets) }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -37,7 +37,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.apiserver.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.apiserver.repository }}:{{ .Values.image.apiserver.tag | default .Chart.AppVersion }}"
+          image: "{{ default .Values.image.registry .Values.global.image.registry }}/{{ .Values.image.apiserver.repository }}:{{ .Values.image.apiserver.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.argocd.enabled }}
           args:

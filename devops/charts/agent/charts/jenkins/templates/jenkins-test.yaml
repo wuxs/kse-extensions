@@ -29,7 +29,7 @@ spec:
         name: tools
   containers:
     - name: {{ .Release.Name }}-ui-test
-      image: {{ .Values.Master.Image }}:{{ .Values.Master.ImageTag }}
+      image: "{{ default .Values.Master.image.registry .Values.global.image.registry }}/{{ .Values.Master.image.repository }}:{{ .Values.Master.image.tag }}"
       command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
       volumeMounts:
       - mountPath: /tests

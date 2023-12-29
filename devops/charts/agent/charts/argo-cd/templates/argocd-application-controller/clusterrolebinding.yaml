@@ -12,5 +12,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ template "argo-cd.controllerServiceAccountName" . }}
-  namespace: {{ default .Release.Namespace .Values.namespace }}
+  namespace: {{ default .Release.Namespace .Values.global.namespace }}
 {{- end }}

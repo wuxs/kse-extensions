@@ -68,12 +68,12 @@ https://github.com/helm/charts/issues/5167#issuecomment-619137759
 {{- end -}}
 
 {{- define "jenkins.agent.variant" -}}
-    {{- if empty .Values.Agent.Builder.ContainerRuntime }}
+    {{- if empty .Values.Builder.ContainerRuntime }}
       {{- if eq (include "ContainerRuntime" .) "containerd" }}
       {{- print "-podman" -}}
       {{- end -}}
     {{- else -}}
-      {{- if eq .Values.Agent.Builder.ContainerRuntime "podman" }}
+      {{- if eq .Values.Builder.ContainerRuntime "podman" }}
       {{- print "-podman" -}}
       {{- end -}}
     {{- end -}}

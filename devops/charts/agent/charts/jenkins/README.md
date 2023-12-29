@@ -31,10 +31,6 @@ The following tables list the configurable parameters of the Jenkins chart and t
 | `nameOverride`                                      | Override the resource name prefix                                                | `jenkins`                                                                     |
 | `fullnameOverride`                                  | Override the full resource names                                                 | `jenkins-{release-name}` (or `jenkins` if release-name is `jenkins`)          |
 | `Master.Name`                                       | Jenkins master name                                                              | `jenkins-master`                                                              |
-| `Master.Image`                                      | Master image name                                                                | `jenkinsci/jenkins`                                                           |
-| `Master.ImageTag`                                   | Master image tag                                                                 | `lts`                                                                         |
-| `Master.ImagePullPolicy`                            | Master image pull policy                                                         | `Always`                                                                      |
-| `Master.ImagePullSecret`                            | Master image pull secret                                                         | Not set                                                                       |
 | `Master.Component`                                  | k8s selector key                                                                 | `jenkins-master`                                                              |
 | `Master.UseSecurity`                                | Use basic security                                                               | `true`                                                                        |
 | `Master.AdminUser`                                  | Admin username (and password) created as a secret if useSecurity is true         | `admin`                                                                       |
@@ -85,17 +81,11 @@ The following tables list the configurable parameters of the Jenkins chart and t
 
 | Parameter                   | Description                                                                                                      | Default                                                                      |
 | ---                         | ---                                                                                                              | ---                                                                          |
-| `Agent.AlwaysPullImage`     | Always pull agent container image before build                                                                   | `false`                                                                      |
 | `Agent.CustomJenkinsLabels` | Append Jenkins labels to the agent                                                                               | `{}`                                                                         |
 | `Agent.Enabled`             | Enable Kubernetes plugin jnlp-agent podTemplate                                                                  | `true`                                                                       |
-| `Agent.Image`               | Agent image name                                                                                                 | `jenkinsci/jnlp-slave`                                                       |
-| `Agent.ImagePullSecret`     | Agent image pull secret                                                                                          | Not set                                                                      |
-| `Agent.ImageTag`            | Agent image tag                                                                                                  | `2.62`                                                                       |
 | `Agent.Privileged`          | Agent privileged container                                                                                       | `false`                                                                      |
 | `Agent.resources`           | Resources allocation (Requests and Limits)                                                                       | `{requests: {cpu: 200m, memory: 256Mi}, limits: {cpu: 200m, memory: 256Mi}}` |
 | `Agent.volumes`             | Additional volumes                                                                                               | `nil`                                                                        |
-| `Agent.Builder.Registry`    | Agent builder image registry with namespace. Available values: `docker.io/kubesphere`, `docker.io/kubespheredev` | `docker.io/kubesphere`                                                       |
-| `Agent.Builder.ContainerRuntime` | The container engine type, available values: `docker`, `podman`                                             | `docker`                                                                     |
 
 ### Prometheus monitor
 

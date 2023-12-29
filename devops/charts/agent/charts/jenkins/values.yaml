@@ -1,4 +1,5 @@
 fullnameOverride:
+
 Master:
   StatefulSet:
     Enabled: false
@@ -8,9 +9,12 @@ Master:
     # Name of the Kubernetes scheduler to use
     SchedulerName: ""
   Name: jenkins-master
-  Image: "kubespheredev/ks-jenkins"
-  ImageTag: "master"
-  ImagePullPolicy: "IfNotPresent"
+  Image:
+    registry: registry.cn-beijing.aliyuncs.com
+    repository: kse/devops-jenkins
+    tag: v4.0.0-2.346.3
+    pullPolicy: IfNotPresent
+    pullSecrets: []
   Component: "jenkins-master"
   UseSecurity: true
   HostNetworking: false
@@ -381,8 +385,12 @@ Master:
 
 Agent:
   Enabled: true
-  Image: jenkins/inbound-agent
-  ImageTag: 4.10-2
+  Image:
+    registry: registry.cn-beijing.aliyuncs.com
+    repository: kubesphereio/inbound-agent
+    tag: 4.10-2
+    pullPolicy: IfNotPresent
+    pullSecrets: []
   CustomJenkinsLabels: []
   Component: "jenkins-inbound-agent"
   Privileged: false
@@ -396,8 +404,6 @@ Agent:
     limits:
       cpu: "200m"
       memory: "256Mi"
-  # You may want to change this to true while testing a new image
-  AlwaysPullImage: false
   # Controls how agent pods are retained after the Jenkins build completes
   # Possible values: Always, Never, OnFailure
   PodRetention: Never
@@ -413,37 +419,39 @@ Agent:
   # Key Value selectors. Ex:
   # jenkins-agent: v1
 
-  Builder:
-    # Available values: docker.io/kubesphere, docker.io/kubespheredev
-    Registry: "docker.io/kubespheredev"
-    Base:
-      Image: builder-base
-      Tag: v3.2.2
-    NodeJs:
-      Image: builder-nodejs
-      Tag: v3.2.0
-    Maven:
-      Image: builder-maven
-      Tag: v3.2.0
-    Golang:
-      Image: builder-go
-      Tag: v3.2.0
-    golang16:
-      image: builder-go
-      tag: v3.2.2-1.16
-    golang17:
-      image: builder-go
-      tag: v3.2.2-1.17
-    golang18:
-      image: builder-go
-      tag: v3.2.2-1.18
-    python:
-      image: builder-python
-      tag: v3.2.0
-    mavenJDK11:
-      image: builder-maven
-      tag: v3.2.1-jdk11
-   # ContainerRuntime: docker # Available values: docker, podman
+Builder:
+  # containerRuntime: docker # Available values: docker, podman
+  image:
+    registry: registry.cn-beijing.aliyuncs.com
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  base:
+    repository: kubesphereio/builder-base
+    tag: v3.2.2
+  nodejs:
+    repository: kubesphereio/builder-nodejs
+    tag: v3.2.0
+  maven:
+    repository: kubesphereio/builder-maven
+    tag: v3.2.0
+  golang:
+    repository: kubesphereio/builder-go
+    tag: v3.2.0
+  golang16:
+    repository: kubesphereio/builder-go
+    tag: v3.2.2-1.16
+  golang17:
+    repository: kubesphereio/builder-go
+    tag: v3.2.2-1.17
+  golang18:
+    repository: kubesphereio/builder-go
+    tag: v3.2.2-1.18
+  python:
+    repository: kubesphereio/builder-python
+    tag: v3.2.0
+  mavenjdk11:
+    repository: kubesphereio/builder-maven
+    tag: v3.2.1-jdk11
 
 Persistence:
   Enabled: true

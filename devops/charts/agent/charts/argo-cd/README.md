@@ -225,10 +225,10 @@ NAME: my-release
 | fullnameOverride | string | `""` | String to fully override `"argo-cd.fullname"` |
 | global.additionalLabels | object | `{}` | Additional labels to add to all resources |
 | global.hostAliases | list | `[]` | Mapping between IP and hostnames that will be injected as entries in the pod's hosts files |
-| global.image.imagePullPolicy | string | `"IfNotPresent"` | If defined, a imagePullPolicy applied to all Argo CD deployments |
+| global.image.pullPolicy | string | `"IfNotPresent"` | If defined, a imagePullPolicy applied to all Argo CD deployments |
 | global.image.repository | string | `"quay.io/argoproj/argocd"` | If defined, a repository applied to all Argo CD deployments |
 | global.image.tag | string | `""` | Overrides the global Argo CD image tag whose default is the chart appVersion |
-| global.imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
+| global.image.pullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | global.networkPolicy.create | bool | `false` | Create NetworkPolicy objects for all components |
 | global.networkPolicy.defaultDenyIngress | bool | `false` | Default deny all ingress traffic |
 | global.podAnnotations | object | `{}` | Annotations for the all deployed pods |
@@ -260,7 +260,7 @@ NAME: my-release
 | controller.envFrom | list | `[]` (See [values.yaml]) | envFrom to pass to application controller |
 | controller.extraArgs | list | `[]` | Additional command line arguments to pass to application controller |
 | controller.extraContainers | list | `[]` | Additional containers to be added to the application controller pod |
-| controller.image.imagePullPolicy | string | `""` (defaults to global.image.imagePullPolicy) | Image pull policy for the application controller |
+| controller.image.pullPolicy | string | `""` (defaults to global.image.pullPolicy) | Image pull policy for the application controller |
 | controller.image.repository | string | `""` (defaults to global.image.repository) | Repository to use for the application controller |
 | controller.image.tag | string | `""` (defaults to global.image.tag) | Tag to use for the application controller |
 | controller.initContainers | list | `[]` | Init containers to add to the application controller pod |
@@ -334,7 +334,7 @@ NAME: my-release
 | repoServer.envFrom | list | `[]` (See [values.yaml]) | envFrom to pass to repo server |
 | repoServer.extraArgs | list | `[]` | Additional command line arguments to pass to repo server |
 | repoServer.extraContainers | list | `[]` | Additional containers to be added to the repo server pod |
-| repoServer.image.imagePullPolicy | string | `""` (defaults to global.image.imagePullPolicy) | Image pull policy for the repo server |
+| repoServer.image.pullPolicy | string | `""` (defaults to global.image.pullPolicy) | Image pull policy for the repo server |
 | repoServer.image.repository | string | `""` (defaults to global.image.repository) | Repository to use for the repo server |
 | repoServer.image.tag | string | `""` (defaults to global.image.tag) | Tag to use for the repo server |
 | repoServer.initContainers | list | `[]` | Init containers to add to the repo server pods |
@@ -417,13 +417,13 @@ NAME: my-release
 | server.envFrom | list | `[]` (See [values.yaml]) | envFrom to pass to Argo CD server |
 | server.extensions.contents | list | `[]` | Extensions to be loaded into the server |
 | server.extensions.enabled | bool | `false` | Enable support for extensions |
-| server.extensions.image.imagePullPolicy | string | `"IfNotPresent"` | Image pull policy for extensions |
+| server.extensions.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy for extensions |
 | server.extensions.image.repository | string | `"ghcr.io/argoproj-labs/argocd-extensions"` | Repository to use for extensions image |
 | server.extensions.image.tag | string | `"v0.1.0"` | Tag to use for extensions image |
 | server.extensions.resources | object | `{}` | Resource limits and requests for the argocd-extensions container |
 | server.extraArgs | list | `[]` | Additional command line arguments to pass to Argo CD server |
 | server.extraContainers | list | `[]` | Additional containers to be added to the server pod |
-| server.image.imagePullPolicy | string | `""` (defaults to global.image.imagePullPolicy) | Image pull policy for the Argo CD server |
+| server.image.pullPolicy | string | `""` (defaults to global.image.pullPolicy) | Image pull policy for the Argo CD server |
 | server.image.repository | string | `""` (defaults to global.image.repository) | Repository to use for the Argo CD server |
 | server.image.tag | string | `""` (defaults to global.image.tag) | Tag to use for the Argo CD server |
 | server.ingress.annotations | object | `{}` | Additional ingress annotations |
@@ -533,11 +533,11 @@ NAME: my-release
 | dex.extraContainers | list | `[]` | Additional containers to be added to the dex pod |
 | dex.extraVolumeMounts | list | `[]` | Extra volumeMounts to the dex pod |
 | dex.extraVolumes | list | `[]` | Extra volumes to the dex pod |
-| dex.image.imagePullPolicy | string | `"IfNotPresent"` | Dex imagePullPolicy |
+| dex.image.pullPolicy | string | `"IfNotPresent"` | Dex imagePullPolicy |
 | dex.image.repository | string | `"ghcr.io/dexidp/dex"` | Dex image repository |
 | dex.image.tag | string | `"v2.30.2"` | Dex image tag |
 | dex.initContainers | list | `[]` | Init containers to add to the dex pod |
-| dex.initImage.imagePullPolicy | string | `""` (defaults to global.image.imagePullPolicy) | Argo CD init image imagePullPolicy |
+| dex.initImage.pullPolicy | string | `""` (defaults to global.image.pullPolicy) | Argo CD init image imagePullPolicy |
 | dex.initImage.repository | string | `""` (defaults to global.image.repository) | Argo CD init image repository |
 | dex.initImage.tag | string | `""` (defaults to global.image.tag) | Argo CD init image tag |
 | dex.livenessProbe.enabled | bool | `false` | Enable Kubernetes liveness probe for Dex >= 2.28.0 |
@@ -597,13 +597,13 @@ NAME: my-release
 | redis.envFrom | list | `[]` (See [values.yaml]) | envFrom to pass to the Redis server |
 | redis.extraArgs | list | `[]` | Additional command line arguments to pass to redis-server |
 | redis.extraContainers | list | `[]` | Additional containers to be added to the redis pod |
-| redis.image.imagePullPolicy | string | `"IfNotPresent"` | Redis imagePullPolicy |
+| redis.image.pullPolicy | string | `"IfNotPresent"` | Redis imagePullPolicy |
 | redis.image.repository | string | `"redis"` | Redis repository |
 | redis.image.tag | string | `"6.2.6-alpine"` | Redis tag |
 | redis.initContainers | list | `[]` | Init containers to add to the redis pod |
 | redis.metrics.containerPort | int | `9121` | Port to use for redis-exporter sidecar |
 | redis.metrics.enabled | bool | `false` | Deploy metrics service and redis-exporter sidecar |
-| redis.metrics.image.imagePullPolicy | string | `"IfNotPresent"` | redis-exporter image PullPolicy |
+| redis.metrics.image.pullPolicy | string | `"IfNotPresent"` | redis-exporter image PullPolicy |
 | redis.metrics.image.repository | string | `"quay.io/bitnami/redis-exporter"` | redis-exporter image repository |
 | redis.metrics.image.tag | string | `"1.26.0-debian-10-r2"` | redis-exporter image tag |
 | redis.metrics.resources | object | `{}` | Resource limits and requests for redis-exporter sidecar |
@@ -676,7 +676,7 @@ NAME: my-release
 | applicationSet.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy for the application set controller |
 | applicationSet.image.repository | string | `"quay.io/argoproj/argocd-applicationset"` | Repository to use for the application set controller |
 | applicationSet.image.tag | string | `"v0.4.1"` | Tag to use for the application set controller |
-| applicationSet.imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository. |
+| applicationSet.image.pullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository. |
 | applicationSet.metrics.enabled | bool | `false` | Deploy metrics service |
 | applicationSet.metrics.service.annotations | object | `{}` | Metrics service annotations |
 | applicationSet.metrics.service.labels | object | `{}` | Metrics service labels |
@@ -724,10 +724,10 @@ NAME: my-release
 | notifications.bots.slack.affinity | object | `{}` | Assign custom [affinity] rules |
 | notifications.bots.slack.containerSecurityContext | object | `{}` | Container Security Context |
 | notifications.bots.slack.enabled | bool | `false` | Enable slack bot |
-| notifications.bots.slack.image.imagePullPolicy | string | `""` (defaults to global.image.imagePullPolicy) | Image pull policy for the Slack bot |
+| notifications.bots.slack.image.pullPolicy | string | `""` (defaults to global.image.pullPolicy) | Image pull policy for the Slack bot |
 | notifications.bots.slack.image.repository | string | `""` (defaults to global.image.repository) | Repository to use for the Slack bot |
 | notifications.bots.slack.image.tag | string | `""` (defaults to global.image.tag) | Tag to use for the Slack bot |
-| notifications.bots.slack.imagePullSecrets | list | `[]` | Secrets with credentials to pull images from a private registry |
+| notifications.bots.slack.image.pullSecrets | list | `[]` | Secrets with credentials to pull images from a private registry |
 | notifications.bots.slack.nodeSelector | object | `{}` | [Node selector] |
 | notifications.bots.slack.resources | object | `{}` | Resource limits and requests for the Slack bot |
 | notifications.bots.slack.securityContext | object | `{"runAsNonRoot":true}` | Pod Security Context |
@@ -748,10 +748,10 @@ NAME: my-release
 | notifications.extraEnv | list | `[]` | Additional container environment variables |
 | notifications.extraVolumeMounts | list | `[]` | List of extra mounts to add (normally used with extraVolumes) |
 | notifications.extraVolumes | list | `[]` | List of extra volumes to add |
-| notifications.image.imagePullPolicy | string | `""` (defaults to global.image.imagePullPolicy) | Image pull policy for the notifications controller |
+| notifications.image.pullPolicy | string | `""` (defaults to global.image.pullPolicy) | Image pull policy for the notifications controller |
 | notifications.image.repository | string | `""` (defaults to global.image.repository) | Repository to use for the notifications controller |
 | notifications.image.tag | string | `""` (defaults to global.image.tag) | Tag to use for the notifications controller |
-| notifications.imagePullSecrets | list | `[]` | Secrets with credentials to pull images from a private registry |
+| notifications.image.pullSecrets | list | `[]` | Secrets with credentials to pull images from a private registry |
 | notifications.logLevel | string | `"info"` | Set the logging level. (One of: `debug`, `info`, `warn`, `error`) |
 | notifications.metrics.enabled | bool | `false` | Enables prometheus metrics server |
 | notifications.metrics.port | int | `9001` | Metrics port |
