@@ -21,7 +21,6 @@ autoscaling:
 
 nameOverride: ""
 fullnameOverride: ""
-namespace: "kubesphere-devops-system"
 
 frontend:
   podAnnotations: {}
