@@ -133,6 +133,9 @@ jenkins:
     WorkerNamespace: kubesphere-devops-worker
   Persistence:
     size: 16Gi
+    StorageClass: "-"
+    AccessMode: ReadWriteOnce
+    #  ExistingClaim: ""
   securityRealm:
     openIdConnect:
       # the kubesphere-core api used for jenkins OIDC
