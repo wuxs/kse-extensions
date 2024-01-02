@@ -1,0 +1,121 @@
+# Default values for demo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+enabled: true
+
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "storage-utils"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+service:
+  type: ClusterIP
+  port: 443
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+storageclassAccessor:
+  enabled: true
+  name: storageclass-accessor
+  image:
+    repository: kubesphere/storageclass-accessor
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "2f39c69"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 50m
+      memory: 48Mi
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+    
+snapshotController:
+  enabled: true
+  name: snapshot-controller
+  image:
+    repository: csiplugin/snapshot-controller
+    tag: v4.2.1
+    pullPolicy: IfNotPresent
+  commandArgs:
+    leaderElection: "true"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 50m
+      memory: 48Mi
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+snapshotClassController:
+  enabled: true
+  name: snapshotclass-controller
+  image:
+    repository: csiplugin/snapshotclass-controller
+    tag: v0.0.1
+    pullPolicy: IfNotPresent
+  commandArgs:
+    leaderElection: "true"
+    metricsBindAddress: ":8180"
+    healthProbeBindAddress: ":8181"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 50m
+      memory: 48Mi
+  securityContext: {}
+
+pvcAutoResizer:
+  enabled: true
+  name: pvc-auto-resizer
+  image:
+    repository: kubesphere/pvc-autoresizer
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 72e4769
+  commandArgs: 
+    prometheusUrl: "http://prometheus-k8s.kubesphere-monitoring-system.svc:9090"
+    interval: "1m"
+    metricsBindAddress: ":8280"
+    healthProbeBindAddress: ":8281"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 50m
+      memory: 48Mi
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000

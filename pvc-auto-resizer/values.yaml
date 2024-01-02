@@ -1,5 +1,0 @@
-pvc-auto-resizer:
-  replicaCount: 1
-  commandArgs: 
-    prometheusUrl: "http://prometheus-k8s.kubesphere-monitoring-system.svc:9090"
-    interval: "1m"

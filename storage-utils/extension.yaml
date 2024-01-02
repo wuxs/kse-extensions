@@ -1,0 +1,47 @@
+apiVersion: kubesphere.io/v1alpha1
+name: storage-utils
+version: 1.0.0
+displayName:
+  zh: 存储工具包
+  en: Storage Utilities
+description:
+  zh: 这个工具包包含多个与存储有关的实用工具
+  en: This pack contains multiple storage utilities
+category: storage
+keywords:
+  - storage
+  - pvc
+  - snapshot
+  - resize
+  - accessor
+home: https://github.com/kubesphere-extensions/kse-extensions
+sources:
+  - https://github.com/kubesphere/pvc-autoresizer
+  - https://github.com/kubesphere/storageclass-accessor
+  - https://github.com/kubernetes-csi/external-snapshotter
+  - https://github.com/kubesphere-extensions/storage-utils
+kubeVersion: ">=1.19.0-0"
+ksVersion: ">=4.0.0-0"
+maintainers:
+  - name: "SHI YONGHONG"
+    email: "stoneshi@yunify.com"
+    url: ""
+provider:
+  en:
+    name: "QingCloud Technologies"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+  zh:
+    name: "北京青云科技股份有限公司"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.com.cn"
+staticFileDirectory: static
+icon: https://ks-extension.pek3b.qingstor.com/providers/qingcloud.png
+installationMode: Multicluster
+dependencies:
+  - name: frontend
+    tags:
+      - extension
+  - name: backend
+    tags:
+      - agent
