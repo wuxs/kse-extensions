@@ -14,27 +14,17 @@ rules:
       - 'rbac.authorization.k8s.io'
       - 'crd.projectcalico.org'
       - 'coordination.k8s.io'
-      - ''
-      - 'apps'
-    resources:
-      - '*'
----
-kind: Role
-rules:
-  - verbs:
-      - '*'
-    apiGroups:
-      - ''
-      - 'apps'
-      - 'batch'
-      - 'app.k8s.io'
-      - 'autoscaling'
-    resources:
-      - '*'
-  - verbs:
-      - '*'
-    apiGroups:
+      - 'apiextensions.k8s.io'
+      - 'tenant.kubesphere.io'
+      - 'network.kubesphere.io'
       - 'networking.k8s.io'
+      - ''
+      - 'apps'
     resources:
-      - 'ingresses'
-      - 'networkpolicies'
+      - '*'
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+    resources:
+      - '*'

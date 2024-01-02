@@ -1,9 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: ippool-apiserver-role
+  name: network-extension-apiserver-role
   labels:
-    app: ippool-apiserver
+    app: network-extension-apiserver
 rules:
 - apiGroups:
   - crd.projectcalico.org

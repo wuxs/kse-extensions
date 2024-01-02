@@ -1,4 +1,4 @@
-{{- $ca := genCA "ippool-controller-ca" 3650 }}
+{{- $ca := genCA "network-extension-controller-ca" 3650 }}
 {{- $cn := printf "%s-admission-webhook" .Release.Name }}
 {{- $ippoolName := printf "%s-controller" (include "backend.fullname" .) }}
 {{- $altName1 := printf "%s.%s" $ippoolName .Release.Namespace }}

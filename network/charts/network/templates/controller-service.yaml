@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "backend.fullname" . }}-controller
   labels:
-    app: ippool-controller
+    app: network-extension-controller
   namespace: {{ .Release.Namespace }}
 spec:
   type: {{ .Values.controller.service.type }}
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: ippool-controller
+    app: network-extension-controller

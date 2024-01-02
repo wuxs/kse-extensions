@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "backend.fullname" . }}-apiserver
   labels:
-    app: ippool-apiserver
+    app: network-extension-apiserver
   namespace: {{ .Release.Namespace }}
 spec:
   type: {{ .Values.apiserver.service.type }}
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: ippool-apiserver
+    app: network-extension-apiserver
