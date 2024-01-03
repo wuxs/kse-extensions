@@ -60,7 +60,6 @@ The following tables list the configurable parameters of the Jenkins chart and t
 | `Master.JMXPort`                                    | Open a port, for JMX stats                                                       | Not set                                                                       |
 | `Master.CustomConfigMap`                            | Use a custom ConfigMap                                                           | `false`                                                                       |
 | `Master.OverwriteConfig`                            | Replace config w/ ConfigMap on boot                                              | `false`                                                                       |
-| `Master.Ingress.Annotations`                        | Ingress annotations                                                              | `{}`                                                                          |
 | `Master.Ingress.TLS`                                | Ingress TLS configuration                                                        | `[]`                                                                          |
 | `Master.InitScripts`                                | List of Jenkins init scripts                                                     | Not set                                                                       |
 | `Master.CredentialsXmlSecret`                       | Kubernetes secret that contains a 'credentials.xml' file                         | Not set                                                                       |
@@ -151,7 +150,7 @@ It is possible to mount several volumes using `Persistence.volumes` and `Persist
 | Parameter                   | Description                     | Default         |
 | ---                         | ---                             | ---             |
 | `Persistence.Enabled`       | Enable the use of a Jenkins PVC | `true`          |
-| `Persistence.ExistingClaim` | Provide the name of a PVC       | `nil`           |
+| `persistence.existingClaim` | Provide the name of a PVC       | `nil`           |
 | `Persistence.AccessMode`    | The PVC access mode             | `ReadWriteOnce` |
 | `Persistence.Size`          | The size of the PVC             | `8Gi`           |
 | `Persistence.volumes`       | Additional volumes              | `nil`           |
@@ -164,7 +163,7 @@ It is possible to mount several volumes using `Persistence.volumes` and `Persist
 1. Install the chart
 
 ```bash
-$ helm install --name my-release --set Persistence.ExistingClaim=PVC_NAME stable/jenkins
+$ helm install --name my-release --set persistence.existingClaim=PVC_NAME stable/jenkins
 ```
 
 ## Custom ConfigMap

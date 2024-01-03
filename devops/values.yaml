@@ -14,9 +14,20 @@ agent:
           memory: 6Gi
         limits:
           cpu: 2
-          memory: 6Gi # Set same as requests.memory
-    Persistence:
+          memory: 6Gi # recommend set same as requests.memory
+      # smtp server settings for notification
+      smtp:
+        EMAIL_SMTP_HOST: "mail.example.com"
+        EMAIL_SMTP_PORT: "465"
+        EMAIL_USE_SSL: false
+        EMAIL_FROM_NAME: "KubeSphere"
+        EMAIL_FROM_ADDR: "admin@example.com"
+        EMAIL_FROM_PASS: "P@ssw0rd"
+      # sonarQube settings
+      sonarqube:
+        serverUrl: ""
+        authToken: ""
+    persistence:
       size: 16Gi
-      StorageClass: "-"
-      AccessMode: ReadWriteOnce
-      #  ExistingClaim: ""
+      storageClass: ""
+      accessMode: ReadWriteOnce

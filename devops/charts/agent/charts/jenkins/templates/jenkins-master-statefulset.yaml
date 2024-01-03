@@ -90,8 +90,9 @@ spec:
                 name: {{ template "jenkins.fullname" . }}
                 key: jenkins-admin-token
           {{- end }}
-          {{- if .Values.Master.InitContainerEnv }}
-{{ toYaml .Values.Master.InitContainerEnv | indent 12 }}
+          {{- range $key, $val := .Values.Master.InitContainerEnv }}
+          - name: {{ $key }}
+            value: {{ $val | quote }}
           {{- end }}
           resources:
 {{ toYaml .Values.Master.resources | indent 12 }}
@@ -132,7 +133,7 @@ spec:
           {{- end }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: '{{ include "jenkins.master.javaToolOpts" . | replace "\n" " "}}'
+              value: '{{ default "" .Values.Master.JavaOpts | replace "\n" " "}}'
             - name: JENKINS_OPTS
               value: "{{ if .Values.Master.JenkinsUriPrefix }}--prefix={{ .Values.Master.JenkinsUriPrefix }} {{ end }}{{ default "" .Values.Master.JenkinsOpts}}"
             {{- if .Values.Master.UseSecurity }}
@@ -152,8 +153,23 @@ spec:
                   name: {{ template "jenkins.fullname" . }}
                   key: jenkins-admin-token
             {{- end }}
-            {{- if .Values.Master.ContainerEnv }}
-{{ toYaml .Values.Master.ContainerEnv | indent 12 }}
+            {{- if and .Values.Master.sonarqube.serverUrl .Values.Master.sonarqube.authToken }}
+            - name: SONAR_ENABLED
+              value: "true"
+            - name: SONAR_RUNNER_VERSION
+              value: {{ .Values.Master.sonarqube.runnerVersion | quote }}
+            - name: SONAR_SERVER_URL
+              value: {{ .Values.Master.sonarqube.serverUrl | quote }}
+            - name: SONAR_AUTH_TOKEN
+              value: {{ .Values.Master.sonarqube.authToken | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.Master.smtp }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $key, $val := .Values.Master.ContainerEnv }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
             {{- end }}
           ports:
             - containerPort: 8080
@@ -192,8 +208,8 @@ spec:
   {{- end }}
             -
               mountPath: /var/jenkins_home
-              {{- if .Values.Persistence.ExistingClaim }}
-              name: {{ .Values.Persistence.ExistingClaim }}
+              {{- if .Values.persistence.existingClaim }}
+              name: {{ .Values.persistence.existingClaim }}
               {{- else }}
               name: jenkins-home
               {{- end }}
@@ -248,19 +264,19 @@ spec:
   {{- end }}
       - name: secrets-dir
         emptyDir: {}
-  {{- if .Values.Persistence.Enabled }}
+  {{- if .Values.persistence.enabled }}
       - name: jenkins-home
         persistentVolumeClaim:
-          claimName: {{ .Values.Persistence.ExistingClaim | default (include "jenkins.fullname" .) }}
+          claimName: {{ .Values.persistence.existingClaim | default (include "jenkins.fullname" .) }}
   {{- end -}}
   {{- with (default .Values.Master.image.pullSecrets .Values.global.image.pullSecrets) }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
   {{- end -}}
-  {{- if and (not .Values.Persistence.Enabled) .Values.Persistence.ExistingClaim }}
+  {{- if and (not .Values.persistence.enabled) .Values.persistence.existingClaim }}
   volumeClaimTemplates:
   - metadata:
-      name: {{ .Values.Persistence.ExistingClaim }}
+      name: {{ .Values.persistence.existingClaim }}
       # annotations:
       #   volume.beta.kubernetes.io/storage-class: anything
     spec:
