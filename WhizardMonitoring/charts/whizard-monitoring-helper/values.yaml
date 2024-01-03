@@ -1,0 +1,31 @@
+# Default values for whizard-monitoring-helper.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+hook:
+  image:
+    repo: kubesphere/kubectl
+    tag: v1.21.0
+    pullPolicy: IfNotPresent
+  backoffLimit: 3
+
+etcdMonitoringHelper:
+  enabled: false
+
+gpuMonitoringHelper:
+  enabled: false
+
+whizardHelper:
+  enabled: false
+
+reverseProxy:
+  enabled: true
+  endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc:9090
+roleTemplate:
+  enabled: true
+
+extraManifests: []

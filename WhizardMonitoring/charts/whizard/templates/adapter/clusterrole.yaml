@@ -1,0 +1,44 @@
+{{- if and .Values.adapter.enabled .Values.adapter.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "whizard.adapter.fullname" . }}
+rules:
+{{- if .Values.adapter.kubesphereAdapter.enabled }}
+- apiGroups:
+  - cluster.kubesphere.io
+  resources:
+  - clusters
+  verbs:
+  - get
+  - list
+  - watch
+{{- end }}
+- apiGroups:
+  - monitoring.whizard.io
+  resources:
+  - tenants
+  - services
+  - storages
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+{{- end }}
