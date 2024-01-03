@@ -8,9 +8,9 @@ metadata:
   labels:
     {{- include "apiserver.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.apiserver.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "apiserver.selectorLabels" . | nindent 6 }}

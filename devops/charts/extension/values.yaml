@@ -23,6 +23,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 frontend:
+  replicas: 1
   podAnnotations: {}
   podSecurityContext: {}
   # fsGroup: 2000
@@ -53,6 +54,7 @@ frontend:
     port: 80
 
 apiserver:
+  replicas: 1
   podAnnotations: {}
   podSecurityContext: {}
   # fsGroup: 2000

@@ -4,7 +4,6 @@ global:
     registry:
     pullSecrets: []
 
-replicaCount: 1
 autoscaling:
   enabled: false
 
@@ -22,6 +21,7 @@ serviceAccount:
   name: "devops"
 
 apiserver:
+  replicas: 1
   image:
     registry: registry.cn-beijing.aliyuncs.com
     repository: kse/devops-apiserver
@@ -54,6 +54,7 @@ apiserver:
   affinity: {}
 
 controller:
+  replicas: 1
   image:
     registry: registry.cn-beijing.aliyuncs.com
     repository: kse/devops-controller
