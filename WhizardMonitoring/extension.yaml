@@ -1,0 +1,62 @@
+apiVersion: v2
+name: whizard-monitoring
+version: 1.0.0-rc.0
+displayName:
+  zh: 监控扩展组件
+  en: Monitoring Extension
+description:
+  zh: KubeSphere 监控扩展组件提供多租户视角的云原生资源监控能力, 包括针对集群, 节点, 工作负载、GPU、K8s 控制面等对象的核心监控指标实时和历史数据展示等功能。
+  en: KubeSphere monitoring extension provides cloud-native resource monitoring capabilities from a multi-tenant perspective. It offers real-time and historical data visualization of key monitoring metrics for various objects such as clusters, nodes, workloads, GPU, and the Kubernetes control plane.
+category: observability
+keywords:
+  - Observability
+  - Monitoring
+  - Prometheus
+home: https://kubesphere.io/observability
+sources:
+  - https://github.com/kubesphere
+  - https://github.com/kubesphere-extensions
+kubeVersion: ">=1.19.0"
+ksVersion: ">=4.0.0-0"
+provider:
+  zh:
+    name: "北京青云科技股份有限公司"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+  en:
+    name: "QingCloud Technologies"
+    email: "kubesphere@yunify.com"
+    url: "https://kubesphere.io"
+staticFileDirectory: static
+icon: ./static/favicon.svg
+screenshots:
+  - ./static/screenshots/screenshot_1.png
+dependencies:
+  - name: whizard
+    tags:
+      - extension
+    condition: whizard.enabled 
+  - name: frontend
+    tags:
+      - extension
+    condition: frontend.enabled 
+  - name: whizard-agent-proxy
+    tags:
+      - agent
+    condition: whizardAgentProxy.enabled 
+  - name: whizard-monitoring-helper
+    tags: 
+    - agent
+  - name: kube-prometheus-stack
+    tags:
+    - agent
+# installationMode describes how to install subcharts, it can be HostOnly or Multicluster.
+# In Multicluster mode, the subchart with tag `extension` will only be deployed to the host cluster,
+# and the subchart with tag `agent` will be deployed to all selected clusters.
+installationMode: Multicluster
+externalDependencies:
+  - name: WhizardTelemetry
+    type: extension
+    version: ">= 0.4.1"
+    required: true
+namespace: kubesphere-monitoring-system

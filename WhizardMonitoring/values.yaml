@@ -1,0 +1,212 @@
+kubePrometheusStack:
+  enabled: true
+
+whizardMonitoringHelper:
+  enabled: true
+
+whizard-monitoring-helper:
+  etcdMonitoringHelper:
+    enabled: false
+  gpuMonitoringHelper:
+    enabled: false
+  whizardHelper:
+    enabled: false
+
+whizard:
+  enabled: false  
+  namespaceOverride: ""
+  fullnameOverride: "whizard"
+
+  controllerManager:
+    config:
+      ingester:
+        dataVolume:
+          persistentVolumeClaim:
+            spec:
+              resources:
+                requests:
+                  storage: 20Gi
+      
+      compactor:
+        dataVolume:
+          persistentVolumeClaim:
+            spec:
+              resources:
+                requests:
+                  storage: 20Gi
+
+      store:
+        dataVolume:
+          persistentVolumeClaim:
+            spec:
+              resources:
+                requests:
+                  storage: 20Gi
+
+      ruler:
+        disableAlertingRulesAutoSelection: true
+        ruleSelectors:
+        - matchLabels:
+            role: alert-rules
+      
+  adapter:
+    enabled: true
+
+  ingester:
+    dataVolume:
+      persistentVolumeClaim:
+        spec:
+          resources:
+            requests:
+              storage: 20Gi
+
+  gateway: 
+    nodePort: 30990
+
+  ruler:
+    enabled: false
+
+frontend:
+  enabled: false
+
+whizardAgentProxy:
+  enabled: false
+
+whizard-agent-proxy:
+  namespaceOverride: ""
+  fullnameOverride: "whizard-agent-proxy"
+  image:
+    registry: docker.io
+    repository: kubesphere/whizard-monitoring-agent-proxy
+  config:
+    gatewayUrl: ""
+
+kube-prometheus-stack:
+  global:
+    ## Global image registry to use if it needs to be overriden for some specific use cases (e.g local registries, custom images, ...)
+    ##
+    imageRegistry: ""
+
+    ## Reference to one or more secrets to be used when pulling images
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    imagePullSecrets: []
+    # - name: "image-pull-secret"
+    # or
+    # - "image-pull-secret"
+
+
+  prometheus:
+    # agentMode need to be set to true when enable whizard
+    agentMode: false
+
+    prometheusSpec:
+      image:
+        registry: quay.io
+        repository: prometheus/prometheus
+        tag: ""
+      replicas: 1
+      resources:
+        limits:
+          cpu: "4"
+          memory: 16Gi
+        requests:
+          cpu: 200m
+          memory: 400Mi
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            resources:
+              requests:
+                storage: 20Gi
+      secrets: []
+      # - kube-etcd-client-certs ## be added when enable kubeEtcd servicemonitor with tls config
+
+  prometheusOperator:
+    image:
+      registry: quay.io
+      repository: prometheus-operator/prometheus-operator
+      tag: ""
+    resources:
+      limits:
+        cpu: 200m
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+
+    prometheusConfigReloader:
+      image:
+        registry: quay.io
+        repository: prometheus-operator/prometheus-config-reloader
+        tag: ""
+        sha: ""
+      resources:
+        requests:
+          cpu: 200m
+          memory: 50Mi
+        limits:
+          cpu: 200m
+          memory: 50Mi
+
+  kube-state-metrics:
+    image:
+      registry: docker.io
+      repository: kubesphere/kube-state-metrics
+      tag: v2.8.2
+    resources:
+      limits:
+        cpu: "1"
+        memory: 4Gi
+      requests:
+        cpu: 10m
+        memory: 190Mi
+    kubeRBACProxy:
+      image:
+        registry: quay.io
+        repository: brancz/kube-rbac-proxy
+        tag: v0.14.0
+      resources:
+        limits:
+          cpu: 40m
+          memory: 40Mi
+        requests:
+          cpu: 20m
+          memory: 20Mi
+
+  prometheus-node-exporter:
+    image:
+      registry: quay.io
+      repository: prometheus/node-exporter
+      tag: ""
+    resources:
+      limits:
+        cpu: 250m
+        memory: 180Mi
+      requests:
+        cpu: 102m
+        memory: 180Mi
+    kubeRBACProxy:
+      image:
+        registry: quay.io
+        repository: brancz/kube-rbac-proxy
+        tag: v0.14.0
+      resources:
+        limits:
+          cpu: 40m
+          memory: 40Mi
+        requests:
+          cpu: 20m
+          memory: 20Mi
+
+  kubeEtcd:
+    ## If you want to enable etcd monitoring, set etcd endpoints and generate certificate secrets. The reference command is as follows:
+    ##
+    ## kubectl -n kubesphere-monitoring-system create secret generic kube-etcd-client-certs  \
+    ## --from-file=etcd-client-ca.crt=/etc/ssl/etcd/ssl/ca.pem  \
+    ## --from-file=etcd-client.crt=/etc/ssl/etcd/ssl/node-$(hostname).pem  \
+    ## --from-file=etcd-client.key=/etc/ssl/etcd/ssl/node-$(hostname)-key.pem
+    ##
+    enabled: false
+    endpoints: []
+    #  - 172.31.73.206

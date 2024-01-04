@@ -1,0 +1,18 @@
+apiVersion: v2
+name: whizard
+description: A Helm chart for Whizard, which is an observability platform for Kubernetes infrastructure and applications.
+type: application
+sources:
+- https://github.com/WhizardTelemetry/whizard
+keywords:
+- operator
+- whizard
+maintainers:
+  - name: benjaminhuo
+    email: benjamin@kubesphere.io
+  - name: frezes
+    email: junhaozhang@kubesphere.io
+  - name: junot
+    email: junotxiang@kubesphere.io
+version: 0.9.7
+appVersion: "latest"
