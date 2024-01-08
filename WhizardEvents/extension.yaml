@@ -3,11 +3,11 @@ name: whizard-events
 namespace: kubesphere-logging-system
 version: 0.1.1
 displayName:
-  zh: 事件扩展组件
-  en: Events Extension
+  zh: WhizardTelemetry 事件管理
+  en: WhizardTelemetry Events
 description:
-  zh: 提供 Kubernetes 事件的导出、过滤和告警等功能。
-  en: Provide Kubernetes Event Exporting, Filtering and Alerting.
+  zh: WhizardTelemetry 事件管理是 KubeSphere 提供的云原生可观测平台里提供 Kubernetes 事件的导出功能的扩展组件。
+  en: As a part of KubeSphere's cloud-native observability platform, WhizardTelemetry Events provides the exporting of Kubernetes events.
 category: observability
 keywords:
   - Observability

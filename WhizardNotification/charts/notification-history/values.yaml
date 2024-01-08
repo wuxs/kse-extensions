@@ -1,3 +1,5 @@
+enabled: true
+
 hook:
   image:
     repo: kubesphere/kubectl

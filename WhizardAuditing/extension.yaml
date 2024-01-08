@@ -3,11 +3,11 @@ name: whizard-auditing
 namespace: kubesphere-logging-system
 version: 0.1.0
 displayName:
-  zh: KubeSphere 审计扩展组件
-  en: KubeSphere Auditing Extension
+  zh: WhizardTelemetry 审计管理
+  en: WhizardTelemetry Auditing
 description:
-  zh: 这是KubeSphere 审计扩展组件
-  en: This is KubeSphere Auditing Extension
+  zh: WhizardTelemetry 审计管理是 KubeSphere 提供的云原生可观测平台里用于对 Kubernetes 和 KubeSphere 的审计信息进行管理的扩展组件。
+  en: As a part of KubeSphere's cloud-native observability platform, WhizardTelemetry Auditing provides auditing management for Kubernetes and KubeSphere.
 keywords:
   - Observability
   - Auditing

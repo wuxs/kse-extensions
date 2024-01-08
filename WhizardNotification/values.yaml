@@ -78,3 +78,7 @@ alertmanager:
       - matchers:
         - alerttype =~ ".*"
         receiver: "prometheus"
+
+notification-history:
+  enabled: true
+  namespaceOverride: kubesphere-logging-system

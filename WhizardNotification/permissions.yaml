@@ -25,6 +25,7 @@ rules:
       - 'network'
       - 'policy'
     resources:
+      - 'jobs'
       - 'services'
       - 'configmaps'
       - 'deployments'

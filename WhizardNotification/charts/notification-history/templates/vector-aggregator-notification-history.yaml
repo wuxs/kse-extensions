@@ -1,3 +1,4 @@
+{{ if eq .Values.enabled true }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -15,5 +16,5 @@ stringData:
         source: |-
           . = parse_json!(.message)
           .timestamp = .notificationTime
-          ._type = "notification-history"
         type: remap
+{{- end}}
