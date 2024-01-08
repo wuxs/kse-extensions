@@ -1,1 +1,3 @@
-This is a sample extension, which is shown in more detail here, and you can write it here using Markdown syntax.
+# openpitrix
+    
+openpitrix is an application store built into KubeSphere. It provides a series of lifecycle management functions for applications, such as listing, auditing, and creating instances.
