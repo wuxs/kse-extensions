@@ -1,0 +1,30 @@
+global:
+  rules:
+    # None for env with enabled whizard
+    # Member for env with disabled whizard
+    distributionMode: Member
+
+extension:
+
+  # Effective when global.rules.distributionMode is None
+  ruler:
+    alertmanagersUrl:
+    - 'dnssrv+http://whizard-notification-alertmanager-headless.kubesphere-monitoring-system.svc:9093'
+    
+    shards: 1
+    whizardService:
+      name: whizard
+      namespace: kubesphere-monitoring-system
+
+agent:
+
+  # Effective when global.rules.distributionMode is Member
+  ruler:
+    alertmanagersUrl:
+    - 'dnssrv+http://whizard-notification-alertmanager-headless.kubesphere-monitoring-system.svc:9093'
+    
+    prometheus:
+      name: k8s
+      namespace: kubesphere-monitoring-system
+      port: 9090
+      replicas: 1
