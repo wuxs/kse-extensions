@@ -1,0 +1,50 @@
+apiVersion: v2
+name: whizard-alerting
+version: 0.1.6
+displayName:
+  zh: WhizardTelemetry 告警管理
+  en: WhizardTelemetry Alerting
+description:
+  zh: WhizardTelemetry 告警管理是 KubeSphere 提供的云原生可观测平台里基于监控指标进行告警管理的扩展组件。
+  en: As a part of KubeSphere's cloud-native observability platform, WhizardTelemetry Alerting provides alerting management based on metrics data.
+category: observability
+keywords:
+  - Alerting
+  - Observability
+home: https://kubesphere.io
+provider:
+  zh:
+    name: "青云科技"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
+  en:
+    name: "QingCloud"
+    email: "support@kubesphere.cloud"
+    url: "https://www.qingcloud.com"
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.19.0"
+ksVersion: ">=4.0.0-0"
+installationMode: Multicluster
+dependencies:
+  - name: extension
+    tags:
+    - extension
+  - name: agent
+    tags:
+    - agent
+externalDependencies:
+  - name: whizard-monitoring
+    type: extension
+    version: ">= 0.1.0"
+    required: true
+  - name: whizard-telemetry
+    type: extension
+    version: ">= 0.4.3"
+    required: false
+  - name: whizard-notification
+    type: extension
+    version: ">= 2.5.1"
+    required: false
+staticFileDirectory: static
+icon: ./favicon.svg
