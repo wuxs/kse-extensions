@@ -92,14 +92,11 @@ stringData:
           del(.userAgent)
           .timestamp = .stageTimestamp
           if .timestamp == null { .timestamp = .StageTimestamp }
-          ._type = "auditing"
-          .cluster="{{ .Values.global.clusterInfo.name }}"
         type: remap
       auditing_remapped:
         inputs:
         - k8s_auditing_formatted
         - ks_auditing_filter
         source: |-
-          ._type = "auditing"
           .cluster="{{ .Values.global.clusterInfo.name }}"
         type: remap

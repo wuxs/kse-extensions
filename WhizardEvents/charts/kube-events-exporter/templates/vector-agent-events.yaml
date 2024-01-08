@@ -21,5 +21,4 @@ stringData:
           . = parse_json!(.message)
           .timestamp = .lastTimestamp
           del(.metadata)
-          ._type = "events"
         type: remap

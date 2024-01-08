@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-pre-delete
+  name: {{ .Release.Name }}-hooks
   namespace: {{ include "history.namespaceOverride" . }}
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "1"
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 
@@ -12,45 +12,48 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Release.Name }}-pre-delete
+  name: {{ .Release.Name }}-hooks
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "2"
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 rules:
-  - apiGroups:
-      - notification.kubesphere.io
+  - verbs:
+      - 'create'
+      - 'patch'
+      - 'update'
+      - 'get'
+    apiGroups:
+      - 'extensions.kubesphere.io'
+      - 'kubesphere.io'
     resources:
-      - 'notificationmanagers'
-    verbs:
       - '*'
 
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-pre-delete
+  name: {{ .Release.Name }}-hooks
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "3"
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-pre-delete
+    name: {{ .Release.Name }}-hooks
     namespace: {{ include "history.namespaceOverride" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-pre-delete
+  name: {{ .Release.Name }}-hooks
   apiGroup: rbac.authorization.k8s.io
-
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-pre-delete
+  name: {{ .Release.Name }}-hooks
   namespace: {{ include "history.namespaceOverride" . }}
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "4"
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 spec:
@@ -59,14 +62,17 @@ spec:
     metadata:
       name: {{ .Release.Name }}
     spec:
+      serviceAccountName: {{ .Release.Name }}-hooks
       restartPolicy: Never
-      serviceAccountName: {{ .Release.Name }}-pre-delete
       containers:
-        - name: pre-delete-job
+        - name: annotate-job
           image: {{ .Values.hook.image.repo }}:{{ .Values.hook.image.tag }}
-          imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
             - -c
             - |
-              kubectl patch notificationmanagers.notification.kubesphere.io notification-manager --type='json' -p='[{"op": "remove", "path": "/spec/history"}]'
+              {{ if eq .Values.enabled true }}
+              kubectl annotate --overwrite extension whizard-notification logging.kubesphere.io/enable-notification-history=true
+              {{ else }}
+              kubectl annotate --overwrite extension whizard-notification logging.kubesphere.io/enable-notification-history=false
+              {{ end }}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-post-install
+  name: {{ .Release.Name }}-post-hook
   namespace: {{ include "history.namespaceOverride" . }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
@@ -12,7 +12,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Release.Name }}-post-install
+  name: {{ .Release.Name }}-post-hook
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "2"
@@ -29,25 +29,25 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-post-install
+  name: {{ .Release.Name }}-post-hook
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "3"
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-post-install
+    name: {{ .Release.Name }}-post-hook
     namespace: {{ include "history.namespaceOverride" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-post-install
+  name: {{ .Release.Name }}-post-hook
   apiGroup: rbac.authorization.k8s.io
 
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-post-install
+  name: {{ .Release.Name }}-post-hook
   namespace: {{ include "history.namespaceOverride" . }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
@@ -60,7 +60,7 @@ spec:
       name: {{ .Release.Name }}
     spec:
       restartPolicy: Never
-      serviceAccountName: {{ .Release.Name }}-post-install
+      serviceAccountName: {{ .Release.Name }}-post-hook
       containers:
         - name: post-install-job
           image: {{ .Values.hook.image.repo }}:{{ .Values.hook.image.tag }}
@@ -69,6 +69,7 @@ spec:
             - /bin/sh
             - -c
             - |
+              {{ if eq .Values.enabled true }}
               cat > /tmp/patch.yaml <<EOF
               spec:
                 history:
@@ -83,3 +84,6 @@ spec:
               EOF
 
               kubectl patch notificationmanagers.notification.kubesphere.io notification-manager --type=merge --patch-file /tmp/patch.yaml
+              {{ else}}
+              kubectl patch notificationmanagers.notification.kubesphere.io notification-manager --type='json' -p='[{"op": "remove", "path": "/spec/history"}]'
+              {{ end}}
