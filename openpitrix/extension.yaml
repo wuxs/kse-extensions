@@ -12,13 +12,13 @@ keywords:
 home: https://kubesphere.io
 sources:
   - https://github.com/kubesphere
-kubeVersion: ">=1.19.0"
-ksVersion: ">=3.0.0"
+kubeVersion: ">=1.21.0-0"
+ksVersion: ">=4.0.0-0"
 dependencies:
   - name: apps
     condition: apps.enabled
 icon: ./favicon.svg
-category: fake
+category: dev-tools
 provider:
   zh:
     name: "青云科技"
