@@ -61,13 +61,10 @@ stringData:
           .Stage = del(.stage)
           .RequestURI = del(.requestURI)
           .Verb = del(.verb)
-          .SourceIPs = join!(.sourceIPs, separator: ",")
-          del(.sourceIPs)
+          .SourceIPs = del(.sourceIPs)
           .RequestReceivedTimestamp = del(.requestReceivedTimestamp)
           .StageTimestamp = del(.stageTimestamp)
-          .timestamp = .StageTimestamp
           .User.Username = .user.username
-          .User.Groups = join(.user.groups, separator: ",") ?? ""
           if exists(.user.uid) { .User.UID = .user.uid }
           del(.user)
           if exists(.objectRef.resource) { .ObjectRef.Resource = .objectRef.resource }
@@ -82,21 +79,22 @@ stringData:
           .ResponseStatus.reason = .responseStatus.reason
           .ResponseStatus.code = .responseStatus.code
           del(.responseStatus)
-          if exists(.requestObject) { .RequestObject = encode_json(.requestObject) }
-          if exists(.responseObject) { .ResponseObject = encode_json(.responseObject) }
-          del(.requestObject)
-          del(.responseObject)
+          .RequestObject = del(.requestObject)
+          .ResponseObject = del(.responseObject)
           del(.kind)
           del(.apiVersion)
           del(.annotations)
           del(.userAgent)
-          .timestamp = .stageTimestamp
-          if .timestamp == null { .timestamp = .StageTimestamp }
         type: remap
       auditing_remapped:
         inputs:
         - k8s_auditing_formatted
         - ks_auditing_filter
         source: |-
+          .SourceIPs = join!(.SourceIPs, separator: ",")
+          if exists(.RequestObject) { .RequestObject = encode_json(.RequestObject) }
+          if exists(.ResponseObject) { .ResponseObject = encode_json(.ResponseObject) }
+          .User.Groups = join(.user.groups, separator: ",") ?? ""
+          .timestamp = .StageTimestamp
           .cluster="{{ .Values.global.clusterInfo.name }}"
         type: remap
