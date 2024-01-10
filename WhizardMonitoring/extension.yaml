@@ -2,11 +2,11 @@ apiVersion: v2
 name: whizard-monitoring
 version: 1.0.0-rc.0
 displayName:
-  zh: 监控扩展组件
-  en: Monitoring Extension
+  zh: WhizardTelemetry 监控
+  en: WhizardTelemetry Monitoring
 description:
-  zh: KubeSphere 监控扩展组件提供多租户视角的云原生资源监控能力, 包括针对集群, 节点, 工作负载、GPU、K8s 控制面等对象的核心监控指标实时和历史数据展示等功能。
-  en: KubeSphere monitoring extension provides cloud-native resource monitoring capabilities from a multi-tenant perspective. It offers real-time and historical data visualization of key monitoring metrics for various objects such as clusters, nodes, workloads, GPU, and the Kubernetes control plane.
+  zh: WhizardTelemetry 监控是 KubeSphere 提供的云原生可观测平台里提供监控功能的扩展组件。其中包含了 Whizard 可观测中心，可提供多租户视角的云原生资源监控能力, 包括针对多集群, 节点, 工作负载、GPU、K8s 控制面等对象的核心监控指标实时和历史数据展示等功能。
+  en: As a part of KubeSphere's cloud-native observability platform that provides monitoring capabilities including Whizard Observability Center, WhizardTelemetry Monitoring provides multi-tenant monitoring capabilities for cloud-native resources, including real-time and historical data display of core monitoring metrics for multi-cluster, nodes, workloads, GPU, K8s control plane and other objects.
 category: observability
 keywords:
   - Observability
