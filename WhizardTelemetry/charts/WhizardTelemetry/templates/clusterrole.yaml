@@ -6,6 +6,19 @@ metadata:
   labels:
     {{- include "whizard-telemetry.labels" . | nindent 4 }}
 rules:
+- apiGroups:
+    - ""
+  resources:
+    - secrets
+    - configmaps
+  verbs:
+    - '*'
+- apiGroups:
+    - "notification.kubesphere.io"
+  resources:
+    - '*'
+  verbs:
+    - '*'
 {{- if .Values.config.monitoring.enabled }}
 - apiGroups:
     - ""

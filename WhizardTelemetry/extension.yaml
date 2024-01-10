@@ -2,11 +2,11 @@ apiVersion: v1
 name: whizard-telemetry
 version: v1.0.0-beta.0
 displayName:
-  zh: WhizardTelemetry
-  en: WhizardTelemetry
+  zh: WhizardTelemetry 平台服务
+  en: WhizardTelemetry Platform Service
 description:
-  zh: WhizardTelemetry 是 Kubesphere LuBan 4.0 可观测性扩展组件的通用 APIServer，它为所有可观测性扩展组件提供了 web 后端服务。
-  en: WhizardTelemetry is a common APIServer for Kubesphere LuBan 4.0 observability extensions, which provides web backend services for all observability extensions.
+  zh: WhizardTelemetry 平台服务是 KubeSphere 提供的云原生可观测平台各扩展组件的公共服务。它是各个可观测性扩展组件通用的 APIServer，为所有可观测性扩展组件提供公共的后端平台服务。
+  en: WhizardTelemetry Platform Service is a common service for all observability extensions of KubeSphere's cloud-native observability platform. It is a common APIServer for all observability extensions, providing common backend platform services for all observability extensions.
 category: observability
 keywords:
   - APIServer
