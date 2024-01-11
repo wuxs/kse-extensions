@@ -1,0 +1,14 @@
+whizard-telemetry-ruler:
+  auditingAlerting:
+    enabled: true
+
+  eventsAlerting:
+    enabled: true
+
+  config:
+    sinks:
+    - name: alertmanager
+      type: webhook
+      config:
+        ### Please modify to your actual ip address.
+        url: http://127.0.0.1:31093/api/v1/alerts

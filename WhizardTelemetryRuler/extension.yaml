@@ -1,0 +1,35 @@
+apiVersion: v1
+name: whizard-telemetry-ruler
+namespace: kubesphere-logging-system
+version: 0.1.0
+displayName:
+  zh: WhizardTelemetry 事件告警
+  en: WhizardTelemetry Events Alerting
+description:
+  zh: WhizardTelemetry 事件告警是 KubeSphere 提供的云原生可观测平台里提供事件告警功能的扩展组件，它可以为 K8s 原生事件和 K8s/KubeSphere 审计事件定义告警规则，对传入的事件数据进行评估，并将告警发送到指定的接收器如 HTTP 端点等。
+  en: As a part of KubeSphere's cloud-native observability platform, WhizardTelemetry Events Alerting provides event alerting capabilities which can define alerting rules for K8s native events and K8s/KubeSphere auditing events, evaluate incoming event data, and send alerts to specified receivers such as HTTP endpoints, etc.
+category: observability
+keywords:
+  - Observability
+  - Events Alerting
+home: https://kubesphere.io
+dependencies:
+  - name: whizard-telemetry-ruler
+    tags:
+      - agent
+installationMode: Multicluster
+provider:
+  zh:
+    name: "青云科技"
+    email: "kubesphere@yunify.com"
+    url: "https://www.qingcloud.com"
+  en:
+    name: "QingCloud"
+    email: "kubesphere@yunify.com"
+    url: "https://www.qingcloud.com"
+staticFileDirectory: static
+sources:
+  - https://github.com/kubesphere
+kubeVersion: ">=1.19.0"
+ksVersion: ">=4.0.0-0"
+icon: ./static/favicon.svg

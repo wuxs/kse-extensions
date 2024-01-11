@@ -1,0 +1,47 @@
+kind: ClusterRole
+rules:
+  - verbs:
+      - 'create'
+      - 'patch'
+      - 'update'
+      - 'get'
+    apiGroups:
+      - 'extensions.kubesphere.io'
+    resources:
+      - '*'
+  - verbs:
+      - '*'
+    apiGroups:
+      - '*'
+    resources:
+      - services
+      - secrets
+      - namespaces
+      - configmaps
+      - deployments
+      - serviceaccounts
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'apiextensions.k8s.io'
+    resources:
+      - 'customresourcedefinitions'
+  - verbs:
+      - '*'
+    apiGroups:
+      - 'rbac.authorization.k8s.io'
+    resources:
+      - 'clusterroles'
+      - 'clusterrolebindings'
+  - apiGroups:
+      - logging.whizard.io
+    resources:
+      - clusterrulegroups
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch

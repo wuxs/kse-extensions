@@ -1,0 +1,31 @@
+image:
+  repository: kubesphere/whizard-telemetry-ruler
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+resources:
+  limits:
+    cpu: 600m
+    memory: 400Mi
+  requests:
+    cpu: 100m
+    memory: 20Mi
+nodeSelector: {}
+tolerations: []
+affinity: {}
+args:
+  - '--port=8080'
+  - '--tls=false'
+config:
+  sinks:
+  - name: alertmanager
+    type: webhook
+    config:
+      ### Please modify to your actual webhook address.
+      url: https://example.com/webhook
+
+auditingAlerting:
+  enabled: true
+
+eventsAlerting:
+  enabled: true
