@@ -1,0 +1,39 @@
+{{- if or .Values.auditingAlerting.enabled .Values.eventsAlerting.enabled -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-agent-ruler-sink-http
+  labels:
+    logging.whizard.io/component: "whizard-telemetry-ruler"
+    logging.whizard.io/vector-role: Agent
+    logging.whizard.io/enable: "true"
+stringData:
+  sink.yaml: |
+    sinks:
+{{- if .Values.auditingAlerting.enabled }}
+      http_auditing:
+        type: http
+        inputs:
+        - k8s_auditing_filter
+        - ks_auditing_filter
+        uri: http://whizard-telemetry-ruler-svc.{{ .Release.Namespace }}:8080/webhook/auditing
+        encoding:
+          codec: json
+        batch:
+          timeout_secs: 5
+          max_events: 100
+{{- end}}
+{{- if .Values.eventsAlerting.enabled }}
+      http_events:
+        type: http
+        inputs:
+        - kube_events_remapped
+        uri: http://whizard-telemetry-ruler-svc.{{ .Release.Namespace }}:8080/webhook/events
+        encoding:
+          codec: json
+        batch:
+          timeout_secs: 5
+          max_events: 100
+{{- end}}
+{{- end}}
+
