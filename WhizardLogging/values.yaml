@@ -1,0 +1,4 @@
+logsidecar-injector:
+  enabled: false
+  sidecar:
+    sidecarType: vector
