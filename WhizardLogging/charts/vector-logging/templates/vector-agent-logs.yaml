@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-agent-logs
+  namespace: {{ include "logging.namespaceOverride" . }}
+  labels:
+    logging.whizard.io/vector-role: Agent
+    logging.whizard.io/enable: "true"
+stringData:
+  logs.yaml: >-
+    sources:
+      kube_logs:
+        extra_label_selector: "app.kubernetes.io/name!=kube-events-exporter"
+        namespace_annotation_fields:
+          namespace_labels: .kubernetes.namespace_labels
+        node_annotation_fields:
+          node_labels: ""
+        pod_annotation_fields:
+          container_id: .kubernetes.docker_id
+          container_image: ""
+          container_image_id: ""
+          container_name: .kubernetes.container_name
+          pod_annotations: ""
+          pod_ip: ""
+          pod_ips: ""
+          pod_labels: ""
+          pod_name: .kubernetes.pod_name
+          pod_namespace: .kubernetes.namespace_name
+          pod_node_name: .kubernetes.node_name
+          pod_owner: ""
+          pod_uid: ""
+        type: kubernetes_logs
+      systemd_logs:
+        include_units:
+        - docker
+        - kubelet
+        journal_directory: /var/log/journal
+        type: journald
+    transforms:
+      kube_logs_remapped:
+        inputs:
+        - kube_logs
+        source: |-
+          .log = del(.message)
+          .kubernetes.workspace = get!(.kubernetes.namespace_labels, ["kubesphere.io/workspace"])
+          del(.kubernetes.namespace_labels)
+          del(.file)
+          del(.timestamp_end)
+          del(.stream)
+          del(.source_type)
+          .time = .timestamp
+          .cluster = "{{ .Values.global.clusterInfo.name }}"
+        type: remap
+      systemd_logs_remapped:
+        inputs:
+        - systemd_logs
+        source: |-
+          del(.PRIORITY)
+          del(._BOOT_ID)
+          del(._CAP_EFFECTIVE)
+          del(._CMDLINE)
+          del(._COMM)
+          del(._EXE)
+          del(._GID)
+          del(._MACHINE_ID)
+          del(._PID)
+          del(._STREAM_ID)
+          del(._SYSTEMD_CGROUP)
+          del(._SYSTEMD_SLICE)
+          del(.SYSLOG_FACILITY)
+          del(._TRANSPORT)
+          del(._UID)
+          del(.__MONOTONIC_TIMESTAMP)
+          del(.__REALTIME_TIMESTAMP)
+          del(._SYSTEMD_UNIT)
+          del(._SELINUX_CONTEXT)
+          del(._SYSTEMD_INVOCATION_ID)
+          del(.source_type)
+          .kubernetes.pod_name = del(.host)
+          .kubernetes.container_name = del(.SYSLOG_IDENTIFIER)
+          .kubernetes.namespace_name = "kube-system"
+          .log = del(.message)
+          .kubernetes.workspace = "system-workspace"
+          .time = .timestamp
+          .cluster = "{{ .Values.global.clusterInfo.name }}"
+        type: remap

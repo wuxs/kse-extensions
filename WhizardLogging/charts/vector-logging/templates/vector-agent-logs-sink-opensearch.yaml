@@ -1,0 +1,26 @@
+{{- $namespace := include "logging.namespaceOverride" . }}
+{{- $sinks := (lookup "v1" "Secret" $namespace  "vector-sinks") -}}
+{{- $op := ($sinks.data.opensearch | b64dec) -}}
+
+{{- if $op }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-agent-logs-sink-opensearch
+  namespace: {{ include "logging.namespaceOverride" . }}
+  labels:
+    logging.whizard.io/component: "logs"
+    logging.whizard.io/vector-role: Agent
+    logging.whizard.io/enable: "true"
+stringData:
+  sink.yaml: |
+    sinks:
+      opensearch_logs:
+        {{ $op | nindent 8 }}
+        type: elasticsearch
+        inputs:
+        - kube_logs_remapped
+        - systemd_logs_remapped
+        bulk:
+          index: "{{ "{{ .cluster }}-logs-%Y.%m.%d" }}"
+{{- end}}
