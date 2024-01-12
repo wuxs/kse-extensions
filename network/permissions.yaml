@@ -1,13 +1,7 @@
 kind: ClusterRole
 rules:
   - verbs:
-      - 'create'
-      - 'patch'
-      - 'update'
-      - 'get'
-      - 'delete'
-      - 'list'
-      - 'watch'
+      - '*'
     apiGroups:
       - 'extensions.kubesphere.io'
       - 'admissionregistration.k8s.io'
