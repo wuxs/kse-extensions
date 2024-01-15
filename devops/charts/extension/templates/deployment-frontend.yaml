@@ -2,11 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: devops-frontend
-  namespace: {{ default .Release.Namespace .Values.namespace }}
+  namespace: {{ default .Release.Namespace .Values.global.namespace }}
   labels:
     {{- include "frontend.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.frontend.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "frontend.selectorLabels" . | nindent 6 }}
@@ -19,7 +21,7 @@ spec:
       labels:
         {{- include "frontend.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with (default .Values.image.pullSecrets .Values.global.image.pullSecrets) }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -29,7 +31,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.frontend.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
+          image: "{{ default .Values.image.registry .Values.global.image.registry }}/{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

@@ -9,7 +9,7 @@ data:
     <?xml version='1.0' encoding='UTF-8'?>
     <hudson>
       <disabledAdministrativeMonitors/>
-      <version>{{ .Values.Master.ImageTag }}</version>
+      <version>{{ .Values.Master.image.tag }}</version>
       <numExecutors>0</numExecutors>
       <mode>NORMAL</mode>
       <useSecurity>{{ .Values.Master.UseSecurity }}</useSecurity>
@@ -55,13 +55,13 @@ data:
               <containers>
                 <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
                   <name>jnlp</name>
-                  <image>{{ .Values.Agent.Image }}:{{ .Values.Agent.ImageTag }}</image>
+                  <image>{{ default .Values.Agent.image.registry .Values.global.image.registry }}/{{ .Values.Agent.image.repository }}:{{ .Values.Agent.image.tag }}}</image>
 {{- if .Values.Agent.Privileged }}
                   <privileged>true</privileged>
 {{- else }}
                   <privileged>false</privileged>
 {{- end }}
-                  <alwaysPullImage>{{ .Values.Agent.AlwaysPullImage }}</alwaysPullImage>
+                  <alwaysPullImage>{{ .Values.image.pullPolicy }}</alwaysPullImage>
                   <workingDir>/home/jenkins</workingDir>
                   <command></command>
                   <args>${computer.jnlpmac} ${computer.name}</args>
@@ -87,10 +87,11 @@ data:
               </containers>
               <envVars/>
               <annotations/>
-{{- if .Values.Agent.ImagePullSecret }}
+{{- $imagePullSecret := default .Values.image.pullSecrets .Values.global.image.pullSecrets | first }}
+{{- if $imagePullSecret }}
               <imagePullSecrets>
                 <org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
-                  <name>{{ .Values.Agent.ImagePullSecret }}</name>
+                  <name>{{ $imagePullSecret.name }}</name>
                 </org.csanchez.jenkins.plugins.kubernetes.PodImagePullSecret>
               </imagePullSecrets>
 {{- else }}

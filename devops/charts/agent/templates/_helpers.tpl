@@ -66,14 +66,3 @@ app.kubernetes.io/name: {{ include "ks-devops.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 devops.kubesphere.io/component: devops-controller
 {{- end }}
-
-{{/*
-setup CronJob apiversion by k8s version
-*/}}
-{{- define "cronjob.apiversion" -}}
-{{- if semverCompare ">=1.24.0" .Capabilities.KubeVersion.GitVersion -}}
-{{- print "batch/v1" -}}
-{{- else }}
-{{- print "batch/v1beta1" -}}
-{{- end }}
-{{- end }}

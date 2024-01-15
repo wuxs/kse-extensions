@@ -1,4 +1,5 @@
-fullnameOverride: devops-jenkins
+fullnameOverride:
+
 Master:
   StatefulSet:
     Enabled: false
@@ -8,9 +9,12 @@ Master:
     # Name of the Kubernetes scheduler to use
     SchedulerName: ""
   Name: jenkins-master
-  Image: "kubespheredev/ks-jenkins"
-  ImageTag: "master"
-  ImagePullPolicy: "IfNotPresent"
+  Image:
+    registry: registry.cn-beijing.aliyuncs.com
+    repository: kse/devops-jenkins
+    tag: v4.0.0-2.346.3
+    pullPolicy: IfNotPresent
+    pullSecrets: []
   Component: "jenkins-master"
   UseSecurity: true
   HostNetworking: false
@@ -29,21 +33,32 @@ Master:
       memory: "4096Mi"
 
   UsePodSecurityContext: true
-  JavaOpts:
+  JavaOpts: |-
+    -XX:InitialRAMPercentage=70 -XX:MaxRAMPercentage=70
+    -XX:MaxRAM={{ .Values.Master.resources.limits.memory | replace "Gi" "G" | replace "Mi" "M" }}
+    -Dhudson.slaves.NodeProvisioner.initialDelay=20
+    -Dhudson.slaves.NodeProvisioner.MARGIN=50
+    -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85
+    -Dhudson.model.LoadStatistics.clock=5000
+    -Dhudson.model.LoadStatistics.decay=0.2
+    -Dhudson.slaves.NodeProvisioner.recurrencePeriod=5000
+    -Dhudson.security.csrf.DefaultCrumbIssuer.EXCLUDE_SESSION_ID=true
+    -Dio.jenkins.plugins.casc.ConfigurationAsCode.initialDelay=10000
+    -Djenkins.install.runSetupWizard=false
+    -XX:+AlwaysPreTouch
+    -XX:+HeapDumpOnOutOfMemoryError
+    -XX:+UseG1GC
+    -XX:+UseStringDeduplication
+    -XX:+ParallelRefProcEnabled
+    -XX:+DisableExplicitGC
+    -XX:+UnlockDiagnosticVMOptions
+    -XX:+UnlockExperimentalVMOptions
 
   ServicePort: 80
   ServiceType: NodePort
   NodePort: 30180
   ServiceAnnotations: {}
 
-  # Ingress:
-  #   Annotations:
-  #     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  #     nginx.ingress.kubernetes.io/proxy-body-size: 50m
-  #     nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
-  #     ingress.kubernetes.io/ssl-redirect: "false"
-  #     ingress.kubernetes.io/proxy-body-size: 50m
-  #     ingress.kubernetes.io/proxy-request-buffering: "off"
   HostName: devops-jenkins.kubesphere-devops-system.svc
 
   HealthProbes: true
@@ -70,30 +85,28 @@ Master:
   - 0.0.0.0/0
 
   ContainerEnv:
-    - name: CASC_JENKINS_CONFIG
-      value: "/var/jenkins_home/casc_configs/"
-    - name: CASC_MERGE_STRATEGY
-      value: override
-    - name: com.sun.jndi.ldap.connect.timeout
-      value: "15000"
-    - name: com.sun.jndi.ldap.read.timeout
-      value: "60000"
-    - name: kubernetes.connection.timeout
-      value: "60000"
-    - name: kubernetes.request.timeout
-      value: "60000"
-    - name: EMAIL_SMTP_HOST
-      value: "mail.example.com"
-    - name: EMAIL_SMTP_PORT
-      value: "465"
-    - name: EMAIL_USE_SSL
-      value: "false"
-    - name: EMAIL_FROM_NAME
-      value: "KubeSphere"
-    - name: EMAIL_FROM_ADDR
-      value: "admin@example.com"
-    - name: EMAIL_FROM_PASS
-      value: "P@ssw0rd"
+    CASC_JENKINS_CONFIG: "/var/jenkins_home/casc_configs/"
+    CASC_MERGE_STRATEGY: override
+    com.sun.jndi.ldap.connect.timeout: "15000"
+    com.sun.jndi.ldap.read.timeout: "60000"
+    kubernetes.connection.timeout: "60000"
+    kubernetes.request.timeout: "60000"
+
+  # smtp server settings for notification
+  smtp:
+    EMAIL_SMTP_HOST: "mail.example.com"
+    EMAIL_SMTP_PORT: "465"
+    EMAIL_USE_SSL: false
+    EMAIL_FROM_NAME: "KubeSphere"
+    EMAIL_FROM_ADDR: "admin@example.com"
+    EMAIL_FROM_PASS: "P@ssw0rd"
+
+  # sonarQube settings
+  sonarqube:
+    runnerVersion: "3.3.0.1492"
+    serverUrl: ""
+    authToken: ""
+
 
   InitScripts:
     Mailer: |-
@@ -369,11 +382,6 @@ Master:
   PodAnnotations: {}
 
   Ingress:
-    ApiVersion: networking.k8s.io/v1
-    Annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-
     TLS:
     # - secretName: jenkins.cluster.local
     #   hosts:
@@ -381,8 +389,12 @@ Master:
 
 Agent:
   Enabled: true
-  Image: jenkins/inbound-agent
-  ImageTag: 4.10-2
+  Image:
+    registry: registry.cn-beijing.aliyuncs.com
+    repository: kubesphereio/inbound-agent
+    tag: 4.10-2
+    pullPolicy: IfNotPresent
+    pullSecrets: []
   CustomJenkinsLabels: []
   Component: "jenkins-inbound-agent"
   Privileged: false
@@ -396,8 +408,6 @@ Agent:
     limits:
       cpu: "200m"
       memory: "256Mi"
-  # You may want to change this to true while testing a new image
-  AlwaysPullImage: false
   # Controls how agent pods are retained after the Jenkins build completes
   # Possible values: Always, Never, OnFailure
   PodRetention: Never
@@ -413,46 +423,48 @@ Agent:
   # Key Value selectors. Ex:
   # jenkins-agent: v1
 
-  Builder:
-    # Available values: docker.io/kubesphere, docker.io/kubespheredev
-    Registry: "docker.io/kubespheredev"
-    Base:
-      Image: builder-base
-      Tag: v3.2.2
-    NodeJs:
-      Image: builder-nodejs
-      Tag: v3.2.0
-    Maven:
-      Image: builder-maven
-      Tag: v3.2.0
-    Golang:
-      Image: builder-go
-      Tag: v3.2.0
+  builder:
+    # containerRuntime: docker # Available values: docker, podman
+    image:
+      registry: registry.cn-beijing.aliyuncs.com
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+    base:
+      repository: kubesphereio/builder-base
+      tag: v3.2.2
+    nodejs:
+      repository: kubesphereio/builder-nodejs
+      tag: v3.2.0
+    maven:
+      repository: kubesphereio/builder-maven
+      tag: v3.2.0
+    golang:
+      repository: kubesphereio/builder-go
+      tag: v3.2.0
     golang16:
-      image: builder-go
+      repository: kubesphereio/builder-go
       tag: v3.2.2-1.16
     golang17:
-      image: builder-go
+      repository: kubesphereio/builder-go
       tag: v3.2.2-1.17
     golang18:
-      image: builder-go
+      repository: kubesphereio/builder-go
       tag: v3.2.2-1.18
     python:
-      image: builder-python
+      repository: kubesphereio/builder-python
       tag: v3.2.0
-    mavenJDK11:
-      image: builder-maven
+    mavenjdk11:
+      repository: kubesphereio/builder-maven
       tag: v3.2.1-jdk11
-    ContainerRuntime: docker # Available values: docker, podman
 
-Persistence:
-  Enabled: true
-  StorageClass: "-"
-#  ExistingClaim: ""
+persistence:
+  enabled: true
+  size: 16Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+#  existingClaim: ""
 
-  Annotations: {}
-  AccessMode: ReadWriteOnce
-  Size: 8Gi
+  annotations: {}
   volumes:
     - name: casc-config
       configMap:
@@ -493,15 +505,20 @@ ksAuth:
 
 # Install service monitor
 prometheus:
-  namespace: ""
+  namespace: "kubesphere-monitoring-system"
   serviceMonitor:
     disabled: false
     labels:
-      devops-jenkins app.kubernetes.io/vendor: kubesphere
+      app.kubernetes.io/vendor: kubesphere
   prometheusRule:
     disabled: false
     labels:
       custom-alerting-rule-level: cluster
       role: thanos-alerting-rules
       thanosruler: thanos-rule
-    alertRules: [ ]
+    alertRules: []
+
+casc:
+  annotations:
+    devops.kubesphere.io/jenkins-config-customized: 'true'
+    devops.kubesphere.io/jenkins-config-formula: custom

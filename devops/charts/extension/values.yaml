@@ -1,13 +1,19 @@
+global:
+  namespace: "kubesphere-devops-system"
+  image:
+    registry:
+    pullSecrets: []
+
 image:
-  registry: registry.cn-beijing.aliyuncs.com/kse
+  registry: registry.cn-beijing.aliyuncs.com
   frontend:
-    repository: devops-frontend
+    repository: kse/devops-frontend
     tag: v4.0.0
   apiserver:
-    repository: devops-apiserver
+    repository: kse/devops-apiserver
     tag: v4.0.0
   pullPolicy: IfNotPresent
-imagePullSecrets: []
+  pullSecrets: []
 
 replicaCount: 1
 autoscaling:
@@ -15,9 +21,9 @@ autoscaling:
 
 nameOverride: ""
 fullnameOverride: ""
-namespace: "kubesphere-devops-system"
 
 frontend:
+  replicas: 1
   podAnnotations: {}
   podSecurityContext: {}
   # fsGroup: 2000
@@ -48,6 +54,7 @@ frontend:
     port: 80
 
 apiserver:
+  replicas: 1
   podAnnotations: {}
   podSecurityContext: {}
   # fsGroup: 2000
@@ -92,7 +99,6 @@ authentication:
 
 jenkins:
   enabled: true
-  workerNamespace: kubesphere-devops-worker
   fullnameOverride: devops-jenkins
   Master:
     AdminUser: admin
@@ -102,6 +108,8 @@ jenkins:
       # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L203C14-L203C26
       # https://github.com/jenkinsci/jenkins/blob/1fb76cbe7080e4697964729827be3bd6b099983d/core/src/main/java/jenkins/security/apitoken/ApiTokenStore.java#L190
     # AdminApiToken: 11596e09b62dc1f48fee868179dcd55126
+  Agent:
+    WorkerNamespace: kubesphere-devops-worker
 
 argocd:
   enabled: true

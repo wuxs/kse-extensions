@@ -145,7 +145,7 @@ spec:
           "key": "message",
           "value": {
             "isLiteral": true,
-            "value": "{{.param.message}}"
+            "value": {{printf "%q" .param.message}}
           }
         }
       ],
@@ -410,7 +410,7 @@ spec:
           "key": "activity",
           "value": {
             "isLiteral": true,
-            "value": .param.activity
+            "value": {{.param.activity}}
           }
         },
         {
@@ -909,3 +909,26 @@ spec:
     }`}}
 
 ---
+apiVersion: devops.kubesphere.io/v1alpha3
+kind: ClusterStepTemplate
+metadata:
+  name: wrap
+  labels:
+    step.devops.kubesphere.io/category: "General"
+  annotations:
+    devops.kubesphere.io/displayNameZH: "用户信息"
+    devops.kubesphere.io/descriptionZH: "提供构建用户的环境变量，包括：BUILD_USER、BUILD_USER_ID 等"
+    devops.kubesphere.io/displayNameEN: "User Vars"
+    devops.kubesphere.io/descriptionEN: "Provide build user environment variables, including: BUILD_USER, BUILD_USER_ID, etc."
+    step.devops.kubesphere.io/icon: "key"
+spec:
+  runtime: dsl
+  template: |
+    {
+      "arguments": {
+        "isLiteral": false,
+        "value": "${[$class: 'BuildUser']}"
+      },
+      "children": [],
+      "name": "wrap"
+    }

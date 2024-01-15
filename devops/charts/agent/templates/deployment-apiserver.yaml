@@ -8,9 +8,9 @@ metadata:
   labels:
     {{- include "apiserver.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.apiserver.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "apiserver.selectorLabels" . | nindent 6 }}
@@ -28,7 +28,7 @@ spec:
           configMap:
             name: devops-config
             defaultMode: 420
-      {{- with .Values.imagePullSecrets }}
+      {{- with (default .Values.global.image.pullSecrets Values.apiserver.image.pullSecrets) }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -39,18 +39,18 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.apiserver.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.apiserver.repository }}:{{ .Values.image.apiserver.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ default .Values.apiserver.image.registry .Values.global.image.registry }}/{{ .Values.apiserver.image.repository }}:{{ .Values.apiserver.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.apiserver.image.pullPolicy }}
           {{- if .Values.argocd.enabled }}
           args:
-          - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
+          - --argocd-namespace={{ default .Release.Namespace .Values.argocd.namespace }}
           - --argocd-enabled=true
           {{- end}}
           env:
             - name: JENKINS_ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: devops-jenkins
+                  name: {{ .Values.jenkins.fullnameOverride }}
                   key: jenkins-admin-token
           ports:
             - containerPort: 9090

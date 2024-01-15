@@ -2,10 +2,10 @@ apiVersion: extensions.kubesphere.io/v1alpha1
 kind: JSBundle
 metadata:
   name: devops-js-bundle
-  namespace: {{ default .Release.Namespace .Values.namespace }}
+  namespace: {{ default .Release.Namespace .Values.global.namespace }}
 spec:
   rawFrom:
-    url: http://devops-frontend.{{ default .Release.Namespace .Values.namespace }}.svc/dist/devops-frontend/index.js
+    url: http://devops-frontend.{{ default .Release.Namespace .Values.global.namespace }}.svc/dist/devops-frontend/index.js
 status:
   state: Available
   link: /dist/devops-frontend/index.js
@@ -18,7 +18,7 @@ metadata:
 spec:
   group: devops.kubesphere.io                               # API Group
   version: v1alpha3                                         # API Version
-  url: http://devops-apiserver.{{ default .Release.Namespace .Values.namespace }}.svc:9090
+  url: http://devops-apiserver.{{ default .Release.Namespace .Values.global.namespace }}.svc:9090
 status:
   state: Available
 
@@ -30,7 +30,7 @@ metadata:
 spec:
   group: devops.kubesphere.io                               # API Group
   version: v1alpha2                                         # API Version
-  url: http://devops-apiserver.{{ default .Release.Namespace .Values.namespace }}.svc:9090
+  url: http://devops-apiserver.{{ default .Release.Namespace .Values.global.namespace }}.svc:9090
 status:
   state: Available
 
@@ -42,6 +42,6 @@ metadata:
 spec:
   group: gitops.kubesphere.io                               # API Group
   version: v1alpha1                                         # API Version
-  url: http://devops-apiserver.{{ default .Release.Namespace .Values.namespace }}.svc:9090
+  url: http://devops-apiserver.{{ default .Release.Namespace .Values.global.namespace }}.svc:9090
 status:
   state: Available

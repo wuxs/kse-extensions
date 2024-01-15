@@ -3,6 +3,10 @@ kind: ConfigMap
 metadata:
   name: jenkins-casc-config
   namespace: {{ default .Release.Namespace .Values.global.namespace }}
+  {{- if .Values.casc.annotations }}
+  annotations:
+  {{ toYaml .Values.casc.annotations | indent 4 }}
+  {{- end }}
 data:
   jenkins.yaml: |
     jenkins:
@@ -32,7 +36,7 @@ data:
                 idleMinutes: 0
                 containers:
                 - name: "base"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.Base.Image }}:{{ .Values.Agent.Builder.Base.Tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.base.repository }}:{{ .Values.Agent.builder.base.tag }}{{ template "jenkins.agent.variant" . }}"
                   command: "cat"
                   args: ""
                   ttyEnabled: true
@@ -42,7 +46,7 @@ data:
                   resourceRequestMemory: "100Mi"
                   resourceLimitMemory: "8192Mi"
                 - name: "jnlp"
-                  image: "{{ .Values.Agent.Image }}:{{ .Values.Agent.ImageTag }}"
+                  image: "{{ default .Values.Agent.image.registry .Values.global.image.registry }}/{{ .Values.Agent.image.repository }}:{{ .Values.Agent.image.tag }}"
                   args: "^${computer.jnlpmac} ^${computer.name}"
                   resourceRequestCpu: "50m"
                   resourceLimitCpu: "500m"
@@ -94,7 +98,7 @@ data:
                 idleMinutes: 0
                 containers:
                 - name: "nodejs"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.NodeJs.Image }}:{{ .Values.Agent.Builder.NodeJs.Tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.nodejs.repository }}:{{ .Values.Agent.builder.nodejs.tag }}{{ template "jenkins.agent.variant" . }}"
                   command: "cat"
                   args: ""
                   ttyEnabled: true
@@ -104,7 +108,7 @@ data:
                   resourceRequestMemory: "100Mi"
                   resourceLimitMemory: "8192Mi"
                 - name: "jnlp"
-                  image: "{{ .Values.Agent.Image }}:{{ .Values.Agent.ImageTag }}"
+                  image: "{{ default .Values.Agent.image.registry .Values.global.image.registry }}/{{ .Values.Agent.image.repository }}:{{ .Values.Agent.image.tag }}"
                   args: "^${computer.jnlpmac} ^${computer.name}"
                   resourceRequestCpu: "50m"
                   resourceLimitCpu: "500m"
@@ -162,7 +166,7 @@ data:
                 idleMinutes: 0
                 containers:
                 - name: "maven"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.Maven.Image }}:{{ .Values.Agent.Builder.Maven.Tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.maven.repository }}:{{ .Values.Agent.builder.maven.tag }}{{ template "jenkins.agent.variant" . }}"
                   command: "cat"
                   args: ""
                   ttyEnabled: true
@@ -172,7 +176,7 @@ data:
                   resourceRequestMemory: "100Mi"
                   resourceLimitMemory: "8192Mi"
                 - name: "jnlp"
-                  image: "{{ .Values.Agent.Image }}:{{ .Values.Agent.ImageTag }}"
+                  image: "{{ default .Values.Agent.image.registry .Values.global.image.registry }}/{{ .Values.Agent.image.repository }}:{{ .Values.Agent.image.tag }}"
                   args: "^${computer.jnlpmac} ^${computer.name}"
                   resourceRequestCpu: "50m"
                   resourceLimitCpu: "500m"
@@ -236,7 +240,7 @@ data:
                 inheritFrom: "maven"
                 containers:
                 - name: "maven"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.mavenJDK11.image }}:{{ .Values.Agent.Builder.mavenJDK11.tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.mavenjdk11.repository }}:{{ .Values.Agent.builder.mavenjdk11.tag }}{{ template "jenkins.agent.variant" . }}"
 
               - name: "go"
                 namespace: "{{ .Values.Agent.WorkerNamespace }}"
@@ -245,7 +249,7 @@ data:
                 idleMinutes: 0
                 containers:
                 - name: "go"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.Golang.Image }}:{{ .Values.Agent.Builder.Golang.Tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.golang.repository }}:{{ .Values.Agent.builder.golang.tag }}{{ template "jenkins.agent.variant" . }}"
                   command: "cat"
                   args: ""
                   ttyEnabled: true
@@ -255,7 +259,7 @@ data:
                   resourceRequestMemory: "100Mi"
                   resourceLimitMemory: "8192Mi"
                 - name: "jnlp"
-                  image: "{{ .Values.Agent.Image }}:{{ .Values.Agent.ImageTag }}"
+                  image: "{{ default .Values.Agent.image.registry .Values.global.image.registry }}/{{ .Values.Agent.image.repository }}:{{ .Values.Agent.image.tag }}"
                   args: "^${computer.jnlpmac} ^${computer.name}"
                   resourceRequestCpu: "50m"
                   resourceLimitCpu: "500m"
@@ -308,19 +312,19 @@ data:
                 inheritFrom: "go"
                 containers:
                 - name: "go"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.golang16.image }}:{{ .Values.Agent.Builder.golang16.tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.golang16.repository }}:{{ .Values.Agent.builder.golang16.tag }}{{ template "jenkins.agent.variant" . }}"
               - name: "go17"
                 label: "go17"
                 inheritFrom: "go"
                 containers:
                 - name: "go"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.golang17.image }}:{{ .Values.Agent.Builder.golang17.tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.golang17.repository }}:{{ .Values.Agent.builder.golang17.tag }}{{ template "jenkins.agent.variant" . }}"
               - name: "go18"
                 label: "go18"
                 inheritFrom: "go"
                 containers:
                 - name: "go"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.golang18.image }}:{{ .Values.Agent.Builder.golang18.tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.golang18.repository }}:{{ .Values.Agent.builder.golang18.tag }}{{ template "jenkins.agent.variant" . }}"
 
               - name: "python"
                 namespace: "{{ .Values.Agent.WorkerNamespace }}"
@@ -329,7 +333,7 @@ data:
                 idleMinutes: 0
                 containers:
                 - name: "python"
-                  image: "{{ .Values.Agent.Builder.Registry }}/{{ .Values.Agent.Builder.python.image }}:{{ .Values.Agent.Builder.python.tag }}{{ template "jenkins.agent.variant" . }}"
+                  image: "{{ default .Values.Agent.builder.image.registry .Values.global.image.registry }}/{{ .Values.Agent.builder.python.repository }}:{{ .Values.Agent.builder.python.tag }}{{ template "jenkins.agent.variant" . }}"
                   command: "cat"
                   args: ""
                   ttyEnabled: true
@@ -339,7 +343,7 @@ data:
                   resourceRequestMemory: "100Mi"
                   resourceLimitMemory: "8192Mi"
                 - name: "jnlp"
-                  image: "{{ .Values.Agent.Image }}:{{ .Values.Agent.ImageTag }}"
+                  image: "{{ default .Values.Agent.image.registry .Values.global.image.registry }}/{{ .Values.Agent.image.repository }}:{{ .Values.Agent.image.tag }}"
                   args: "^${computer.jnlpmac} ^${computer.name}"
                   resourceRequestCpu: "50m"
                   resourceLimitCpu: "500m"

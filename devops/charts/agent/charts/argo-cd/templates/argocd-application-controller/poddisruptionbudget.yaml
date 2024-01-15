@@ -3,8 +3,8 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: {{ template "argo-cd.controller.fullname" . }}
-  {{- if .Values.global.argocdNamespace }}
-  namespace: {{ .Values.global.argocdNamespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
     {{- include "argo-cd.labels" (dict "context" . "component" .Values.controller.name "name" .Values.controller.name) | nindent 4 }}

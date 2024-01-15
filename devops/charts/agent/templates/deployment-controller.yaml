@@ -6,9 +6,9 @@ metadata:
   labels:
     {{- include "controller.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.controller.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "controller.selectorLabels" . | nindent 6 }}
@@ -26,7 +26,7 @@ spec:
           configMap:
             name: devops-config
             defaultMode: 420
-      {{- with .Values.imagePullSecrets }}
+      {{- with (default .Values.global.image.pullSecrets .Values.controller.image.pullSecrets) }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -37,20 +37,20 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.controller.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.controller.repository }}:{{ .Values.image.controller.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ default .Values.controller.image.registry .Values.global.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
           args:
           - '--pipelinerun-data-store=configmap'
           - '--enabled-controllers'
           {{- if .Values.argocd.enabled }}
           - argocd=true
-          - --argocd-namespace={{ default .Release.Namespace .Values.global.argocdNamespace }}
+          - --argocd-namespace={{ default .Release.Namespace .Values.argocd.namespace }}
           {{- end}}
           env:
             - name: JENKINS_ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: devops-jenkins
+                  name: {{ .Values.jenkins.fullnameOverride }}
                   key: jenkins-admin-token
           resources:
             {{- toYaml .Values.controller.resources | nindent 12 }}

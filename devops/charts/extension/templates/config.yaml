@@ -9,14 +9,14 @@ data:
       jwtSecret: {{ .Values.authentication.jwtSecret | quote }}
 
     devops:
-      host: http://devops-jenkins.{{ default .Release.Namespace .Values.namespace }}
+      host: http://devops-jenkins.{{ default .Release.Namespace .Values.global.namespace }}
       username: admin
       maxConnections: 100
-      namespace: {{ default .Release.Namespace .Values.namespace }}
+      namespace: {{ default .Release.Namespace .Values.global.namespace }}
     {{- if .Values.jenkins.enabled }}
-      workerNamespace: {{ .Values.jenkins.workerNamespace }}
+      workerNamespace: {{ .Values.jenkins.Agent.WorkerNamespace }}
     {{- end }}
 kind: ConfigMap
 metadata:
   name: devops-config
-  namespace: {{ default .Release.Namespace .Values.namespace }}
+  namespace: {{ default .Release.Namespace .Values.global.namespace }}

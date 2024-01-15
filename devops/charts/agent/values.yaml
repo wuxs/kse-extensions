@@ -1,39 +1,11 @@
 global:
   namespace: "kubesphere-devops-system"
-  argocdNamespace: "argocd"
+  image:
+    registry:
+    pullSecrets: []
 
-replicaCount: 1
 autoscaling:
   enabled: false
-
-image:
-  registry: registry.cn-beijing.aliyuncs.com/kse
-  controller:
-    repository: devops-controller
-    tag: v4.0.0
-  apiserver:
-    repository: devops-apiserver
-    tag: v4.0.0
-  tools:
-    repository: devops-tools
-    tag: v4.0.0
-  pullPolicy: IfNotPresent
-
-imagePullSecrets: []
-
-gcJobs:
-  # gcJobs.maxAge -- Max age from which `PipelineRun`s will be deleted
-  maxAge: 168h
-  # gcJobs.maxCount -- Max count from which `PipelineRun`s will be deleted
-  maxCount: 30
-  # gcJobs.schedule -- Cron expression to periodically delete `PipelineRun`s
-  schedule: "0/30 * * * *"
-  # gcJobs.failedJobsHistoryLimit -- Drives the failed jobs history limit
-  failedJobsHistoryLimit: 1
-  # gcJobs.successfulJobsHistoryLimit -- Drives the successful jobs history limit
-  successfulJobsHistoryLimit: 3
-  # gcJobs.concurrencyPolicy -- Drives the job's concurrency policy
-  concurrencyPolicy: Forbid
 
 authentication:
   # If not set, jwt tools will generate and set it automatically
@@ -49,6 +21,13 @@ serviceAccount:
   name: "devops"
 
 apiserver:
+  replicas: 1
+  image:
+    registry: registry.cn-beijing.aliyuncs.com
+    repository: kse/devops-apiserver
+    tag: v4.0.0
+    pullPolicy: IfNotPresent
+    pullSecrets: []
   podAnnotations: {}
   podSecurityContext: {}
     # fsGroup: 2000
@@ -75,6 +54,13 @@ apiserver:
   affinity: {}
 
 controller:
+  replicas: 1
+  image:
+    registry: registry.cn-beijing.aliyuncs.com
+    repository: kse/devops-controller
+    tag: v4.0.0
+    pullPolicy: IfNotPresent
+    pullSecrets: []
   podAnnotations: {}
   podSecurityContext: {}
   # fsGroup: 2000
@@ -100,6 +86,26 @@ controller:
   tolerations: []
   affinity: {}
 
+gcJobs:
+  image:
+    registry: registry.cn-beijing.aliyuncs.com
+    repository: kse/devops-tools
+    tag: v4.0.0
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  # gcJobs.maxAge -- Max age from which `PipelineRun`s will be deleted
+  maxAge: 168h
+  # gcJobs.maxCount -- Max count from which `PipelineRun`s will be deleted
+  maxCount: 30
+  # gcJobs.schedule -- Cron expression to periodically delete `PipelineRun`s
+  schedule: "0/30 * * * *"
+  # gcJobs.failedJobsHistoryLimit -- Drives the failed jobs history limit
+  failedJobsHistoryLimit: 1
+  # gcJobs.successfulJobsHistoryLimit -- Drives the successful jobs history limit
+  successfulJobsHistoryLimit: 3
+  # gcJobs.concurrencyPolicy -- Drives the job's concurrency policy
+  concurrencyPolicy: Forbid
+
 ingress:
   enabled: false
   annotations: {}
@@ -115,9 +121,9 @@ ingress:
 
 jenkins:
   enabled: true
+  fullnameOverride: devops-jenkins
   Master:
-    Image: "registry.cn-beijing.aliyuncs.com/kse/devops-jenkins"
-    ImageTag: "v4.0.0-2.346.3"
+    ServiceType: NodePort
     resources:
       requests:
         cpu: 0.5
@@ -125,8 +131,25 @@ jenkins:
       limits:
         cpu: 2
         memory: 6Gi # Set same as requests.memory
-  Persistence:
+    # smtp server settings for notification
+    smtp:
+      EMAIL_SMTP_HOST: "mail.example.com"
+      EMAIL_SMTP_PORT: "465"
+      EMAIL_USE_SSL: false
+      EMAIL_FROM_NAME: "KubeSphere"
+      EMAIL_FROM_ADDR: "admin@example.com"
+      EMAIL_FROM_PASS: "P@ssw0rd"
+    # sonarQube settings
+    sonarqube:
+      serverUrl: ""
+      authToken: ""
+  Agent:
+    WorkerNamespace: kubesphere-devops-worker
+  persistence:
     size: 16Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    # existingClaim: ""
   securityRealm:
     openIdConnect:
       # the kubesphere-core api used for jenkins OIDC
@@ -135,3 +158,4 @@ jenkins:
 
 argocd:
   enabled: true
+  namespace: "argocd"

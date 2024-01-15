@@ -3,8 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "argo-cd.notifications.fullname" . }}-bot
-  {{- if .Values.global.argocdNamespace }}
-  namespace: {{ .Values.global.argocdNamespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
     {{- include "argo-cd.labels" (dict "context" . "component" .Values.notifications.bots.slack.name "name" .Values.notifications.bots.slack.name) | nindent 4 }}
@@ -19,7 +19,7 @@ spec:
       labels:
         {{- include "argo-cd.selectorLabels" (dict "context" . "component" .Values.notifications.bots.slack.name "name" "metrics") | nindent 8 }}
     spec:
-    {{- with .Values.notifications.bots.slack.imagePullSecrets }}
+    {{- with (default .Values.global.image.pullSecrets .Values.notifications.bots.slack.image.pullSecrets) }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
@@ -29,8 +29,8 @@ spec:
       {{- end }}
       containers:
         - name: {{ template "argo-cd.notifications.fullname" . }}-bot
-          image: {{ default .Values.global.image.repository .Values.notifications.bots.slack.image.repository }}:{{ default (include "argo-cd.defaultTag" .) .Values.notifications.bots.slack.image.tag }}
-          imagePullPolicy: {{ default .Values.global.image.imagePullPolicy .Values.notifications.bots.slack.image.pullPolicy }}
+          image: {{ default .Values.notifications.bots.slack.image.registry .Values.global.image.registry }}/{{ default .Values.global.image.repository .Values.notifications.bots.slack.image.repository }}:{{ default (include "argo-cd.defaultTag" .) .Values.notifications.bots.slack.image.tag }}
+          imagePullPolicy: {{ default .Values.global.image.pullPolicy .Values.notifications.bots.slack.image.pullPolicy }}
           resources:
             {{- toYaml .Values.notifications.bots.slack.resources | nindent 12 }}
           command:

@@ -32,7 +32,7 @@ spec:
       {{- end }}
   namespaceSelector:
     matchNames:
-      - {{ default .Release.Namespace .Values.global.argocdNamespace }}
+      - {{ default .Release.Namespace .Values.global.namespace }}
   selector:
     matchLabels:
       {{- include "argo-cd.selectorLabels" (dict "context" . "component" .Values.applicationSet.name "name" "metrics") | nindent 6 }}
