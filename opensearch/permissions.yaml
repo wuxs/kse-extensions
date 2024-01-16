@@ -13,11 +13,14 @@ rules:
       - '*'
     apiGroups:
       - ''
+      - 'batch'
     resources:
       - 'secrets'
       - 'configmaps'
       - 'services'
       - 'namespaces'
+      - 'cronjobs'
+      - 'jobs'
   - verbs:
       - '*'
     apiGroups:
@@ -33,7 +36,7 @@ rules:
       - 'statefulsets'
       - 'deployments'
   - verbs:
-      - '*'  
+      - '*'
     apiGroups:
       - policy
     resources:

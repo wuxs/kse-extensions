@@ -3,7 +3,7 @@ name: opensearch
 namespace: kubesphere-logging-system
 version: 2.11.1
 displayName:
-  zh: OpenSearch 分布式检索与分析引擎 
+  zh: OpenSearch 分布式检索与分析引擎
   en: OpenSearch distributed search and analytics engine
 description:
   zh: OpenSearch 是 KubeSphere 提供的云原生可观测平台 WhizardTelemetry 内置的分布式检索与分析引擎，用于存储、检索与分析日志、审计、事件、通知历史等可观测数据。
@@ -13,7 +13,7 @@ keywords:
   - Logging
   - Observability
 home: https://kubesphere.io
-provider:                   
+provider:
   zh:
     name: "青云科技"
     email: "support@kubesphere.cloud"
@@ -37,6 +37,10 @@ dependencies:
       - agent
   - name: opensearch-dashboards
     condition: opensearch-dashboards.enabled
+    tags:
+      - agent
+  - name: opensearch-curator
+    condition: opensearch-curator.enabled
     tags:
       - agent
 installationMode: Multicluster

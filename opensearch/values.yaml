@@ -1,2 +1,4 @@
 opensearch-dashboards:
   enabled: false
+opensearch-curator:
+  enabled: true
