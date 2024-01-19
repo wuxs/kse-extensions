@@ -27,12 +27,6 @@ config:
   monitoring:
     enabled: true
     endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc:9090
-  notification:
-    enabled: false
-    endpoint: http://notification-manager-svc.kubesphere-monitoring-system.svc:19093  
-  logging:
-    enabled: false 
-    endpoint: "" 
   observability:
     enabled: true 
     endpoint: "http://query-frontend-whizard-operated.kubesphere-monitoring-system.svc:10902"

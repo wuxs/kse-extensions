@@ -10,10 +10,9 @@ metadata:
     iam.kubesphere.io/scope: namespace
     kubesphere.io/managed: "true"
   name: namespace-receive-notification
-  namespace: {{ include "iam.namespaceOverride" . }}
 spec:
   description:
-    en: View global-level rule groups.
+    en: Receive notification.
     zh: 接收 namespace 相关通知
   displayName:
     en: Notification Receive

@@ -4,9 +4,52 @@ whizard-telemetry:
       enabled: true
       endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc:9090
     notification:
-      enabled: true
       endpoint: http://notification-manager-svc.kubesphere-monitoring-system.svc:19093
- 
+      history:
+        enabled: true
+        server:
+          elasticsearch:
+            endpoints:
+              - https://opensearch-cluster-data.kubesphere-logging-system:9200
+            version: opensearchv2
+            indexPrefix: notification-history
+            basicAuth: true
+            username: admin
+            password: admin
+    auditing:
+      enable: true
+      servers:
+        - elasticsearch:
+            endpoints:
+              - https://opensearch-cluster-data.kubesphere-logging-system:9200
+            version: opensearchv2
+            indexPrefix: auditing
+            basicAuth: true
+            username: admin
+            password: admin
+    events:
+      enable: true
+      servers:
+        - elasticsearch:
+            endpoints:
+              - https://opensearch-cluster-data.kubesphere-logging-system:9200
+            version: opensearchv2
+            indexPrefix: events
+            basicAuth: true
+            username: admin
+            password: admin
+    logging:
+      enable: true
+      servers:
+        - elasticsearch:
+            endpoints:
+              - https://opensearch-cluster-data.kubesphere-logging-system:9200
+            version: opensearchv2
+            indexPrefix: logs
+            basicAuth: true
+            username: admin
+            password: admin
+
   apiserver:
     image:
       repository: kubesphere/whizard-telemetry-apiserver
