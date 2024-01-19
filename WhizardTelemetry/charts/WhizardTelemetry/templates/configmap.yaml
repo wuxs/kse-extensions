@@ -31,14 +31,15 @@ data:
       file: {{ .Values.config.externalMonitoringTemplate.path }}
 {{- end }}
 {{- end }}
-{{- if .Values.config.notification.enabled }}  
     notification:
-      endpoint: {{ .Values.config.notification.endpoint }}
-{{- end }}
-{{- if .Values.config.logging.enabled }}  
+{{- toYaml .Values.config.notification | nindent 6 }}
     logging:
-      endpoint: {{ .Values.config.logging.endpoint }}
-{{- end }}
+{{- toYaml .Values.config.logging | nindent 6 }}
+    auditing:
+{{- toYaml .Values.config.auditing | nindent 6 }}
+    events:
+{{- toYaml .Values.config.events | nindent 6 }}
+
 {{- if .Values.config.observability.enabled }}  
     observability:
       endpoint: {{ .Values.config.observability.endpoint }}
