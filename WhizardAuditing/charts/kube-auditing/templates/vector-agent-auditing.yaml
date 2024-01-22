@@ -99,7 +99,7 @@ stringData:
       auditing_remapped:
         inputs:
         - k8s_auditing_formatted
-        - k8s_auditing_formatted
+        - ks_auditing_formatted
         source: |-
           .SourceIPs = join!(.SourceIPs, separator: ",")
           if exists(.RequestObject) { .RequestObject = encode_json(.RequestObject) }
