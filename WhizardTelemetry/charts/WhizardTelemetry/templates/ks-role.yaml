@@ -23,7 +23,14 @@ rules:
       - subjectaccessreviews
     verbs:
       - create
-
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch
 ---
 apiVersion: iam.kubesphere.io/v1beta1
 kind: GlobalRoleBinding
