@@ -4,7 +4,7 @@ namespace: kubesphere-monitoring-system
 version: 2.5.0
 displayName:
   zh: WhizardTelemetry 通知管理
-  en: WhizardTelemetrye Notification
+  en: WhizardTelemetry Notification
 description:
   zh: WhizardTelemetry 通知管理是 KubeSphere 提供的云原生可观测平台里提供通知功能的扩展组件，可提供电子邮件、Slack、企业微信、钉钉、飞书、Webhook 等多渠道通知功能。
   en: As a part of KubeSphere's cloud-native observability platform, WhizardTelemetry Notification provides multi-channel notification capabilities such as email, Slack, WeChat, DingTalk, Feishu, and Webhook, etc.

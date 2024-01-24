@@ -3,9 +3,17 @@ notification-manager:
     enabled: true
     version: v4.0.0
 
+  operator:
+    containers:
+      operator:
+        image:
+          tag: v2.5.0-rc.0
+
   notificationmanager:
     annotations:
       kubesphere.io/serviceaccount-name: notification-tenant-sidecar
+    image:
+      tag: v2.5.0-rc.0
 
 alertmanager-proxy:
   service:

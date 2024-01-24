@@ -26,6 +26,7 @@ stringData:
         source: |-
           . = parse_json!(.message)
           .timestamp = .stageTimestamp
+          .cluster="{{ .Values.global.clusterInfo.name }}"
         type: remap
       ks_auditing_parsed:
         inputs:
@@ -33,6 +34,7 @@ stringData:
         source: |-
           . = parse_json!(.message)
           .timestamp = .StageTimestamp
+          .cluster="{{ .Values.global.clusterInfo.name }}"
         type: remap
       k8s_auditing_filter:
         inputs:
@@ -105,5 +107,4 @@ stringData:
           if exists(.RequestObject) { .RequestObject = encode_json(.RequestObject) }
           if exists(.ResponseObject) { .ResponseObject = encode_json(.ResponseObject) }
           .timestamp = .StageTimestamp
-          .cluster="{{ .Values.global.clusterInfo.name }}"
         type: remap

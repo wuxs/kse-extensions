@@ -9,8 +9,8 @@ enabled: false
 hook:
   postInstall:
     image:
-      repo: kubesphere/kubectl
-      tag: v1.22.0
+      repo: bitnami/kubectl
+      tag: 1.26.13
       pullPolicy: IfNotPresent
     backoffLimit: 1
 
