@@ -3,11 +3,11 @@ name: vector
 namespace: kubesphere-logging-system
 version: 0.29.0
 displayName:
-  zh: vector 可观测性数据收集处理流水线
-  en: vector observability data pipeline
+  zh: WhizardTelemetry 数据流水线
+  en: WhizardTelemetry data pipeline
 description:
-  zh: Vector是一个高性能的、端到端的可观测性数据收集处理流水线，使您能够完全控制您的可观察性数据。通过Vector，您可以收集、转换和路由所有的日志和指标数据到您今天想要的任何供应商，并且未来可能想要的其他供应商。Vector实现了显著的成本降低、新颖的数据增强以及数据安全，使您能够将数据放置在您需要的位置，而不是方便供应商的位置。此外，Vector是开源的，并且比同类替代方案快上多达10倍。
-  en: Vector is a high-performance, end-to-end (agent & aggregator) observability data pipeline that puts you in control of your observability data. Collect, transform, and route all your logs and metrics to any vendors you want today and any other vendors you may want tomorrow. Vector enables dramatic cost reduction, novel data enrichment, and data security where you need it, not where it is most convenient for your vendors. Additionally, it is open source and up to 10x faster than every alternative in the space.
+  zh: WhizardTelemetry 数据流水线是 KubeSphere 云原生可观测平台里提供可观测性数据收集、转换和路由能力的扩展组件。该扩展组件基于 vector (https://vector.dev/) 做了定制，定制内容详见 https://github.com/WhizardTelemetry/vector-helm-charts/tree/ks-vector-extension .
+  en: As a part of KubeSphere's cloud-native observability platform, WhizardTelemetry data pipeline provides the ability to collect, transform and route observability data. This extension is based on vector (https://vector.dev/) and customized for WhizardTelemetry. For more details, please refer to https://github.com/WhizardTelemetry/vector-helm-charts/tree/ks-vector-extension .
 category: observability
 keywords:
   - monitoring-logging

@@ -36,7 +36,6 @@ spec:
 status:
   state: Available
 ---
-{{- if .Values.config.notification.enabled }}
 apiVersion: extensions.kubesphere.io/v1alpha1
 kind: APIService
 metadata:
@@ -47,5 +46,4 @@ spec:
   version: v2beta2
 status:
   state: Available
-{{- end}}
 {{- end }}

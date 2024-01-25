@@ -1,3 +1,4 @@
+{{- if eq .Values.global.clusterInfo.role "host" }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -68,11 +69,62 @@ spec:
         - name: annotate-job
           image: {{ .Values.hook.postInstall.image.repo }}:{{ .Values.hook.postInstall.image.tag }}
           command:
-            - /bin/sh
+            - /bin/bash
             - -c
             - |
-              {{ if eq .Values.enabled true }}
-              kubectl annotate --overwrite extension whizard-logging logging.kubesphere.io/enable-loggingsidecar=true
-              {{ else }}
-              kubectl annotate --overwrite extension whizard-logging logging.kubesphere.io/enable-loggingsidecar=false
-              {{ end }}
+              string_in_array() {
+                  local search_string="$1"
+                  shift
+                  local my_array=("$@")
+                  for element in "${my_array[@]}"; do
+                    if [[ "$element" == "$search_string" ]]; then
+                      return 0
+                    fi
+                  done
+                  return 1
+              }
+              json_file=`kubectl get installplan whizard-logging -o json`
+              install_array=`echo $json_file | jq '.spec.clusterScheduling.placement.clusters'`
+              placement_clusters=($(echo "$install_array" | jq -r '.[]'))
+              echo "placement_clusters:${placement_clusters[@]}"
+              default_config_enabled=$(echo "$json_file" | jq '.spec.config' | grep -oP 'enabled: \K[^"]+' | sed 's/\\n//g' | awk '{print $1}')
+              overrides=$(echo $json_file | jq '.spec.clusterScheduling.overrides')
+
+              if [[ "$overrides" == "null" && "$default_config_enabled" == "false" ]]; then
+                kubectl annotate --overwrite extension whizard-logging logging.kubesphere.io/enable-loggingsidecar=""
+                exit 0
+              fi
+              if [[ "$overrides" == "null" && "$default_config_enabled" == "true" ]]; then
+                result=""
+                delimiter=","
+                for element in "${placement_clusters[@]}"; do
+                  result+="$element$delimiter"
+                done
+                result="${result%$delimiter}"
+                echo $result
+                kubectl annotate --overwrite extension whizard-logging logging.kubesphere.io/enable-loggingsidecar=$result
+                exit 0
+              fi
+
+              overrides_clusters=$(echo $json_file | jq '.spec.clusterScheduling.overrides' | jq 'keys')
+              overrides_clusters_array=($(echo "$overrides_clusters" | jq -r '.[]'))
+              result=""
+              delimiter=","
+              for cluster in "${placement_clusters[@]}"; do
+              enabled=$default_config_enabled
+              if string_in_array "$cluster" "${overrides_clusters_array[@]}"; then
+                logsidecar_enabled=$(echo "$json_file" | jq ".spec.clusterScheduling.overrides.$cluster")
+                enabled=$(echo "$logsidecar_enabled" | grep -oP 'enabled: \K[^"]+' | sed 's/\\n//g' | awk '{print $1}')
+                if [ -z "$enabled" ]; then
+                  enabled=$default_config_enabled
+                fi
+              fi
+              if [ "$enabled" == "true" ]; then
+                result+="$element$delimiter"
+              fi
+              done
+              echo $json_file
+              result="${result%$delimiter}"
+              echo "result:$result"
+              kubectl annotate --overwrite extension whizard-logging logging.kubesphere.io/enable-loggingsidecar=$result
+{{ end }}
