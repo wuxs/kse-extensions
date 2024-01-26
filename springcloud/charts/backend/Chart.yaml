@@ -1,9 +1,9 @@
 apiVersion: v2
-appVersion: "v0.1.0"
-description: A Helm chart for springcloud-controller, which is a Kubernetes Operator for Spring Cloud applications.
-name: springcloud-controller
+name: backend
+description: Backend of springcloud extension, which is a Kubernetes Operator for Spring Cloud applications.
+type: application
 version: 0.1.0
+appVersion: "0.1.0"
 home: https://kubesphere.io
-dependencies:
-  - name: nacos
-    version: 0.1.5
+sources:
+  - https://github.com/kubesphere-sigs/spring-cloud-operator

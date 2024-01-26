@@ -9,7 +9,7 @@ On the basis of Istio, KubeSphere Service Mesh visualizes microservices governan
 | Name | Meaning                 |Default                      | Range |
 | ------------------------------------------------ | -------------------- | -------------------------------------------------------------------- | -------- |
 | backend.istiod.meshConfig.defaultConfig.sampling | 链路追踪采样率       | 1.0                                                                  | 1-100    |
-| backend.kiali.prometheus_url                     | promethus 地址       | http://prometheus-operated.kubesphere-monitoring-system.svc:9090     |          |
+| backend.kiali.prometheus_url                     | promethus 地址       | http://prometheus-k8s.kubesphere-monitoring-system.svc:9090     |          |
 | backend.storage.options.es.server-urls           | OpenSearch/ES 地址   | https://opensearch-cluster-master.kubesphere-logging-system.svc:9200 |          |
 | backend.storage.options.es.username              | OpenSearch/ES 账户名 | admin                                                                |          |
 | backend.storage.options.es.password              | OpenSearch/ES 密码   | admin                                                                |          |
