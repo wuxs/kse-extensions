@@ -1,6 +1,6 @@
 apiVersion: v2
 name: whizard-alerting
-version: 0.1.6
+version: 0.1.7
 displayName:
   zh: WhizardTelemetry 告警管理
   en: WhizardTelemetry Alerting
@@ -48,3 +48,8 @@ externalDependencies:
     required: false
 staticFileDirectory: static
 icon: ./favicon.svg
+images:
+- kubesphere/whizard-alerting-apiserver:v0.1.0-rc.1
+- kubesphere/whizard-alerting-controller-manager:v0.1.0-rc.1
+- thanosio/thanos:v0.33.0
+- kubesphere/kubectl:v1.27.4
