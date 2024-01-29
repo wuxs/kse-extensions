@@ -1,1 +1,4 @@
 namespaceOverride: ""
+global:
+  clusterInfo:
+    name: ""
