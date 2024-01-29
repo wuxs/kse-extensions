@@ -21,6 +21,7 @@ rules:
     apiGroups:
       - ''
       - 'apps'
+      - 'batch'
     resources:
       - '*'
   - verbs:
