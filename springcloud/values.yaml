@@ -1,9 +1,4 @@
-frontend:
-  enabled: true
-  # indexjsContent: xxx
-
 backend:
-  enabled: true
   replicaCount: 1
   image:
     repository: registry.cn-beijing.aliyuncs.com/kse/spring-cloud-controller
