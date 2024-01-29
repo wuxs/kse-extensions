@@ -6,6 +6,10 @@ replicaCount: 1
 
 enabled: false
 
+global:
+  clusterInfo:
+    name: ""
+
 hook:
   postInstall:
     image:

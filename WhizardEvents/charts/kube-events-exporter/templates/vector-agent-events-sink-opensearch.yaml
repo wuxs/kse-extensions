@@ -1,5 +1,6 @@
 {{- $namespace := include "kube-events-exporter.namespaceOverride" . }}
 {{- $sinks := (lookup "v1" "Secret" $namespace  "vector-sinks") -}}
+{{- if $sinks -}}
 {{- $op := ($sinks.data.opensearch | b64dec) -}}
 
 {{- if $op -}}
@@ -23,4 +24,5 @@ stringData:
         - kube_events_remapped
         bulk:
           index: "{{ "{{ .cluster }}-events-%Y.%m.%d" }}"
+{{- end}}
 {{- end}}

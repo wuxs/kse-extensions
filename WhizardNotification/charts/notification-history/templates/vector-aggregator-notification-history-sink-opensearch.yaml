@@ -1,6 +1,7 @@
 {{ if eq .Values.enabled true }}
 {{- $namespace := include "history.namespaceOverride" . }}
 {{- $sinks := (lookup "v1" "Secret" $namespace "vector-sinks") -}}
+{{- if $sinks -}}
 {{- $op := ($sinks.data.opensearch | b64dec) -}}
 
 {{- if $op -}}
@@ -23,5 +24,6 @@ stringData:
         - notification_history_remapped
         bulk:
           index: "{{ "{{ .cluster }}-notification-history-%Y.%m.%d" }}"
+{{- end}}
 {{- end}}
 {{- end}}

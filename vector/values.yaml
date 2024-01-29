@@ -1,10 +1,10 @@
 aggregator:
   role: Aggregator
   image:
-    tag: 0.34.1-debian
+    tag: 0.35.0-debian
 agent:
   image:
-    tag: 0.34.1-debian
+    tag: 0.35.0-debian
   role: Agent
   extraVolumes:
     - name: host-time

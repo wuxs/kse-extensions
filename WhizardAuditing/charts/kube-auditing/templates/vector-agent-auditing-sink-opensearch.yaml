@@ -1,5 +1,6 @@
 {{- $namespace := include "auditing.namespace" . }}
 {{- $sinks := (lookup "v1" "Secret" $namespace  "vector-sinks") -}}
+{{- if $sinks -}}
 {{- $op := ($sinks.data.opensearch | b64dec) -}}
 
 {{- if $op -}}
@@ -22,4 +23,5 @@ stringData:
         - auditing_remapped
         bulk:
           index: "{{ "{{ .cluster }}-auditing-%Y.%m.%d" }}"
+{{- end}}
 {{- end}}
