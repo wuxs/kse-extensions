@@ -6,27 +6,15 @@ Return the proper image name
 {{- end -}}
 
 {{- define "snapshotController.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.console.image "global" .Values.global) }}
+{{ include "common.images.image" (dict "imageRoot" .Values.snapshotController.image "global" .Values.global) }}
 {{- end -}}
 
-{{- define "ks-controller-manager.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.controller.image "global" .Values.global) }}
+{{- define "snapshotClassController.image" -}}
+{{ include "common.images.image" (dict "imageRoot" .Values.snapshotClassController.image "global" .Values.global) }}
 {{- end -}}
 
-{{- define "kubectl.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.kubectl.image "global" .Values.global) }}
-{{- end -}}
-
-{{- define "nodeShell.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.nodeShell.image "global" .Values.global) }}
-{{- end -}}
-
-{{- define "helm.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.helm.image "global" .Values.global) }}
-{{- end -}}
-
-{{- define "upgrade.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.upgrade.image "global" .Values.global) }}
+{{- define "pvcAutoResizer.image" -}}
+{{ include "common.images.image" (dict "imageRoot" .Values.pvcAutoResizer.image "global" .Values.global) }}
 {{- end -}}
 
 {{- define "common.images.image" -}}
@@ -50,16 +38,8 @@ Return the proper image name
 {{/*
 Return the proper Docker Image Registry Secret Names
 */}}
-{{- define "apiserver.imagePullSecrets" -}}
-{{- include "common.images.pullSecrets" (dict "images" (list .Values.apiserver.image) "global" .Values.global) -}}
-{{- end -}}
-
-{{- define "console.imagePullSecrets" -}}
-{{- include "common.images.pullSecrets" (dict "images" (list .Values.console.image) "global" .Values.global) -}}
-{{- end -}}
-
-{{- define "controller.imagePullSecrets" -}}
-{{- include "common.images.pullSecrets" (dict "images" (list .Values.controller.image) "global" .Values.global) -}}
+{{- define "backend.imagePullSecrets" -}}
+{{- include "common.images.pullSecrets" (dict "pullSecrets" .Values.imagePullSecrets "global" .Values.global) -}}
 {{- end -}}
 
 {{- define "common.images.pullSecrets" -}}
@@ -71,10 +51,8 @@ Return the proper Docker Image Registry Secret Names
     {{- end -}}
   {{- end -}}
 
-  {{- range .images -}}
-    {{- range .pullSecrets -}}
-      {{- $pullSecrets = append $pullSecrets . -}}
-    {{- end -}}
+  {{- range .pullSecrets -}}
+    {{- $pullSecrets = append $pullSecrets . -}}
   {{- end -}}
 
   {{- if (not (empty $pullSecrets)) }}

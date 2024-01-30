@@ -52,7 +52,7 @@ snapshotController:
   enabled: true
   name: snapshot-controller
   image:
-    repository: csiplugin/snapshot-controller
+    repository: kubesphere/snapshot-controller
     tag: v4.2.1
     pullPolicy: IfNotPresent
   commandArgs:
@@ -76,7 +76,7 @@ snapshotClassController:
   enabled: true
   name: snapshotclass-controller
   image:
-    repository: csiplugin/snapshotclass-controller
+    repository: kubesphere/snapshotclass-controller
     tag: v0.0.1
     pullPolicy: IfNotPresent
   commandArgs:

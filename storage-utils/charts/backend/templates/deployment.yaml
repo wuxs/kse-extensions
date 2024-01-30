@@ -18,10 +18,7 @@ spec:
       labels:
         {{- include "backend.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "backend.imagePullSecrets" . | nindent 6 }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -29,7 +26,7 @@ spec:
         - name: {{ .Values.storageclassAccessor.name }}
           securityContext:
             {{- toYaml .Values.storageclassAccessor.securityContext | nindent 12 }}
-          image: "{{ .Values.storageclassAccessor.image.repository }}:{{ .Values.storageclassAccessor.image.tag }}"
+          image: {{ template "storageclassAccessor.image" . }}
           imagePullPolicy: {{ .Values.storageclassAccessor.image.pullPolicy }}
           args: 
           - --tls-cert-file
@@ -49,7 +46,7 @@ spec:
         - name: {{ .Values.pvcAutoResizer.name }}
           securityContext:
             {{- toYaml .Values.pvcAutoResizer.securityContext | nindent 12 }}
-          image: "{{ .Values.pvcAutoResizer.image.repository }}:{{ .Values.pvcAutoResizer.image.tag }}"
+          image: {{ template "pvcAutoResizer.image" . }}
           imagePullPolicy: {{ .Values.pvcAutoResizer.image.pullPolicy }}
           args:
             - --prometheus-url
@@ -67,7 +64,7 @@ spec:
         - name: {{ .Values.snapshotController.name }}
           securityContext:
             {{- toYaml .Values.snapshotController.securityContext | nindent 12 }}
-          image: "{{ .Values.snapshotController.image.repository }}:{{ .Values.snapshotController.image.tag }}"
+          image: {{ template "snapshotController.image" . }}
           imagePullPolicy: {{ .Values.snapshotController.image.pullPolicy }}
           args:
             - --v
@@ -81,7 +78,7 @@ spec:
         - name: {{ .Values.snapshotClassController.name }}
           securityContext:
             {{- toYaml .Values.snapshotClassController.securityContext | nindent 12 }}
-          image: "{{ .Values.snapshotClassController.image.repository }}:{{ .Values.snapshotClassController.image.tag }}"
+          image: {{ template "snapshotClassController.image" . }}
           imagePullPolicy: {{ .Values.snapshotClassController.image.pullPolicy }}
           args:
             - --leader-elect

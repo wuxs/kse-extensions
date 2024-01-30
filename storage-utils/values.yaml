@@ -1,5 +1,7 @@
 global:
-  imageRegistry:
+  imageRegistry: docker.io
+  imagePullSecrets: []
+  tag:
 
 frontend:
   enabled: true
