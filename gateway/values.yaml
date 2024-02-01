@@ -1,0 +1,18 @@
+frontend:
+  enabled: true
+
+backend:
+  enabled: true
+  config:
+    gateway:
+      namespace: kubesphere-controls-system
+      valuesOverride:
+        controller:
+          image:
+            repository: kubesphere/nginx-ingress-controller
+            tag: "v1.3.1"
+            pullPolicy: IfNotPresent
+            digest: ""
+      exposeNodeLabelKey: "node-role.kubernetes.io/control-plane"
+      versionConstraint: ">= 4.3.0, < 4.5.0"
+      logSearchEndpoint: "http://whizard-telemetry-apiserver.extension-whizard-telemetry.svc:9090"

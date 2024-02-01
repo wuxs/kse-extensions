@@ -1,0 +1,3 @@
+# Kubesphere Gateway Extension
+
+Gateway extension component, used for KubeSphere platform to enable and manage gateways with one click. Using Nginx Ingress, it provides management of cluster gateways, enterprise space gateways, and project gateways; it integrates the KSE permission system and supports tenant-level permission control; after enabling the monitoring component and log component in KSE, it supports functions such as gateway monitoring and gateway log search.
