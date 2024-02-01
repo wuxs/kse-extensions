@@ -45,3 +45,8 @@ dependencies:
   - name: backend
     tags:
       - agent
+images:
+  - kubesphere/storageclass-accessor:v0.2.5
+  - kubesphere/snapshot-controller:v4.2.1
+  - kubesphere/snapshotclass-controller:v0.0.1
+  - kubesphere/pvc-autoresizer:v0.3.1
