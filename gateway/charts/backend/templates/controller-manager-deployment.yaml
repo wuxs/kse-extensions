@@ -1,0 +1,88 @@
+{{- if .Values.controllerManager.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gateway.fullname" . }}-controller-manager
+  labels:
+    app: gateway-controller-manager
+    tier: controller
+    {{- include "gateway.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.controllerManager.replicaCount }}
+  selector:
+    matchLabels:
+      app: gateway-controller-manager
+      tier: controller
+      {{- include "gateway.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.controllerManager.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: gateway-controller-manager
+        tier: controller
+        {{- include "gateway.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.controllerManager.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gateway.serviceAccountName" . }}
+      {{- with .Values.controllerManager.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          command:
+            - controller-manager
+            - --logtostderr=true
+            - --leader-elect=true
+          {{- with .Values.controllerManager.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.controllerManager.image.repository }}:{{ .Values.controllerManager.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.controllerManager.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.controllerManager.service.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.controllerManager.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /etc/gateway/
+              name: gateway-config
+            - mountPath: /etc/localtime
+              name: host-time
+              readOnly: true
+          {{- if .Values.controllerManager.extraVolumeMounts }}
+          {{- toYaml .Values.controllerManager.extraVolumeMounts | nindent 10 }}
+          {{- end }}
+      {{- with .Values.controllerManager.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.controllerManager.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.controllerManager.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: gateway-config
+          configMap:
+            name: {{ include "gateway.fullname" . }}-config
+            defaultMode: 420
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+            type: ""
+      {{- if .Values.controllerManager.extraVolumes }}
+      {{ toYaml .Values.controllerManager.extraVolumes | nindent 6 }}
+      {{- end }}
+  {{- end }}
